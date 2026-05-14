@@ -221,7 +221,7 @@
                 <div class="avatar-wrapper" id="avatarWrapper">
                     {% if user.userprofile.profile %}
                         <a href="{% url 'profile_view' %}" title="Profile" id="avatarLink">
-                            <img src="{{ user.userprofile.profile.url }}" class="avatar-img" id="avatarDisplay">
+                            <img src="{{ user.userprofile.profile }}" class="avatar-img" id="avatarDisplay">
                         </a>
                     {% else %}
                         <a href="{% url 'profile_view' %}" id="avatarLink">
