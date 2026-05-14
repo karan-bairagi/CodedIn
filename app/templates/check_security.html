@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Security Challenge | CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .challenge-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 10px 30px -4px rgba(99, 102, 241, 0.08);
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            max-width: 480px;
+            padding: 35px;
+            transition: all 0.3s ease;
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .brand-header h1 {
+            color: #6366f1;
+            font-size: 30px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-line {
+            height: 4px;
+            width: 40px;
+            background-color: #6366f1;
+            margin: 6px auto 0 auto;
+            border-radius: 10px;
+        }
+        .page-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .question-box {
+            background-color: #f1f5f9;
+            border-radius: 12px;
+            padding: 16px 20px;
+            margin-bottom: 25px;
+            border: 1px solid #e2e8f0;
+        }
+        .question-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #64748b;
+            letter-spacing: 0.5px;
+            margin-bottom: 6px;
+        }
+        .question-text {
+            font-size: 15px;
+            font-weight: 600;
+            color: #334155;
+            line-height: 1.5;
+        }
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        .input-group input[type="text"] {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background-color: #ffffff;
+            font-size: 14px;
+            color: #1e293b;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        .input-group input[type="text"]:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .error-banner {
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            padding: 12px 16px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+        .error-text {
+            color: #dc2626;
+            font-size: 13px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+        }
+        .controls-matrix {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .btn-verify {
+            flex: 2;
+            background-color: #6366f1;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
+            transition: background-color 0.2s;
+        }
+        .btn-verify:hover {
+            background-color: #4f46e5;
+        }
+        .btn-exit {
+            flex: 1;
+            background-color: #ffffff;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-exit:hover {
+            background-color: #f8fafc;
+            color: #334155;
+            border-color: #94a3b8;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .challenge-card {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+            .controls-matrix {
+                flex-direction: column-reverse;
+            }
+            .btn-verify, .btn-exit {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="challenge-card">
+        <div class="brand-header">
+            <h1>CodeIn</h1>
+            <div class="brand-line"></div>
+        </div>
+        <div class="page-title">Identity Verification</div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% if user.userprofile.security_question %}
+            <div class="question-box">
+                <div class="question-label">Security Question</div>
+                <div class="question-text">{{ user.userprofile.security_question }}</div>
+            </div>
+            {% else %}
+            <div class="question-box" style="background-color: #fff7ed; border-color: #ffedd5;">
+                <div class="question-label" style="color: #c2410c;">Warning</div>
+                <div class="question-text" style="color: #9a3412;">No recovery data setup for this user account.</div>
+            </div>
+            {% endif %}
+            <div class="input-group">
+                <label for="ua">Your Confidential Answer</label>
+                <input type="text" id="ua" name="ua" placeholder="Type your answer here..." autocomplete="off" autofocus>
+            </div>
+            <div style="margin-top: -10px; margin-bottom: 20px; text-align: left;">
+                <p style="font-size: 12.5px; color: #64748b; line-height: 1.5;">
+                    Forgot your secret security answer too? 
+                    <a href="{% url 'request_user' %}" style="color: #6366f1; font-weight: 600; text-decoration: none; border-bottom: 1px dashed #6366f1; transition: color 0.2s;" onmouseover="this.style.color='#4f46e5'" onmouseout="this.style.color='#6366f1'">
+                        Request Manual Account Rescue
+                    </a>
+                    <br>
+                    <span style="font-size: 11px; color: #94a3b8; display: block; margin-top: 4px;">
+                        (Clicking this will forward your Full Name and Mobile configuration directly to the administrator for offline database validation.)
+                    </span>
+                </p>
+            </div>
+            {% if messages %}
+            <div class="error-banner">
+                {% for message in messages %}
+                <div class="error-text">
+                    <span style="margin-right: 6px; font-size: 14px;">⚠️</span> {{ message }}
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            <div class="controls-matrix">
+                <a href="{% url 'forgetten_password' %}" class="btn-exit">Exit</a>
+                <button type="submit" class="btn-verify">Verify Identity</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

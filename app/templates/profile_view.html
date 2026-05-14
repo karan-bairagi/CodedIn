@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link href="googleapis.com" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+            color: #1e293b;
+        }
+        .profile-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        }
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 24px;
+            text-align: center;
+        }
+        .profile-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 24px;
+        }
+        .profile-table td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 15px;
+            vertical-align: top;
+        }
+        .label-cell {
+            font-weight: 600;
+            color: #64748b;
+            width: 25%;
+        }
+        .value-cell {
+            color: #0f172a;
+            word-break: break-word;
+        }
+        .value-cell a {
+            color: #3b82f6;
+            text-decoration: none;
+            font-weight: 500;
+        }
+        .value-cell a:hover {
+            text-decoration: underline;
+        }
+        .actions-row {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .btn {
+            display: inline-block;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            transition: background 0.2s;
+        }
+        .btn-edit {
+            background-color: #0f172a;
+            color: #ffffff;
+        }
+        .btn-edit:hover {
+            background-color: #1e293b;
+        }
+        .btn-exit {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #e2e8f0;
+        }
+        .btn-exit:hover {
+            background-color: #e2e8f0;
+        }
+        @media (max-width: 576px) {
+            .profile-container {
+                padding: 20px 16px;
+            }
+            .profile-table td {
+                display: block;
+                width: 100%;
+                box-sizing: border-box;
+                padding: 8px 4px;
+            }
+            .label-cell {
+                border-bottom: none;
+                padding-bottom: 2px;
+                font-size: 13px;
+            }
+            .value-cell {
+                padding-top: 2px;
+                margin-bottom: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="profile-container">
+        <div class="profile-header">
+            {% if user.userprofile.profile %}
+                <img src="{{ user.userprofile.profile.url }}" style="width: 120px; height: 120px; border-radius: 50%; object-fit: cover; object-position: top; border: 3px solid #e2e8f0;">
+            {% else %}
+                <div style="width: 120px; height: 120px; border-radius: 50%; background-color: #cbd5e1; text-align: center; line-height: 120px; color: #475569; font-size: 44px; border: 3px dashed #94a3b8;">
+                    {{user.username|make_list|first|upper}}
+                </div>
+            {% endif %}
+        </div>
+        <table class="profile-table">
+            <tbody>
+                {% if user.userprofile.full_name %}
+                <tr>
+                    <td class="label-cell">Name</td>
+                    <td class="value-cell">{{ user.userprofile.full_name }}</td>
+                </tr>
+                {% endif %}  
+                {% if user.userprofile.tagline %}
+                <tr>
+                    <td class="label-cell">Tagline</td>
+                    <td class="value-cell" style="font-style: italic; color: #475569;">"{{ user.userprofile.tagline }}"</td>
+                </tr>
+                {% endif %}
+                {% if user.userprofile.about_me %}
+                <tr>
+                    <td class="label-cell">About me</td>
+                    <td class="value-cell" style="line-height: 1.5;">{{ user.userprofile.about_me }}</td>
+                </tr>
+                {% endif %}
+                {% if user.userprofile.linkdin_link %}
+                <tr>
+                    <td class="label-cell">LinkedIn</td>
+                    <td class="value-cell">
+                        <a href="{{ user.userprofile.linkdin_link }}" target="_blank">View LinkedIn Profile &rarr;</a>
+                    </td>
+                </tr>
+                {% endif %}
+                {% if user.userprofile.github_link %}
+                <tr>
+                    <td class="label-cell">GitHub</td>
+                    <td class="value-cell">
+                        <a href="{{ user.userprofile.github_link }}" target="_blank">View GitHub Profile &rarr;</a>
+                    </td>
+                </tr>
+                {% endif %}
+            </tbody>
+        </table>
+        <div class="actions-row">
+            <a href="{% url 'dashboard' %}" class="btn btn-exit">Exit</a>
+            <a href="{% url 'profile' %}" class="btn btn-edit">Edit Profile</a>
+        </div>
+    </div>
+</body>
+</html>

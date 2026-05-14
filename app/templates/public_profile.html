@@ -1,0 +1,449 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ user.userprofile.full_name }} - Portfolio Dashboard</title>
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-purple: #6d28d9;
+            --accent-bg-purple: #f5f3ff;
+            --accent-blue: #4f46e5;
+            --radius-large: 24px;
+            --radius-medium: 16px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+        }
+        .dashboard-shell {
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 50px 24px;
+            display: grid;
+            grid-template-columns: 340px 1fr;
+            gap: 40px;
+            box-sizing: border-box;
+        }
+        .sidebar-panel {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-large);
+            padding: 40px 28px;
+            text-align: center;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.02);
+            height: fit-content;
+            box-sizing: border-box;
+            position: sticky;
+            top: 40px;
+        }
+        .avatar-frame {
+            width: 140px;
+            height: 140px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+            margin: 0 auto 24px auto;
+            border: 5px solid #f1f5f9;
+            box-shadow: 0 8px 16px rgba(15, 23, 42, 0.06);
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+        }
+        .avatar-emoji {
+            font-size: 55px;
+            line-height: 140px;
+            text-align: center;
+        }
+        .user-headline {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--text-main);
+            margin: 0 0 8px 0;
+            letter-spacing: -0.6px;
+        }
+        .user-sidebar-tagline {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0 0 24px 0;
+            line-height: 1.5;
+            font-weight: 500;
+        }
+        .panel-divider {
+            border: none;
+            border-top: 1px solid #f1f5f9;
+            margin: 24px 0;
+        }
+        .social-links-stack {
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+        .network-row-btn {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 12px 16px;
+            border-radius: var(--radius-medium);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            background: #f8fafc;
+            border: 1px solid var(--border-color);
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+        }
+        .network-row-btn:hover {
+            background: #f1f5f9;
+            color: var(--text-main);
+            border-color: #cbd5e1;
+            transform: scale(1.01);
+        }
+        .main-workspace {
+            display: flex;
+            flex-direction: column;
+            gap: 40px;
+        }
+        .workspace-card-block {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-large);
+            padding: 36px;
+            box-shadow: 0 10px 15px -3px rgba(15, 23, 42, 0.02);
+            box-sizing: border-box;
+        }
+        .block-header-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--text-main);
+            margin: 0 0 18px 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: -0.4px;
+        }
+        .block-body-para {
+            font-size: 15px;
+            color: #475569;
+            line-height: 1.65;
+            margin: 0;
+        }
+        .showcase-grid-root {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 24px;
+            width: 100%;
+        }
+        .portfolio-project-node {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-medium);
+            display: flex;
+            flex-direction: column;
+            height: 350px;
+            overflow: hidden;
+            box-sizing: border-box;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .portfolio-project-node:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 25px -5px rgba(79, 70, 229, 0.06), 0 10px 10px -5px rgba(0, 0, 0, 0.01);
+            border-color: #cbd5e1;
+        }
+        .media-frame-box {
+            height: 170px;
+            background: #f8fafc;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            border-bottom: 1px solid var(--border-color);
+            padding: 12px;
+            box-sizing: border-box;
+        }
+        .media-image-asset {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+        .node-details-area {
+            padding: 20px;
+            box-sizing: border-box;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .node-heading-title {
+            margin: 0 0 8px 0;
+            font-size: 17px;
+            font-weight: 700;
+            color: var(--text-main);
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            letter-spacing: -0.2px;
+        }
+        .tech-pill-badge {
+            display: inline-block;
+            background: var(--accent-bg-purple);
+            color: var(--accent-purple);
+            border: 1px solid #ddd6fe;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 10px;
+            border-radius: 100px;
+            max-width: fit-content;
+            white-space: nowrap;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+        .node-action-bar {
+            padding: 14px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 13px;
+            font-weight: 600;
+            background: #fafafa;
+            border-top: 1px dashed var(--border-color);
+            box-sizing: border-box;
+        }
+        .action-anchor-link {
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: color 0.2s;
+        }
+        .anchor-code { color: #64748b; }
+        .anchor-code:hover { color: var(--text-main); }
+        .anchor-live { color: var(--accent-blue); }
+        .anchor-live:hover { color: #2563eb; }
+        @media (max-width: 820px) {
+            .dashboard-shell {
+                grid-template-columns: 1fr;
+                padding: 20px 16px;
+                gap: 28px;
+            }
+            .sidebar-panel {
+                position: relative;
+                top: 0;
+                padding: 32px 20px;
+            }
+            .workspace-card-block {
+                padding: 24px;
+            }
+            .showcase-grid-root {
+                grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+{%if user.userprofile and user.userprofile.public_profile == True%}
+<body>
+    <div class="dashboard-shell">  
+        <aside class="sidebar-panel">
+            <div class="avatar-frame">
+                {% if user.userprofile.profile %}
+                    <img src="{{ user.userprofile.profile.url }}" class="avatar-img" alt="Profile Picture">
+                {% else %}
+                    <div class="avatar-emoji">{{user.username|make_list|first|upper}}</div>
+                {% endif %}
+            </div>
+            <h1 class="user-headline">{{ user.userprofile.full_name }}</h1>
+            <p class="user-sidebar-tagline" style="font-size: 14px; color: var(--text-muted); margin: 0 0 24px 0; line-height: 1.5; font-weight: 500;">
+                {{ user.userprofile.tagline }}
+            </p>
+            {% if user.userprofile.linkedin_link or user.userprofile.github_link %}
+                <hr class="panel-divider">
+                <div class="social-links-stack">
+                    {% if user.userprofile.linkdin_link %}
+                    <a href="{{ user.userprofile.linkdin_link }}" target="_blank" class="network-row-btn">
+                        <span>🔗</span> LinkedIn Profile
+                    </a>
+                    {% endif %}
+                    {% if user.userprofile.github_link %}
+                    <a href="{{ user.userprofile.github_link }}" target="_blank" class="network-row-btn">
+                        <span>💻</span> GitHub Repository
+                    </a>
+                    {% endif %}
+                </div>
+            {% endif %}
+        </aside>
+        <main class="main-workspace">
+            <div class="workspace-card-block">
+                <h2 class="block-header-title"><span>👤</span> About Me</h2>
+                <p class="block-body-para">
+                    {% if user.userprofile.about_me %}
+                        {{ user.userprofile.about_me }}
+                    {% else %}
+                        Welcome to my portfolio workspace! Explore my engineering tracks and deployments down below.
+                    {% endif %}
+                </p>
+            </div>
+            <div class="workspace-card-block" style="background: transparent; border: none; padding: 0; box-shadow: none;">
+                <h2 class="block-header-title" style="margin-bottom: 24px;"><span>📁</span> Featured Engineering Projects</h2>
+                <div class="showcase-grid-root">
+                    {% for p in profile %}
+                    <div class="portfolio-project-node">
+                        <div class="media-frame-box">
+                            {% if p.thumbnail %}
+                                <img src="{{ p.thumbnail.url }}" class="media-image-asset" alt="Project Thumbnail">
+                            {% else %}
+                                <div style="color: #94a3b8; font-size: 13px; font-weight: 600; text-align: center;">
+                                    <span style="font-size: 24px; display: block; margin-bottom: 4px;">📦</span> No Screenshot
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="node-details-area">
+                            <h4 class="node-heading-title">{{ p.title }}</h4>
+                            <span class="tech-pill-badge">{{ p.tech_stack }}</span>
+                        </div>
+                        <div class="node-action-bar">
+                            <a href="{{ p.project_link }}" target="_blank" class="action-anchor-link anchor-code">
+                                <span>💻</span> Source Code
+                            </a>
+                            <a href="{{ p.live_link }}" target="_blank" class="action-anchor-link anchor-live">
+                                <span>🚀</span> Live Link &rarr;
+                            </a>
+                        </div>
+                    </div>
+                    {% empty %}
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 40px; background: white; border-radius: var(--radius-large); border: 2px dashed #cbd5e1; color: var(--text-muted); font-weight: 500; width: 100%; box-sizing: border-box;">
+                        <span style="font-size: 32px; display: block; margin-bottom: 12px;">📁</span> No projects showcased yet.
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+{% else %}
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>CodeIn 🔒</title>
+        <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+        <style>
+            :root {
+                --text-main: #0f172a;
+                --text-muted: #64748b;
+                --bg-global: #f8fafc;
+                --border-color: #e2e8f0;
+                --primary: #6366f1;
+            }
+            * {
+                box-sizing: border-box;
+                margin: 0;
+                padding: 0;
+            }
+            body {
+                font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+                background-color: var(--bg-global);
+                color: var(--text-main);
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                min-height: 100vh;
+                padding: 20px;
+            }
+            .private-wrapper {
+                background: #ffffff;
+                border: 1px solid var(--border-color);
+                padding: 45px 30px;
+                border-radius: 24px;
+                box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.03);
+                text-align: center;
+                max-width: 440px;
+                width: 100%;
+            }
+            .lock-circle {
+                width: 80px;
+                height: 80px;
+                border: 2px solid var(--text-main);
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                margin: 0 auto 24px auto;
+                font-size: 32px;
+                background-color: #ffffff;
+            }
+            .profile-title {
+                font-size: 22px;
+                font-weight: 800;
+                color: var(--text-main);
+                letter-spacing: -0.5px;
+                margin-bottom: 10px;
+            }
+            .profile-msg {
+                font-size: 15px;
+                color: var(--text-muted);
+                line-height: 1.6;
+                margin-bottom: 28px;
+                padding: 0 10px;
+            }
+            .btn-home {
+                display: inline-block;
+                background-color: var(--text-main);
+                color: #ffffff;
+                text-decoration: none;
+                padding: 12px 30px;
+                border-radius: 12px;
+                font-size: 14px;
+                font-weight: 600;
+                transition: all 0.2s ease;
+            }
+            .btn-home:hover {
+                background-color: var(--primary);
+                transform: translateY(-1px);
+            }
+            .btn-home:active {
+                transform: translateY(0);
+            }
+            @media (max-width: 480px) {
+                body {
+                    background-color: #ffffff;
+                }
+                .private-wrapper {
+                    border: none;
+                    box-shadow: none;
+                    padding: 20px 10px;
+                }
+            }
+        </style>
+    </head>
+    <body>
+        <div class="private-wrapper">
+            <div class="lock-circle">🔒</div>
+            <h1 class="profile-title">This Account is Private</h1>
+            <p class="profile-msg">
+                The developer has restricted visibility for this engineering profile. You cannot view their projects or technical stack metrics at this moment.
+            </p>
+            <a href="/" class="btn-home">Explore CodeIn</a>
+        </div>
+    </body>
+{% endif %}
+</html>

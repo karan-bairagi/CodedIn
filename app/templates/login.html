@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        :root {
+            --primary: #6366f1;
+            --primary-hover: #4f46e5;
+            --bg-surface: #ffffff;
+            --bg-global: #f8fafc;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --error-color: #ef4444;
+        }
+        body {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            background-color: var(--bg-global);
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+        }
+        .login-container {
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .login-card {
+            background-color: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            border-radius: 20px;
+            padding: 40px 30px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .login-header {
+            text-align: center;
+            margin-bottom: 32px;
+        }
+        .login-header h1 {
+            margin: 0;
+            color: var(--primary);
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+        }
+        .login-header p {
+            margin: 6px 0 0 0;
+            color: var(--text-muted);
+            font-size: 15px;
+        }
+        .form-group {
+            margin-bottom: 22px;
+        }
+        .form-group input {
+            width: 100%;
+            padding: 13px 16px;
+            border: 1px solid var(--border-color);
+            border-radius: 12px;
+            font-size: 15px;
+            color: var(--text-main);
+            background-color: #f8fafc;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background-color: var(--bg-surface);
+            box-shadow: 0 0 0 4px rgba(99, 102, 241, 0.12);
+        }
+        .form-group p {
+            margin: 0;
+        }
+        .error-message {
+            color: var(--error-color);
+            font-size: 13px;
+            font-weight: 500;
+            margin: 6px 0 0 0;
+            display: flex;
+            align-items: center;
+        }
+        .global-alert {
+            background-color: #fef2f2;
+            border: 1px solid #fee2e2;
+            color: var(--error-color);
+            padding: 12px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .forgot-wrapper {
+            text-align: right;
+            margin-bottom: 24px;
+            margin-top: -10px;
+        }
+        .forgot-wrapper a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 500;
+        }
+        .forgot-wrapper a:hover {
+            color: var(--primary);
+            text-decoration: underline;
+        }
+        .btn-login {
+            width: 100%;
+            background-color: var(--primary);
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 12px;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease, transform 0.1s ease;
+            box-shadow: 0 4px 12px rgba(99, 102, 241, 0.2);
+        }
+        .btn-login:hover {
+            background-color: var(--primary-hover);
+        }
+        .btn-login:active {
+            transform: scale(0.98);
+        }
+        .login-footer {
+            text-align: center;
+            margin-top: 28px;
+            font-size: 14px;
+            color: var(--text-muted);
+            border-top: 1px solid var(--border-color);
+            padding-top: 20px;
+        }
+        .login-footer a {
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: 600;
+            margin-left: 4px;
+        }
+        .login-footer a:hover {
+            text-decoration: underline;
+        }
+        @media (max-width: 480px) {
+            body {
+                background-color: var(--bg-surface);
+                display: block;
+            }
+            .login-card {
+                border: none;
+                box-shadow: none;
+                padding: 30px 10px;
+            }
+            .login-header {
+                margin-top: 40px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-card">
+            <div class="login-header">
+                <h1>CodeIn</h1>
+                <p>Welcome back, developer!</p>
+            </div>
+            {% if messages %}
+                {% for message in messages %}
+                <div class="global-alert">
+                    ⚠️ {{ message }}
+                </div>
+                {% endfor %}
+            {% endif %}
+            <form action="" method="POST" novalidate>
+                {% csrf_token %} 
+                {% for field in f %}
+                <div class="form-group">
+                    {{ field }}
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                        <p class="error-message">⚠️ {{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                </div>
+                {% endfor %}
+                <div class="forgot-wrapper">
+                    <a href="{% url 'forgetten_password' %}">Forgot password?</a>
+                </div>
+                <button type="submit" class="btn-login">Login</button>
+            </form>
+            <div class="login-footer">
+                New to CodeIn?<a href="{% url 'signup' %}">Create an account</a>
+                <div style="margin-top: 20px; padding-top: 15px; border-top: 1px solid var(--border-color, #e2e8f0); text-align: center;">
+                    <a href="{% url 'developer_story' %}" style="color: var(--primary, #6366f1); text-decoration: none; font-weight: 600; font-size: 13.5px; display: inline-block;">
+                        🚀 Meet the Creator & Project Story
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

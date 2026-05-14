@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-primary: #4f46e5;
+            --accent-hover: #4338ca;
+            --radius-large: 16px;
+            --radius-medium: 8px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            margin: 0;
+            padding: 40px 20px;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .creation-card-shell {
+            width: 100%;
+            max-width: 580px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-large);
+            padding: 36px;
+            box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.03), 0 8px 10px -6px rgba(0, 0, 0, 0.02);
+            box-sizing: border-box;
+        }
+        .header-headline-group {
+            margin-bottom: 28px;
+        }
+        .main-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 6px 0;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+        .sub-heading {
+            font-size: 14px;
+            color: var(--text-muted);
+            margin: 0;
+            font-weight: 500;
+        }
+        .asset-upload-dropzone {
+            width: 100%;
+            height: 180px;
+            background: #f8fafc;
+            border: 2px dashed #cbd5e1;
+            border-radius: var(--radius-large);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 24px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            box-sizing: border-box;
+            transition: all 0.2s ease;
+        }
+        .asset-upload-dropzone:hover {
+            border-color: var(--accent-primary);
+            background: #f5f3ff;
+        }
+        .dropzone-inner-prompt {
+            text-align: center;
+            color: var(--text-muted);
+            pointer-events: none;
+        }
+        .prompt-icon {
+            font-size: 32px;
+            display: block;
+            margin-bottom: 8px;
+        }
+        .prompt-text {
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .upload-action-trigger {
+            background-color: #ffffff;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            font-size: 12px;
+            font-weight: 600;
+            border-radius: var(--radius-medium);
+            margin-top: 10px;
+            display: inline-block;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.02);
+        }
+        .dropzone-live-img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            display: block;
+        }
+        .fields-stack-wrapper {
+            width: 100%;
+        }
+        .fields-stack-wrapper p {
+            margin-bottom: 20px;
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+            box-sizing: border-box;
+        }
+        .fields-stack-wrapper label {
+            font-size: 13px;
+            font-weight: 700;
+            color: #475569;
+            margin-bottom: 6px;
+            letter-spacing: -0.1px;
+        }
+        .fields-stack-wrapper input[type="file"] {
+            display: none !important;
+        }
+        .fields-stack-wrapper p a, 
+        .fields-stack-wrapper p br,
+        .fields-stack-wrapper input[type="checkbox"],
+        .fields-stack-wrapper label[for*="-clear_id"] {
+            display: none !important;
+        }
+        .fields-stack-wrapper input[type="text"], 
+        .fields-stack-wrapper input[type="url"],
+        .fields-stack-wrapper textarea, 
+        .fields-stack-wrapper select {
+            width: 100%;
+            padding: 11px 14px;
+            font-size: 14px;
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-medium);
+            background-color: #ffffff;
+            color: var(--text-main);
+            box-sizing: border-box;
+            font-family: inherit;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        .fields-stack-wrapper input:focus, 
+        .fields-stack-wrapper textarea:focus {
+            outline: none;
+            border-color: var(--accent-primary);
+            box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.08);
+        }
+        .validation-error-alert {
+            color: #ef4444;
+            font-size: 13px;
+            margin: 4px 0 12px 0;
+            font-weight: 500;
+        }
+        .form-action-footer {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 28px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 22px;
+            box-sizing: border-box;
+        }
+        .execution-submit-btn {
+            background-color: var(--accent-primary);
+            color: #ffffff;
+            border: none;
+            padding: 11px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-medium);
+            cursor: pointer;
+            box-shadow: 0 4px 10px rgba(79, 70, 229, 0.15);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .execution-submit-btn:hover {
+            background-color: var(--accent-hover);
+        }
+        .execution-submit-btn:active {
+            transform: scale(0.98);
+        }
+        .cancel-fallback-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+        .cancel-fallback-btn a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 11px 18px;
+            display: inline-block;
+            transition: color 0.2s;
+        }
+        .cancel-fallback-btn a:hover {
+            color: var(--text-main);
+        }
+        @media (max-width: 576px) {
+            body {
+                padding: 16px 12px;
+            }
+            .creation-card-shell {
+                padding: 24px 16px;
+                border-radius: 12px;
+            }
+            .form-action-footer {
+                flex-direction: column-reverse;
+                gap: 10px;
+            }
+            .execution-submit-btn, .cancel-fallback-btn, .cancel-fallback-btn a {
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            .cancel-fallback-btn a {
+                border: 1px solid var(--border-color);
+                border-radius: var(--radius-medium);
+                background: #ffffff;
+                color: #475569;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="creation-card-shell">  
+        <div class="header-headline-group">
+            <h1 class="main-title">🚀 Create New Showcase</h1>
+            <p class="sub-heading">Add application blueprints, stack information, and deployment pipelines.</p>
+        </div>
+        <form action="" method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="asset-upload-dropzone" id="dropzoneContainer">
+                <div class="dropzone-inner-prompt" id="dropzonePrompt">
+                    <span class="prompt-icon">🖼️</span>
+                    <span class="prompt-text">Drag & drop project snapshot or</span>
+                    <span class="upload-action-trigger">Browse Files</span>
+                </div>
+            </div>
+            <div class="fields-stack-wrapper" id="djangoFormControls">
+                {% for field in f %}
+                    <p>
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </p>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="validation-error-alert">⚠️ {{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            {% if message %}
+                {% for msg in message %}
+                    <p class="validation-error-alert" style="background: #fef2f2; padding: 10px; border-radius: 6px; border: 1px solid #fee2e2;">
+                        ❌ {{ msg }}
+                    </p>
+                {% endfor %}
+            {% endif %}
+            <div class="form-action-footer">
+                <button type="button" class="cancel-fallback-btn">
+                    <a href="{% url 'dashboard' %}">Cancel</a>
+                </button>
+                <button type="submit" class="execution-submit-btn">Save Project</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nativeFileInput = document.querySelector('#djangoFormControls input[type="file"]');
+            const dropzoneContainer = document.getElementById('dropzoneContainer');
+            const dropzonePrompt = document.getElementById('dropzonePrompt');
+            if (nativeFileInput && dropzoneContainer) {
+                dropzoneContainer.addEventListener('click', function() {
+                    nativeFileInput.click();
+                });
+                nativeFileInput.addEventListener('change', function (e) {
+                    const selectedFile = e.target.files[0];
+                    if (selectedFile) {
+                        const fileReader = new FileReader(); 
+                        fileReader.onload = function (event) {
+                            dropzoneContainer.innerHTML = '';
+                            const displayImage = document.createElement('img');
+                            displayImage.src = event.target.result;
+                            displayImage.className = 'dropzone-live-img';
+                            dropzoneContainer.appendChild(displayImage);
+                        };
+                        fileReader.readAsDataURL(selectedFile);
+                    }
+                });
+                dropzoneContainer.addEventListener('dragover', function(e) { e.preventDefault(); });
+                dropzoneContainer.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    if(e.dataTransfer.files.length) {
+                        nativeFileInput.files = e.dataTransfer.files;
+                        nativeFileInput.dispatchEvent(new Event('change'));
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

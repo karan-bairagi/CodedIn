@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        }
+        body {
+            background-color: #ffffff;
+            padding: 24px 16px;
+            color: #0f172a;
+        }
+        .search-container {
+            max-width: 650px;
+            margin: 0 auto;
+        }
+        .search-box-form {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 24px;
+        }
+        .search-input {
+            flex: 1;
+            padding: 10px 14px;
+            font-size: 15px;
+            border: 1px solid #e2e8f0;
+            border-radius: 8px;
+            background-color: #f1f5f9;
+            outline: none;
+        }
+        .search-input:focus {
+            background-color: #ffffff;
+            border-color: #cbd5e1;
+        }
+        .search-btn {
+            background-color: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .developer-row-card {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 12px;
+            border-radius: 12px;
+            text-decoration: none;
+            color: inherit;
+            background-color: #ffffff;
+            transition: background-color 0.2s;
+        }
+        .developer-row-card:hover {
+            background-color: #f8fafc;
+        }
+        .avatar-frame {
+            width: 54px;
+            height: 54px;
+            border-radius: 50%;
+            background-color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            border: 1px solid #e2e8f0;
+            overflow: hidden;
+            flex-shrink: 0; 
+        }
+        .avatar-img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: top;
+        }
+        .dev-meta-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+        .name-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .dev-username {
+            font-size: 14px;
+            font-weight: 700;
+            color: #0f172a;
+        }
+        .dev-full-name {
+            font-size: 14px;
+            color: #64748b;
+        }
+        .dev-tagline {
+            font-size: 13px;
+            color: #334155;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+        .dev-about {
+            font-size: 12px;
+            color: #64748b;
+            line-height: 1.4;
+            margin-top: 4px;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            line-clamp: 1;
+        }
+        .no-data-msg {
+            text-align: center;
+            padding: 30px;
+            color: #64748b;
+            font-size: 14px;
+        }
+    </style>
+</head>
+<body>
+    <div class="search-container">
+        <form action="" method="POST" class="search-box-form">
+            {% csrf_token %}
+            <input type="text" name="search" class="search-input" value="{{ search|default:'' }}" placeholder="Search username, tagline, name...">
+            <button type="submit" class="search-btn">Search</button>
+        </form>
+        <div class="results-list">
+            {% if data %}
+                {% for u in data %}
+                    <a href="{% url 'public' u.username %}" class="developer-row-card">
+                        <div class="avatar-frame">
+                            {% if u.userprofile.profile %}
+                                <img src="{{ u.userprofile.profile.url }}" class="avatar-img" alt="Profile pic">
+                            {% else %}
+                                <div class="avatar-letter">
+                                    {{ u.username|make_list|first|upper }}
+                                </div>
+                            {% endif %}
+                        </div>
+                        <div class="dev-meta-content">
+                            <div class="name-row">
+                                <span class="dev-username">{{ u.username }}</span>
+                                <span style="color: #cbd5e1; font-size: 12px;">•</span>
+                                <span class="dev-full-name">{{ u.userprofile.full_name }}</span>
+                            </div>
+                            <p class="dev-tagline">{{ u.userprofile.tagline }}</p>
+                            <p class="dev-about">{{ u.userprofile.about_me }}</p>
+                        </div>
+                    </a>
+                {% endfor %}
+            {% else %}
+                {% if search %}
+                    <div class="no-data-msg">No results found for "{{ search }}"</div>
+                {% endif %}
+            {% endif %}
+        </div>
+    </div>
+</body>
+</html>

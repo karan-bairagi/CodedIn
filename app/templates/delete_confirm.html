@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        :root {
+            --bg-main: #fcfcfd;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #f1f5f9;
+            --danger-main: #ef4444;
+            --danger-hover: #dc2626;
+            --danger-bg: #fef2f2;
+            --danger-border: #fca5a5;
+            --radius-large: 20px;
+            --radius-medium: 12px;
+        }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-main);
+            margin: 0;
+            padding: 24px;
+            color: var(--text-main);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            box-sizing: border-box;
+        }
+        .safety-card-shell {
+            width: 100%;
+            max-width: 520px;
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-large);
+            padding: 40px;
+            box-shadow: 0 20px 25px -5px rgba(239, 68, 68, 0.03), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+            box-sizing: border-box;
+            text-align: center;
+        }
+        .alert-badge-icon {
+            width: 64px;
+            height: 64px;
+            background: var(--danger-bg);
+            border: 2px solid var(--danger-border);
+            color: var(--danger-main);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 28px;
+            margin: 0 auto 24px auto;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.1);
+        }
+        .headline-title {
+            font-size: 22px;
+            font-weight: 800;
+            margin: 0 0 12px 0;
+            letter-spacing: -0.5px;
+            color: var(--text-main);
+        }
+        .warning-notice-box {
+            background: var(--danger-bg);
+            border: 1px solid var(--danger-border);
+            border-radius: var(--radius-medium);
+            padding: 16px 20px;
+            margin-bottom: 28px;
+            text-align: left;
+            box-sizing: border-box;
+        }
+        .warning-notice-box p {
+            margin: 0;
+            font-size: 14px;
+            color: #991b1b;
+            line-height: 1.6;
+            font-weight: 500;
+        }
+        .warning-notice-box ul {
+            margin: 8px 0 0 0;
+            padding-left: 20px;
+            font-size: 13px;
+            color: #b91c1c;
+            line-height: 1.6;
+        }
+        .action-controls-row {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .btn-base {
+            flex: 1;
+            padding: 12px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: var(--radius-medium);
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+            box-sizing: border-box;
+            height: 46px;
+        }
+        .btn-confirm-delete {
+            background-color: var(--danger-main);
+            color: #ffffff;
+            border: none;
+            box-shadow: 0 4px 12px rgba(239, 68, 68, 0.2);
+        }
+        .btn-confirm-delete:hover {
+            background-color: var(--danger-hover);
+            transform: translateY(-1px);
+        }
+        .btn-cancel-keep {
+            background-color: #f8fafc;
+            color: var(--text-muted);
+            border: 1px solid #cbd5e1;
+        }
+        .btn-cancel-keep:hover {
+            background-color: #f1f5f9;
+            color: var(--text-main);
+            border-color: #cbd5e1;
+        }
+        @media (max-width: 500px) {
+            body {
+                padding: 16px 12px;
+            }
+            .safety-card-shell {
+                padding: 32px 20px;
+                border-radius: 16px;
+            }
+            .action-controls-row {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .btn-base {
+                width: 100%;
+            }
+            .btn-confirm-delete {
+                order: 1;
+            }
+            .btn-cancel-keep {
+                order: 2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="safety-card-shell">
+        <div class="alert-badge-icon">⚠️</div>
+        <h1 class="headline-title">Delete Your Account permanently?</h1>
+        <div class="warning-notice-box">
+            <p><strong>Warning:</strong> This action cannot be undone. Proceeding will result in the following permanent losses:</p>
+            <ul>
+                <li>Your personalized public URL link profile</li>
+                <li>All deployed project cards and live repository sync links</li>
+                <li>All screenshots, user profiles asset media database information</li>
+            </ul>
+        </div>
+        <form action="{% url 'delete_user' %}" method="POST">
+            {% csrf_token %}   
+            <div class="action-controls-row">
+                <a href="{% url 'dashboard' %}" class="btn-base btn-cancel-keep">
+                    No, Keep Account
+                </a>
+                <button type="submit" class="btn-base btn-confirm-delete">
+                    Yes, Delete permanently
+                </button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

@@ -1,0 +1,289 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f8fafc;
+            margin: 0;
+            padding: 40px 20px;
+            color: #1e293b;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+        .form-container {
+            width: 100%;
+            max-width: 500px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+            box-sizing: border-box;
+        }
+        .profile-preview-area {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 28px;
+            text-align: center;
+            position: relative;
+        }
+        .avatar-wrapper {
+            position: relative;
+            width: 125px;
+            height: 125px;
+            margin-bottom: 12px;
+        }
+        .avatar-img {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            border: 3px solid #e2e8f0;
+            display: block;
+        }
+        .avatar-placeholder {
+            width: 125px;
+            height: 125px;
+            border-radius: 50%;
+            background-color: #cbd5e1;
+            text-align: center;
+            line-height: 125px;
+            color: white;
+            font-size: 45px;
+            display: block;
+            border: 3px solid #e2e8f0;
+        }
+        .photo-actions {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+            margin-top: 4px;
+        }
+        .custom-file-label {
+            background-color: #f1f5f9;
+            color: #475569;
+            border: 1px solid #cbd5e1;
+            padding: 6px 14px;
+            font-size: 13px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .custom-file-label:hover {
+            background-color: #e2e8f0;
+            color: #0f172a;
+        }
+        .remove-link {
+            color: #ef4444;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            padding: 6px 10px;
+        }
+        .remove-link:hover {
+            text-decoration: underline;
+        }
+        .form-group-wrapper {
+            width: 100%;
+        }
+        .form-group-wrapper p {
+            margin-bottom: 18px;
+            margin-top: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .form-group-wrapper label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 6px;
+        }
+        .form-group-wrapper input[type="text"], 
+        .form-group-wrapper input[type="url"],
+        .form-group-wrapper textarea, 
+        .form-group-wrapper select {
+            width: 100%;
+            padding: 10px 12px;
+            font-size: 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            background-color: #ffffff;
+            color: #0f172a;
+            box-sizing: border-box;
+            font-family: inherit;
+        }
+        .form-group-wrapper input:focus, 
+        .form-group-wrapper textarea:focus {
+            outline: none;
+            border-color: #0f172a;
+            box-shadow: 0 0 0 2px rgba(15, 23, 42, 0.05);
+        }
+        .form-group-wrapper input[type="file"] {
+            display: none !important;
+        }
+        .form-group-wrapper p a, 
+        .form-group-wrapper p br,
+        .form-group-wrapper input[type="checkbox"],
+        .form-group-wrapper label[for*="-clear_id"] {
+            display: none !important;
+        }
+        .error-msg {
+            color: #ef4444;
+            font-size: 13px;
+            margin-top: 4px;
+            margin-bottom: 12px;
+            font-weight: 500;
+        }
+        .actions-container {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            gap: 12px;
+            margin-top: 24px;
+            border-top: 1px solid #f1f5f9;
+            padding-top: 20px;
+        }
+        .btn-submit {
+            background-color: #0f172a;
+            color: #ffffff;
+            border: none;
+            padding: 10px 24px;
+            font-size: 14px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-submit:hover {
+            background-color: #1e293b;
+        }
+        .btn-cancel {
+            background: none;
+            border: none;
+            padding: 0;
+            cursor: pointer;
+        }
+        .btn-cancel a {
+            color: #64748b;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 600;
+            padding: 10px 16px;
+            display: inline-block;
+        }
+        .btn-cancel a:hover {
+            color: #0f172a;
+        }
+        @media (max-width: 576px) {
+            body {
+                padding: 16px 12px;
+            }
+            .form-container {
+                padding: 24px 16px;
+                border: none;
+                box-shadow: none;
+                background: transparent;
+            }
+            .actions-container {
+                flex-direction: column-reverse;
+                gap: 12px;
+            }
+            .btn-submit, .btn-cancel, .btn-cancel a {
+                width: 100%;
+                text-align: center;
+                box-sizing: border-box;
+            }
+            .btn-cancel a {
+                border: 1px solid #cbd5e1;
+                border-radius: 6px;
+                background: #ffffff;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="form-container">
+        <form action="" method="POST" novalidate enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="profile-preview-area">
+                <div class="avatar-wrapper" id="avatarWrapper">
+                    {% if user.userprofile.profile %}
+                        <a href="{% url 'profile_view' %}" title="Profile" id="avatarLink">
+                            <img src="{{ user.userprofile.profile.url }}" class="avatar-img" id="avatarDisplay">
+                        </a>
+                    {% else %}
+                        <a href="{% url 'profile_view' %}" id="avatarLink">
+                            <div class="avatar-placeholder" id="avatarDisplayPlaceholder">{{user.username|make_list|first|upper}}</div>
+                        </a>
+                    {% endif %}
+                </div> 
+                <div class="photo-actions">
+                    <button type="button" class="custom-file-label" id="uploadTriggerBtn">Change Photo</button>       
+                    {% if user.userprofile.profile %}
+                        <a href="{% url 'remove' %}" class="remove-link" id="removeLinkElement">Remove</a>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="form-group-wrapper" id="djangoFieldsWrapper">
+                {% for field in f %}
+                    <p>
+                        {{ field.label_tag }}
+                        {{ field }}
+                    </p>
+                    {% if field.errors %}
+                        {% for error in field.errors %}
+                            <p class="error-msg">⚠️ {{ error }}</p>
+                        {% endfor %}
+                    {% endif %}
+                {% endfor %}
+            </div>
+            <div class="actions-container">
+                <button type="button" class="btn-cancel">
+                    <a href="{% url 'profile_view' %}">Cancel</a>
+                </button>
+                <button type="submit" class="btn-submit">Save Changes</button>
+            </div>
+        </form>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const nativeDjangoFileInput = document.querySelector('#djangoFieldsWrapper input[type="file"]');
+            const uploadTriggerBtn = document.getElementById('uploadTriggerBtn');
+            const avatarLink = document.getElementById('avatarLink');
+            if (nativeDjangoFileInput && uploadTriggerBtn) {
+                uploadTriggerBtn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    nativeDjangoFileInput.click();
+                });
+                nativeDjangoFileInput.addEventListener('change', function (event) {
+                    const files = event.target.files;
+                    if (files && files[0]) {
+                        const reader = new FileReader();
+                        reader.onload = function (e) {
+                            avatarLink.innerHTML = '';
+                            const imgNode = document.createElement('img');
+                            imgNode.src = e.target.result;
+                            imgNode.className = 'avatar-img';
+                            imgNode.id = 'avatarDisplay';
+                            avatarLink.appendChild(imgNode);
+                        };
+                        reader.readAsDataURL(files[0]);
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

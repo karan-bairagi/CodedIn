@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Security Setup | CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #f3f4f6;
+            min-height: screen;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        .security-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.1), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+            border: 1px solid #f3f4f6;
+            width: 100%;
+            max-width: 480px;
+            padding: 30px;
+            transition: all 0.3s ease;
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .brand-header h1 {
+            color: #6366f1;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-line {
+            height: 4px;
+            width: 50px;
+            background-color: #6366f1;
+            margin: 8px auto 0 auto;
+            border-radius: 10px;
+        }
+        .info-box {
+            background-color: #eef2ff;
+            border-left: 4px solid #6366f1;
+            padding: 15px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+        .info-title {
+            color: #3730a3;
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        .info-text {
+            color: #4338ca;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+        .form-title {
+            font-size: 20px;
+            font-weight: 700;
+            color: #1f2937;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #4b5563;
+            margin-bottom: 8px;
+        }
+        select, input[type="text"] {
+            width: 100%;
+            padding: 12px 16px;
+            border-radius: 8px;
+            border: 1px solid #d1d5db;
+            background-color: #ffffff;
+            font-size: 14px;
+            color: #374151;
+            outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
+        }
+        select:focus, input[type="text"]:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .error-message {
+            color: #ef4444;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+        }
+        .actions-group {
+            display: flex;
+            gap: 12px;
+            margin-top: 25px;
+        }
+        .btn-next {
+            flex: 1;
+            background-color: #6366f1;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 6px -1px rgba(99, 102, 241, 0.2);
+            transition: background-color 0.2s;
+        }
+        .btn-next:hover {
+            background-color: #4f46e5;
+        }
+        .btn-cancel {
+            flex: 1;
+            background-color: #ffffff;
+            color: #4b5563;
+            border: 1px solid #d1d5db;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: background-color 0.2s;
+        }
+        .btn-cancel:hover {
+            background-color: #f9fafb;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .security-card {
+                padding: 20px;
+                border-radius: 12px;
+            }
+            .actions-group {
+                flex-direction: column-reverse;
+            }
+            .btn-next, .btn-cancel {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="security-card">
+        <div class="brand-header">
+            <h1>CodeIn</h1>
+            <div class="brand-line"></div>
+        </div>
+        <div class="info-box">
+            <div class="info-title">Why are we asking this?</div>
+            <div class="info-text">
+                To protect your CodeIn account, we use an encrypted, zero-gateway security validation. In case you lose access, this confidential key acts as your immediate, backup authentication layer without relying on external SMS/Email networks.
+            </div>
+        </div>
+        <div class="form-title">Setup Security Recovery</div>
+        <form action="" method="POST" novalidate>
+            {% csrf_token %}  
+            {% for field in f %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}    
+                {% if field.errors %}
+                {% for error in field.errors %}
+                <div class="error-message">
+                    <span style="margin-right: 4px;">⚠️</span> {{ error }}
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="actions-group">
+                <a href="{% url 'delete_user' %}" class="btn-cancel">Cancel</a>
+                <button type="submit" class="btn-next">Next</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

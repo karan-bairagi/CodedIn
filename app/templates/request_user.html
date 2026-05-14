@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Account Rescue Panel | CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .rescue-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            max-width: 520px;
+            padding: 35px;
+            transition: all 0.3s ease;
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .brand-header h1 {
+            color: #6366f1;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-line {
+            height: 4px;
+            width: 45px;
+            background-color: #6366f1;
+            margin: 6px auto 0 auto;
+            border-radius: 10px;
+        }
+        .rescue-context-box {
+            background-color: #fff7ed;
+            border-left: 4px solid #f97316;
+            padding: 16px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 25px;
+        }
+        .context-title {
+            color: #9a3412;
+            font-size: 14px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        .context-text {
+            color: #ea580c;
+            font-size: 12.5px;
+            line-height: 1.6;
+        }
+        .form-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #1e293b;
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            margin-bottom: 20px;
+        }
+        .form-group label {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 8px;
+        }
+        input[type="text"], input[type="email"], select {
+            width: 100%;
+            padding: 13px 16px;
+            border-radius: 10px;
+            border: 1px solid #cbd5e1;
+            background-color: #ffffff;
+            font-size: 14px;
+            color: #1e293b;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+        input[type="text"]:focus, input[type="email"]:focus, select:focus {
+            border-color: #6366f1;
+            box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
+        }
+        .error-container {
+            color: #dc2626;
+            font-size: 12px;
+            font-weight: 500;
+            margin-top: 6px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+        }
+        .actions-matrix {
+            display: flex;
+            gap: 12px;
+            margin-top: 30px;
+        }
+        .btn-submit-rescue {
+            flex: 2;
+            background-color: #6366f1;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 10px -1px rgba(99, 102, 241, 0.25);
+            transition: background-color 0.2s;
+        }
+        .btn-submit-rescue:hover {
+            background-color: #4f46e5;
+        }
+        .btn-abort {
+            flex: 1;
+            background-color: #ffffff;
+            color: #64748b;
+            border: 1px solid #cbd5e1;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+        .btn-abort:hover {
+            background-color: #f8fafc;
+            color: #334155;
+            border-color: #94a3b8;
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .rescue-card {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+            .actions-matrix {
+                flex-direction: column-reverse;
+            }
+            .btn-submit-rescue, .btn-abort {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="rescue-card">
+        <div class="brand-header">
+            <h1>CodeIn</h1>
+            <div class="brand-line"></div>
+        </div>
+        <div class="rescue-context-box">
+            <div class="context-title">⚠️ Manual Account Rescue Framework</div>
+            <div class="context-text">
+                If you have forgotten both your account password and security setup variables, you must initiate a manual identity verification sequence. Provide your exact profile parameters below so the platform administrator can validate your data node and assign a secure, temporary fallback password configuration.
+            </div>
+        </div>
+        <div class="form-title">Verification Parameters Form</div>
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in f %}
+            <div class="form-group">
+                <label>{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                {% for error in field.errors %}
+                <div class="error-container">
+                    <span>⚠️</span> {{ error }}
+                </div>
+                {% endfor %}
+                {% endif %}
+            </div>
+            {% endfor %}
+            <div class="actions-matrix">
+                <a href="{% url 'check' %}" class="btn-abort">Cancel</a>
+                <button type="submit" class="btn-submit-rescue">Submit Recovery Request</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

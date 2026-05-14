@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Secure Token Generated | CodeIn</title>
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        .token-card {
+            background-color: #ffffff;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            border: 1px solid #e2e8f0;
+            width: 100%;
+            max-width: 500px;
+            padding: 35px;
+            transition: all 0.3s ease;
+        }
+        .brand-header {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+        .brand-header h1 {
+            color: #6366f1;
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .brand-line {
+            height: 4px;
+            width: 45px;
+            background-color: #6366f1;
+            margin: 6px auto 0 auto;
+            border-radius: 10px;
+        }
+        .page-status {
+            font-size: 18px;
+            font-weight: 700;
+            color: #10b981;
+            text-align: center;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        .guidelines-box {
+            background-color: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 25px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 10px;
+        }
+        .title-do { color: #059669; }
+        .title-dont { color: #dc2626; }
+        .list-items {
+            list-style: none;
+            font-size: 13px;
+            line-height: 1.6;
+            margin-bottom: 15px;
+        }
+        .list-items li {
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 6px;
+        }
+        .list-do li::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10b981;
+            font-weight: 700;
+        }
+        .list-dont li::before {
+            content: "✕";
+            position: absolute;
+            left: 0;
+            color: #ef4444;
+            font-weight: 700;
+        }
+        .list-dont {
+            margin-bottom: 0;
+        }
+        .token-display-group {
+            margin-bottom: 25px;
+            text-align: center;
+        }
+        .token-display-group label {
+            display: block;
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 10px;
+            text-align: left;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 14px;
+            border-radius: 10px;
+            border: 2px dashed #6366f1;
+            background-color: #f5f3ff;
+            font-size: 18px;
+            font-weight: 700;
+            color: #4f46e5;
+            letter-spacing: 1px;
+            text-align: center;
+            outline: none;
+            cursor: not-allowed;
+        }
+        .btn-proceed {
+            width: 100%;
+            background-color: #6366f1;
+            color: #ffffff;
+            border: none;
+            padding: 14px;
+            border-radius: 10px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 4px 12px -2px rgba(99, 102, 241, 0.3);
+            transition: background-color 0.2s, transform 0.1s;
+        }
+        .btn-proceed:hover {
+            background-color: #4f46e5;
+        }
+        .btn-proceed:active {
+            transform: scale(0.99);
+        }
+        @media (max-width: 480px) {
+            body {
+                padding: 12px;
+            }
+            .token-card {
+                padding: 25px 20px;
+                border-radius: 12px;
+            }
+            .list-items {
+                font-size: 12px;
+            }
+            input[type="text"] {
+                font-size: 16px;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="token-card">
+        <div class="brand-header">
+            <h1>CodeIn</h1>
+            <div class="brand-line"></div>
+        </div>
+        <div class="page-status">
+            <span>🛡️</span> Identity Verified Successfully
+        </div>
+        <div class="guidelines-box">
+            <div class="section-title title-do">What you need to do:</div>
+            <ul class="list-items list-do">
+                <li>Verify that the secure token matches the box layout below.</li>
+                <li>Click the "Proceed to Reset" action button immediately to update.</li>
+                <li>Complete your password alteration within the allocated 10-minute window.</li>
+            </ul>
+            <div class="section-title title-dont" style="margin-top: 15px;">What you must NOT do:</div>
+            <ul class="list-items list-dont">
+                <li>Do NOT close or refresh your browser tab, or the token session will terminate.</li>
+                <li>Do NOT share this alpha-numeric token signature with anyone else.</li>
+            </ul>
+        </div>
+        <form action="{% url 'reset_password' token %}" method="POST">
+            {% csrf_token %} 
+            <div class="token-display-group">
+                <label for="generated_token">Your Secure Authorization Pass</label>
+                <input type="text" id="generated_token" value="{{ token }}" readonly>
+            </div>
+            <button type="submit" class="btn-proceed">Proceed to Reset Password</button>
+        </form>
+    </div>
+
+</body>
+</html>

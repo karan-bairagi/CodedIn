@@ -1,0 +1,250 @@
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        :root {
+            --primary: #4f46e5;
+            --primary-hover: #4338ca;
+            --bg: #f1f5f9;
+            --text-dark: #0f172a;
+            --text-light: #64748b;
+            --border: #e2e8f0;
+        }
+        body { 
+            margin: 0; 
+            font-family: 'Inter', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text-dark);
+        }
+        .nav-container { 
+            background: white; 
+            padding: 12px 20px; 
+            border-bottom: 1px solid var(--border); 
+            position: sticky; 
+            top: 0; 
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .nav-logo {
+            font-size: 22px; 
+            font-weight: 800; 
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%); 
+            -webkit-background-clip: text; 
+            background-clip: text;
+            -webkit-text-fill-color: transparent; 
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+        .main-container { 
+            display: flex; 
+            flex-direction: column;
+            max-width: 1300px; 
+            margin: 20px auto; 
+            padding: 0 15px; 
+            gap: 20px; 
+        }
+        .sidebar { 
+            width: 100%;
+            background: white; 
+            padding: 24px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            align-items: center; 
+            box-sizing: border-box;
+        }
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .header-panel { 
+            background: white; 
+            padding: 20px; 
+            border-radius: 20px; 
+            border: 1px solid var(--border); 
+            display: flex; 
+            flex-direction: column; 
+            gap: 15px;
+            text-align: center;
+        }
+        .add-project-btn {
+            text-decoration: none; 
+            background: linear-gradient(135deg, var(--primary) 0%, #7c3aed 100%); 
+            color: white; 
+            padding: 12px 24px; 
+            border-radius: 12px; 
+            font-size: 14px; 
+            font-weight: 600; 
+            box-shadow: 0 4px 12px rgba(79, 70, 229, 0.2);
+            transition: 0.3s;
+        }
+        .projects-grid { 
+            display: grid; 
+            grid-template-columns: 1fr;
+            gap: 20px; 
+        }
+        .project-card { 
+            background: white; 
+            border-radius: 16px; 
+            border: 1px solid var(--border); 
+            overflow: hidden; 
+            display: flex; 
+            flex-direction: column;
+            transition: transform 0.3s;
+        }
+        .stats-box {
+            margin-top: 20px; 
+            width: 100%; 
+            background: #fafafa; 
+            border: 1px solid var(--border); 
+            border-radius: 12px; 
+            padding: 15px; 
+            box-sizing: border-box;
+        }
+        @media (min-width: 992px) {
+            .main-container { flex-direction: row; align-items: flex-start; margin-top: 40px; }
+            .sidebar { width: 320px; position: sticky; top: 100px; }
+            .header-panel { flex-direction: row; justify-content: space-between; text-align: left; padding: 25px 32px; }
+            .projects-grid { grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+            .nav-container { padding: 12px 40px; }
+        }
+        .avatar-circle {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: transparent;
+            margin-bottom: 15px;
+        }
+        .avatar-img {width: 100%;height: 100%;border-radius: 50%;object-fit: cover; object-position: top; border: 3px solid white;background: white;
+        }
+        .url-box { width: 100%; margin: 20px 0; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
+        .scroll-list { max-height: 200px; overflow-y: auto; scrollbar-width: thin; }
+    </style>
+</head>
+<body>
+    <nav class="nav-container">
+        <a href="#" class="nav-logo">CodeIn</a>
+        <div style="display: flex; gap: 10px; align-items: center;">
+            <a href="{% url 'search' %}" style="text-decoration: none; color: var(--primary); font-weight: 600; font-size: 13px; padding: 8px 15px; border: 1.5px solid var(--border); border-radius: 20px; background: #f8fafc;">Search</a>
+            <a href="{% url 'logout' %}" style="text-decoration: none; color: #f43f5e; font-weight: 600; font-size: 13px;">Logout</a>
+        </div>
+    </nav>
+    <div class="main-container">
+        <aside class="sidebar">
+            <div class="avatar-circle">
+                {% if user.userprofile.profile %}
+                    <img src="{{ user.userprofile.profile.url }}" class="avatar-img">
+                {% else %}
+                    <div style="width:100%; height:100%; border-radius:50%; background:var(--primary); color:white; display:flex; align-items:center; justify-content:center; font-size:35px; font-weight:bold; border:3px solid white;">
+                        {{ user.username|first|upper }}
+                    </div>
+                {% endif %}
+            </div>
+            <h2 style="margin: 0; font-size: 18px; font-weight: 700;">{{ user.userprofile.full_name }}</h2>
+            <p style="margin: 5px 0 15px 0; color: #16a34a; font-size: 11px; font-weight: 700; background: #f0fdf4; padding: 4px 12px; border-radius: 100px; text-transform: uppercase;">● Developer</p>
+            
+            <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
+                <a href="{% url 'profile_view' %}" class="add-project-btn" style="text-align: center;">View Profile</a>
+                <a href="{% url 'account' %}" style="text-decoration: none; text-align: center; color: var(--text-light); border: 1px solid var(--border); padding: 10px; border-radius: 12px; font-size: 14px; font-weight: 600;">Account Settings</a>
+            </div>
+            <div class="url-box">
+                <span style="font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; display: block; margin-bottom: 8px;">Portfolio Link</span>
+                <div style="display: flex; align-items: center; gap: 8px; background: white; padding: 8px; border-radius: 8px; border: 1px solid var(--border);">
+                    <a href="{% url 'public' user.username %}" id="profileLink" style="font-size: 12px; color: var(--primary); text-decoration: none; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; flex: 1;">
+                        {{ request.scheme }}://{{ request.get_host }}/{{ user.username }}
+                    </a>
+                    <button id="copyLinkBtn" style="background: none; border: none; cursor: pointer;" title="Copy">
+                        <span id="copyIcon">📋</span>
+                    </button>
+                </div>
+            </div>
+            <div class="stats-box">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px;">
+                    <span style="font-size: 12px; font-weight: 800; color: var(--text-dark);">VIEWS</span>
+                    <span style="background: var(--primary); color: white; padding: 2px 8px; border-radius: 6px; font-size: 12px; font-weight: 700;">{{ user.userprofile.view_count }}</span>
+                </div>
+                <div class="scroll-list">
+                    {% if all_viewrs %}
+                        {% for v in all_viewrs %}
+                        <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1px solid #f1f5f9;">
+                            <div style="width: 26px; height: 26px; border-radius: 6px; background: #eef2ff; color: var(--primary); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 700;">
+                                {{ v.profile_visitor|first|upper }}
+                            </div>
+                            <div style="flex: 1; min-width: 0;">
+                                <p style="margin: 0; font-size: 12px; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;">{{ v.profile_visitor }}</p>
+                                <p style="margin: 0; font-size: 10px; color: var(--text-light);">{{ v.profile_visitor_time|naturaltime }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    {% else %}
+                        <p style="font-size: 11px; color: var(--text-light); text-align: center;">No visitors yet</p>
+                    {% endif %}
+                </div>
+            </div>
+        </aside>
+        <main class="content-area">
+            <div class="header-panel">
+                <div style="flex: 1;">
+                    <h3 style="margin: 0 0 5px 0; font-size: 20px; font-weight: 700;">Your Projects</h3>
+                    <p style="margin: 0; font-size: 14px; color: var(--text-light);">Manage and showcase your best work.</p>
+                </div>
+                <a href="{% url 'projectcard' %}" class="add-project-btn">+ New Project</a>
+            </div>
+            <div class="projects-grid">
+                {% for p in project %}
+                <div class="project-card">
+                    <a href="{% url 'project_view' p.id %}" style="text-decoration: none; color: inherit;">
+                        <div style="height: 180px; background: #f8fafc; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid var(--border);">
+                            {% if p.thumbnail %}
+                                <img src="{{ p.thumbnail.url }}" style="width: 100%; height: 100%; object-fit: cover;">
+                            {% else %}
+                                <span style="font-size: 30px;">📦</span>
+                            {% endif %}
+                        </div>
+                        <div style="padding: 15px;">
+                            <h4 style="margin: 0 0 8px 0; font-size: 16px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ p.title }}</h4>
+                            {% if p.tech_stack %}
+                                <span style="background: #f5f3ff; color: #6d28d9; font-size: 10px; font-weight: 700; padding: 4px 10px; border-radius: 100px;">{{ p.tech_stack }}</span>
+                            {% endif %}
+                        </div>
+                    </a>
+                    <div style="padding: 15px; border-top: 1px dashed var(--border); display: flex; justify-content: space-between; align-items: center;">
+                        <a href="{% url 'project_delete' p.id %}" style="text-decoration: none; color: #ef4444; font-size: 12px; font-weight: 600;">🗑️ Delete</a>
+                        {% if p.live_link %}
+                            <a href="{{ p.live_link }}" target="_blank" style="text-decoration: none; color: var(--primary); font-size: 12px; font-weight: 600;">🚀 Live View</a>
+                        {% endif %}
+                        {%if p.project_link%}
+                        <a href="{{ p.project_link }}" target="_blank" style="text-decoration: none; color: var(--primary); font-size: 12px; font-weight: 600;">Code Base</a>
+                        {%endif%}
+
+                    </div>
+                </div>
+                {% empty %}
+                <div style="grid-column: 1/-1; text-align: center; padding: 50px; background: white; border-radius: 20px; border: 2px dashed var(--border);">
+                    <p style="color: var(--text-light);">No projects found. Start by adding one!</p>
+                </div>
+                {% endfor %}
+            </div>
+        </main>
+    </div>
+    <script>
+        document.getElementById('copyLinkBtn').addEventListener('click', function() {
+            const link = window.location.origin + document.getElementById('profileLink').getAttribute('href');
+            navigator.clipboard.writeText(link).then(() => {
+                const icon = document.getElementById('copyIcon');
+                icon.innerText = '✅';
+                setTimeout(() => icon.innerText = '📋', 2000);
+            });
+        });
+    </script>
+</body>
+</html>

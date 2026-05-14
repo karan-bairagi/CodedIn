@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CodeIn</title>
+    <link href="googleapis.com" rel="stylesheet">
+    <link rel="icon" type="image/png" href="https://upload.wikimedia.org/wikipedia/commons/thumb/1/18/C_Programming_Language.svg/960px-C_Programming_Language.svg.png?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=thumbnail&_=20201031132917">
+    <style>
+        :root {
+            --bg-main: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #0f172a;
+            --text-muted: #64748b;
+            --border-color: #e2e8f0;
+            --accent-primary: #4f46e5;
+            --accent-gradient: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            --danger-main: #ef4444;
+            --danger-bg: #fef2f2;
+            --radius-large: 24px;
+            --radius-medium: 16px;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', -apple-system, sans-serif;
+            background-color: var(--bg-main);
+            margin: 0;
+            padding: 0;
+            color: var(--text-main);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
+        }
+        .settings-navbar {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(226, 232, 240, 0.8);
+            padding: 16px 40px;
+            display: flex;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .brand-logo {
+            font-size: 22px;
+            font-weight: 800;
+            background: var(--accent-gradient);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+            letter-spacing: -0.5px;
+            text-decoration: none;
+        }
+        .settings-shell {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 24px;
+            display: flex;
+            flex-direction: column;
+            gap: 32px;
+            box-sizing: border-box;
+        }
+        .identity-banner-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-large);
+            padding: 32px;
+            display: flex;
+            align-items: center;
+            gap: 24px;
+            box-shadow: 0 4px 6px -1px rgba(15, 23, 42, 0.01);
+            box-sizing: border-box;
+        }
+        .avatar-circle-wrapper {
+            position: relative;
+            padding: 4px;
+            background: var(--accent-gradient);
+            border-radius: 50%;
+            width: 96px;
+            height: 96px;
+            box-shadow: 0 10px 20px -5px rgba(79, 70, 229, 0.2);
+            box-sizing: border-box;
+            flex-shrink: 0;
+        }
+        .avatar-img-element {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            object-fit: cover;
+            object-position: top;
+            display: block;
+            background: white;
+            border: 2px solid white;
+            box-sizing: border-box;
+        }
+        .avatar-emoji-fallback {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background-color: #ffffff;
+            text-align: center;
+            line-height: 84px;
+            color: #64748b;
+            font-size: 34px;
+            box-sizing: border-box;
+            display: block;
+        }
+        .identity-meta h2 {
+            margin: 0 0 4px 0;
+            font-size: 22px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        .identity-meta p {
+            margin: 0;
+            font-size: 14px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+        .menu-options-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+            gap: 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .settings-menu-node {
+            background: var(--bg-card);
+            border: 1px solid var(--border-color);
+            border-radius: var(--radius-medium);
+            padding: 24px;
+            text-decoration: none;
+            color: inherit;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-sizing: border-box;
+            height: 160px;
+            transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .settings-menu-node:hover {
+            transform: translateY(-4px);
+            border-color: #cbd5e1;
+            box-shadow: 0 12px 20px -5px rgba(0, 0, 0, 0.03);
+        }
+        .node-top-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .node-badge-icon {
+            font-size: 22px;
+            margin-bottom: 4px;
+            display: block;
+        }
+        .node-header-title {
+            margin: 0;
+            font-size: 16px;
+            font-weight: 700;
+            color: var(--text-main);
+            letter-spacing: -0.2px;
+        }
+        .node-subtitle-desc {
+            margin: 0;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+            line-height: 1.4;
+        }
+        .node-action-arrow {
+            font-size: 13px;
+            font-weight: 700;
+            color: var(--accent-primary);
+            align-self: flex-end;
+            transition: transform 0.2s;
+        }
+        .settings-menu-node:hover .node-action-arrow {
+            transform: translateX(4px);
+        }
+        .danger-menu-node {
+            border-color: #fca5a5;
+        }
+        .danger-menu-node:hover {
+            background-color: var(--danger-bg);
+            border-color: var(--danger-main);
+            box-shadow: 0 12px 20px -5px rgba(239, 68, 68, 0.05);
+        }
+        .danger-menu-node .node-action-arrow {
+            color: var(--danger-main);
+        }
+        @media (max-width: 768px) {
+            .settings-navbar {
+                padding: 16px 20px;
+            }
+            .settings-shell {
+                margin: 20px auto;
+                padding: 0 16px;
+                gap: 20px;
+            }
+            .identity-banner-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 24px;
+                gap: 16px;
+            }
+            .menu-options-grid {
+                grid-template-columns: 1fr;
+                gap: 14px;
+            }
+            .settings-menu-node {
+                height: auto;
+                min-height: 120px;
+                gap: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <nav class="settings-navbar">
+        <a href="{% url 'dashboard' %}" class="brand-logo">CodeIn</a>
+    </nav>
+    <div class="settings-shell">
+            <div class="avatar-circle-wrapper">
+                {% if user.userprofile.profile %}
+                    <img src="{{ user.userprofile.profile.url }}" class="avatar-img-element" alt="Profile Asset">
+                {% else %}
+                    <div class="avatar-emoji-fallback">{{user.username|make_list|first|upper}}</div>
+                {% endif %}
+            </div>
+                <h2>Account Settings Control Hub</h2>
+                <p>Manage your developer identity values, credentials security, and public routing structures.</p>
+            </div>
+        </div>
+        <div class="menu-options-grid">
+            <a href="{% url 'dashboard' %}" class="settings-menu-node">
+                <div class="node-top-meta">
+                    <span class="node-badge-icon">🏠</span>
+                    <h3 class="node-header-title">Home Dashboard</h3>
+                    <p class="node-subtitle-desc">Return back to your primary engineering track workspace and project repositories catalog.</p>
+                </div>
+                <span class="node-action-arrow">Back Home &rarr;</span>
+            </a>
+            <a href="{% url 'personal' %}" class="settings-menu-node">
+                <div class="node-top-meta">
+                    <span class="node-badge-icon">👤</span>
+                    <h3 class="node-header-title">My Personal Profile</h3>
+                    <p class="node-subtitle-desc">Monitor or update your essential verification assets like full name, username handles, and contacts.</p>
+                </div>
+                <span class="node-action-arrow">View Details &rarr;</span>
+            </a>
+            <a href="{% url 'check' %}" class="settings-menu-node">
+                <div class="node-top-meta">
+                    <span class="node-badge-icon">🔒</span>
+                    <h3 class="node-header-title">Change Account Password</h3>
+                    <p class="node-subtitle-desc">Trigger a multi-step password adjustment module backed up with secure dynamic email alerts validation.</p>
+                </div>
+                <span class="node-action-arrow">Update Security &rarr;</span>
+            </a>
+            <a href="{% url 'public_visibility' %}" class="settings-menu-node">
+                <div class="node-top-meta">
+                    <span class="node-badge-icon">⚙️</span>
+                    <h3 class="node-header-title">Profile Visibility</h3>
+                    <p class="node-subtitle-desc">Configure advanced visibility rules toggles to shift between global public visibility networks vs private modes.</p>
+                </div>
+                <span class="node-action-arrow">Modify Preferences &rarr;</span>
+            </a>
+            <a href="{% url 'delete_confirm' %}" class="settings-menu-node danger-menu-node">
+                <div class="node-top-meta">
+                    <span class="node-badge-icon">🗑️</span>
+                    <h3 class="node-header-title" style="color: var(--danger-main);">Delete Account</h3>
+                    <p class="node-subtitle-desc">Permanently erase your identity, linked models, deployment blueprints, and project metrics tracking catalogs forever.</p>
+                </div>
+                <span class="node-action-arrow">Terminate Profile &rarr;</span>
+            </a>
+        </div>
+    </div>
+</body>
+</html>
