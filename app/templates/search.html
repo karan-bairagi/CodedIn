@@ -145,7 +145,7 @@
                     <a href="{% url 'public' u.username %}" class="developer-row-card">
                         <div class="avatar-frame">
                             {% if u.userprofile.profile %}
-                                <img src="{{ u.userprofile.profile }}" class="avatar-img" alt="Profile pic">
+                                <img src="{{ u.userprofile.profile.url }}" class="avatar-img" alt="Profile pic">
                             {% else %}
                                 <div class="avatar-letter">
                                     {{ u.username|make_list|first|upper }}

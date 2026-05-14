@@ -221,7 +221,7 @@
     <div class="settings-shell">
             <div class="avatar-circle-wrapper">
                 {% if user.userprofile.profile %}
-                    <img src="{{ user.userprofile.profile }}" class="avatar-img-element" alt="Profile Asset">
+                    <img src="{{ user.userprofile.profile.url }}" class="avatar-img-element" alt="Profile Asset">
                 {% else %}
                     <div class="avatar-emoji-fallback">{{user.username|make_list|first|upper}}</div>
                 {% endif %}

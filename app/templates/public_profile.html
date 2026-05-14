@@ -267,7 +267,7 @@
         <aside class="sidebar-panel">
             <div class="avatar-frame">
                 {% if user.userprofile.profile %}
-                    <img src="{{ user.userprofile.profile }}" class="avatar-img" alt="Profile Picture">
+                    <img src="{{ user.userprofile.profile.url }}" class="avatar-img" alt="Profile Picture">
                 {% else %}
                     <div class="avatar-emoji">{{user.username|make_list|first|upper}}</div>
                 {% endif %}

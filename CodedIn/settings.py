@@ -34,6 +34,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary_storage',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -139,5 +140,13 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
+
+CLOUDINARY_STORAGE = {
+    'CLOUD_NAME': os.environ.get('CLOUD_NAME'),
+    'API_KEY': os.environ.get('CLOUD_API_KEY'),
+    'API_SECRET': os.environ.get('CLOUD_API_SECRET')
+}
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
 
 

@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 class UserProfile(models.Model):
     user=models.OneToOneField(User,on_delete=models.CASCADE)
     full_name=models.CharField(max_length=40)
-    profile=models.TextField(null=True,blank=True)
+    profile=models.ImageField(upload_to='profiles/')
     tagline=models.CharField(max_length=200)
     about_me=models.TextField()
     Mobile=models.CharField(max_length=10)
@@ -19,7 +19,7 @@ class UserProfile(models.Model):
 class ProjectCard(models.Model):
     creator=models.ForeignKey(User,on_delete=models.CASCADE)
     title=models.CharField(max_length=60)
-    thumbnail=models.TextField(null=True,blank=True)
+    thumbnail=models.ImageField(upload_to='projects/')
     tech_stack=models.CharField(max_length=300)
     project_link=models.URLField()
     live_link=models.URLField(null=True,blank=True)
