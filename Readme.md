@@ -1,178 +1,286 @@
 # 🚀 CodeIn — Developer Portfolio & Project Showcase Platform
 
-<div align="center">
+![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
+![Django](https://img.shields.io/badge/Django-6.0-green?logo=django)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue?logo=postgresql)
+![Deployment](https://img.shields.io/badge/Render-Live-black?logo=render)
 
-[![Django](https://img.shields.io/badge/Django-5.2-green?style=for-the-badge&logo=django)](https://www.djangoproject.com/)
-[![Python](https://img.shields.io/badge/Python-3.13-blue?style=for-the-badge&logo=python)](https://www.python.org/)
-[![PostgreSQL](https://img.shields.io/badge/Database-PostgreSQL-blue?style=for-the-badge&logo=postgresql)](https://www.postgresql.org/)
-[![Deployment](https://img.shields.io/badge/Deployment-Render-black?style=for-the-badge&logo=render)](https://codedin.onrender.com)
+### Build. Showcase. Grow as a Developer.
 
-<h3>Build. Showcase. Grow as a Developer.</h3>
-
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Application-Click_Here_To_Visit-6366f1?style=for-the-badge&logo=google-chrome&logoColor=white)](https://codedin.onrender.com)
-
-<br>
-
-CodeIn is a production-grade developer portfolio platform engineered with Django and cloud-hosted PostgreSQL. It empowers software engineers to deploy public portfolios, manage active repositories, track profile metrics, and securely govern their cloud identity in one integrated ecosystem.
-
-</div>
+🌐 **Live Demo:** https://codedin.onrender.com/
 
 ---
 
-# 👨‍💻 The Engineer Behind the Code
+## 📌 About CodeIn
 
-Hi, I am **Karan Bairagi**, a 17-year-old Backend Engineer. 
+CodeIn is a production-grade developer portfolio platform built with Django and cloud-hosted PostgreSQL. It enables developers to create public portfolios, manage projects, track profile analytics, and securely manage account identity inside one integrated platform.
 
-In March 2025, right after passing my 10th-grade exams, I chose an unconventional path—I moved to Hyderabad and joined **Naresh i Technologies** to master core software architecture. Skipping traditional 11th-grade schooling to dedicate 100% of my focus to code, I mastered C and Python Full Stack. 
+The project focuses heavily on:
+- Backend architecture
+- Secure authentication systems
+- Database integrity
+- Production deployment workflows
+- User account recovery systems
 
-> 💡 **Engineering Philosophy:** I don't specialize in complex UI/CSS layouts. The frontend interface of CodeIn was generated using AI tools, allowing me to focus entirely on what matters most: **Robust Backend Logic, Complex Database Relational Integrity, and Production-Grade Security Operations.** I engineered CodeIn's entire backend in just **1 week** as a practical challenge.
+---
+
+# 👨‍💻 About the Developer
+
+Hi, I'm **Karan Bairagi**, a 17-year-old backend-focused developer from India.
+
+In March 2025, after completing my 10th-grade exams, I moved to Hyderabad and joined Naresh i Technologies to focus completely on software development and Python Full Stack engineering.
+
+CodeIn was built as a backend engineering challenge where I focused on:
+- Authentication systems
+- Database architecture
+- ORM optimization
+- Security validation
+- Production deployment
+
+💡 **Engineering Philosophy:**  
+Rather than spending most of my time designing complex frontend layouts, I focused heavily on backend logic, relational database structure, authentication workflows, and production-level security operations. The complete backend system for CodeIn was engineered within 1 week as a practical challenge.
+
+---
+
+# 🛠️ The Tech Stack
+
+| Technology Area | Stack Used |
+|---|---|
+| Backend Framework | Django 6.0 (Python 3.13) |
+| Database Engine | Supabase (Cloud PostgreSQL) |
+| Media Storage | Cloudinary |
+| Deployment Platform | Render |
+| Authentication | Django Auth System |
+| Security | PBKDF2 Password Hashing + Secure Tokens |
+| ORM | Django ORM |
+| File Handling | Django Media & Cloudinary |
 
 ---
 
 # ✨ Core Features
 
-## 👤 Advanced Authentication & Identity Security Engine
-- **Custom Multi-Step Auth Flow:** Session-based login validation and registration pipelines.
-- **Crypto-Hashing Layer:** Multi-tier password hashing using Django's built-in secure crypto hashers (`PBKDF2`).
-- **Protected Route Gates:** Account routes and user views strictly governed by customized `@login_required` metadata.
-- **Zero-Gateway Secure Password Recovery:** Multi-step wizard layout for forgotten passwords that bypasses third-party networks (relying entirely on internal cryptographic assertions).
-- **Two-Factor Secret Challenge:** Intercepts recovery attempts with a secure dropdown list of predefined security questions matched against a small-case stripped verification matrix.
-- **Ephemeral Alpha-Numeric Tokens:** Generates cryptographically secure 12-character alpha-numeric authorization passes using Python's `secrets` module, embedded with an automatic 10-minute expiry checkpoint on the server side.
-- **Manual Account Rescue System:** Implemented a fail-safe manual override tunnel (`SupportTicket`). If a user forgets both their password and security answer, they can request manual recovery via a **Three-Point Identity Cross-Verification** model (Matching Full Name, Email, and Mobile Signatures) routed straight to the Django Administration dashboard.
+## 👤 Authentication & Security System
+
+- Multi-step authentication and registration workflow
+- Secure password hashing using Django PBKDF2 hashers
+- Protected account routes using `@login_required`
+- Secure password recovery system
+- Security question-based identity verification
+- 12-character secure recovery token generation using Python `secrets`
+- Automatic 10-minute token expiration handling
+- Manual account recovery support system through Support Tickets
+
+---
 
 ## 🧑‍💻 Developer Profile Ecosystem
-- Dynamic profile fields rendering full name, profile image assets, taglines, and markdown bios.
-- Cloud routing links to connect active GitHub and LinkedIn handles.
-- **Privacy Control Toggle:** Instant shift between Global Public Visibility vs Secure Private Modes (replaces standard 404 sheets with modern Instagram-style lock views).
+
+- Dynamic developer profile pages
+- Profile image uploads
+- Taglines and markdown-style bios
+- GitHub and LinkedIn profile integration
+- Public / Private profile visibility toggle
+- Instagram-style private profile lock interface
+
+---
 
 ## 📦 Project Showcase System
-- Individual repository cards to push project titles, tech-stack tags, source code databases, and live URLs.
-- Built-in safe asset filters (`accept="image/*"`) on file input nodes.
-- Full CRUD execution controls directly tied to session owner constraints.
+
+- Add and manage project repositories
+- Tech stack tagging system
+- Live project and source code links
+- Secure image uploads using `accept="image/*"`
+- Full CRUD operations restricted to account owners
+
+---
 
 ## 🔍 Smart Search Architecture
-- Real-time directory lookups matching username handles, names, and taglines.
-- Implemented using complex Django ORM `Q` expressions to evaluate loose keyword sequences safely.
 
-## 👀 Analytical Visitor Tracking
-- Profile metrics engine storing isolated timestamps for incoming requests.
-- Unique counter tracking public repository views directly on the user's control board.
+- Real-time developer profile search
+- Username, name, and tagline matching
+- Implemented using advanced Django ORM `Q` expressions
 
 ---
 
-# 🔐 Strict Form Validation Matrix
+## 👀 Visitor Analytics System
 
-Advanced custom validation routines written into `forms.py` to protect database health:
-
-### 🔹 Username Validation
-- Absolute restriction on whitespace, special characters, and repeated periods.
-- Enforced minimum and maximum boundary scales.
-- Real-time duplicate registration blocking.
-
-### 🔹 Cryptographic Password Guard
-- Enforced alphanumeric strength (at least one Uppercase, Lowercase, Number, and Special character).
-- Hardcoded dictionary blocks against common weak passwords.
-
-### 🔹 Telephony & Email Validation
-- Enforced structure matching the Indian national formatting guidelines (10-digit strict regex).
-- Suppression of repeated sequences and invalid mobile patterns.
-- Whitelisted validation checks targeting authoritative mail service providers only.
+- Unique profile visitor tracking
+- Repository view monitoring
+- Timestamp-based analytics storage
 
 ---
 
-# 🛠 Tech Stack & Architecture
+# 🔐 Advanced Form Validation
 
+Custom validation systems built inside `forms.py` to protect database integrity and improve account security.
 
+---
 
-| Layer | Technology | Operational Focus |
-|---|---|---|
-| **Backend** | Python | Core logic, structural validations, and session handlers |
-| **Framework** | Django | MVT Engine, routing, middleware orchestration |
-| **Database** | Supabase (PostgreSQL) | Enterprise cloud relational data mapping & query execution |
-| **Storage** | Django Media | User file assets, avatars, project cards |
-| **Security** | Crypto Tokens | Environment protection, `secrets` alpha-numeric token generation, string mapping |
-| **Identity Verification** | Internal Challenge | Double-layer verification using encrypted question-answer sets |
-| **Account Overrides** | Support Matrix | Multi-point manual rescue ticket parsing for locked profiles |
+## 🔹 Username Validation
+
+- Restricts whitespace and invalid special characters
+- Prevents repeated periods
+- Username length boundary validation
+- Duplicate account prevention
+
+---
+
+## 🔹 Password Validation
+
+- Requires:
+  - Uppercase letters
+  - Lowercase letters
+  - Numbers
+  - Special characters
+- Blocks common weak passwords
+
+---
+
+## 🔹 Email & Mobile Validation
+
+- Indian mobile number regex validation
+- Invalid pattern suppression
+- Duplicate sequence prevention
+- Trusted email provider validation
 
 ---
 
 # 📂 Database Schema Design
 
-### 🔷 `UserProfile`
-Tracks core user attributes: Full name, uploaded avatar paths, descriptive taglines, linked external platforms, security boolean flags (public/private), audience view integers, along with standard columns for `security_question` text hashes and `security_answer` data nodes.
+## 🔷 UserProfile
 
-### 🔷 `ProjectCard`
-Maps external assets: Multi-string tech tags, repository links, direct application pointers, and unique title strings bound to a User instance via a `ForeignKey`.
-
-### 🔷 `ProfileVisitor`
-Audit model: Captures relation parameters linking profile owners to distinct viewer keys coupled with automatic `auto_now_add` timestamps.
-
-### 🔷 `SupportTicket`
-Manual override logger: Captures account rescue details containing `user_email`, a status flag defaulted to `'Pending'`, and system validation notes paired with chronological tracking elements.
+Stores:
+- Full name
+- Profile image
+- Tagline
+- Bio
+- Social links
+- Public/private visibility
+- Profile analytics
+- Security questions & answers
 
 ---
 
-# ⚙️ Local Installation & Development Staging
+## 🔷 ProjectCard
 
-### 1️⃣ Clone the Ecosystem
+Stores:
+- Project title
+- Tech stack tags
+- Repository links
+- Live URLs
+- User relation via ForeignKey
+
+---
+
+## 🔷 ProfileVisitor
+
+Tracks:
+- Profile visits
+- Viewer relationships
+- Automatic timestamps using `auto_now_add`
+
+---
+
+## 🔷 SupportTicket
+
+Handles:
+- Manual account recovery requests
+- User verification workflow
+- Admin-side validation notes
+- Ticket status tracking
+
+---
+
+# ⚙️ Local Installation
+
+## 1️⃣ Clone Repository
+
 ```bash
-git clone https://github.com
+git clone https://github.com/karanbairagivaidik57-web/CodedIn.git
 cd CodedIn
 ```
 
-### 2️⃣ Staging the Environment
+## 2️⃣ Create Virtual Environment
+
 ```bash
 python -m venv env
-# On Windows:
+```
+
+### Windows
+```bash
 env\Scripts\activate
-# On Linux/Mac:
+```
+
+### Linux / Mac
+```bash
 source env/bin/activate
 ```
 
-### 3️⃣ Resolve Dependencies
+---
+
+## 3️⃣ Install Dependencies
+
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4️⃣ Database Architecture Migration
+---
+
+## 4️⃣ Run Database Migrations
+
 ```bash
 python manage.py makemigrations
 python manage.py migrate
 ```
 
-### 5️⃣ Run Local Staging Server
+---
+
+## 5️⃣ Start Development Server
+
 ```bash
 python manage.py runserver
 ```
 
 ---
 
-# 🚀 Production Deployment Staging (Render + Supabase)
+# 🚀 Production Deployment
 
-This architecture is configured to securely separate secrets from code using environment variables. When deploying to **Render**, inject the following keys into the **Environment Variables** control board:
+CodeIn uses environment variables to securely separate sensitive credentials from source code.
 
+### Required Environment Variables
 
-
-| Variable Key | Operational Value |
+| Variable | Value |
 |---|---|
-| `DJANGO_SECRET_KEY` | Your unique production cryptographic key |
-| `DEBUG` | Set to `False` |
-| `DB_NAME` | Your Supabase database name |
-| `DB_USER` | Your Supabase database user (postgres) |
-| `DB_PASSWORD` | Your secure Supabase database password |
-| `DB_HOST` | Your Supabase database connection host URL |
-| `DB_PORT` | `5432` |
+| DJANGO_SECRET_KEY | Your production secret key |
+| DEBUG | False |
+| DB_NAME | Supabase database name |
+| DB_USER | Supabase postgres user |
+| DB_PASSWORD | Database password |
+| DB_HOST | Supabase host |
+| DB_PORT | 5432 |
+| CLOUD_NAME | Your Cloudinary cloud name |
+| CLOUD_API_KEY | Your Cloudinary API key |
+| CLOUD_API_SECRET | Your Cloudinary API secret |
 
 ---
 
-# 📜 Contact & Connect
-- **LinkedIn:** [Karan Bairagi](https://www.linkedin.com/in/karan-bairagi/)
-- **GitHub Profile:** [@karanbairagivaidik57-web](https://github.com)
+# 📸 Project Preview
+
+### 🖥️ Developer Dashboard
+![Dashboard](images/dashboard.png)
+
+### 🧑‍💻 User Profile View
+![Profile](images/profile.png)
+
 
 ---
 
-<div align="center">
+# 📜 Connect With Me
 
-### ⭐ If this project inspired your backend architecture journey, feel free to drop a Star!
+- GitHub: https://github.com/karanbairagivaidik57-web
+- LinkedIn: https://www.linkedin.com/in/karan-bairagi/
 
-</div>
+---
+
+# ⭐ Support
+
+If this project inspired your backend development journey, feel free to leave a ⭐ on the repository.
