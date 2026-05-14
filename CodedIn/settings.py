@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     'app',
 ]
 MIDDLEWARE = [
+    'django.middleware.gzip.GZipMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -84,6 +85,7 @@ DATABASES = {
         'HOST':os.environ.get('DB_HOST'),
         'USER':os.environ.get('DB_USER'),
         'PORT':os.environ.get('DB_PORT'),
+        'CONN_MAX_AGE': 60,
     }
 }
 
@@ -131,4 +133,11 @@ MEDIA_ROOT=os.path.join(BASE_DIR,'media')
 SESSION_COOKIE_AGE = 2592000
 SESSION_SAVE_EVERY_REQUEST=False
 SESSION_EXPIRE_AT_BROWSER_CLOSE=False
+
+STORAGES = {
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 
