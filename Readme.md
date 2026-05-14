@@ -266,10 +266,11 @@ CodeIn uses environment variables to securely separate sensitive credentials fro
 # 📸 Project Preview
 
 ### 🖥️ Developer Dashboard
-![Dashboard](images/dashboard.png)
+![Dashboard](CodedIn/images/dashboard.png)
 
 ### 🧑‍💻 User Profile View
-![Profile](images/profile.png)
+![Profile](CodedIn/images/profile.png)
+
 
 
 ---
