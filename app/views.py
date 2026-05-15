@@ -77,6 +77,7 @@ def Dashboard(request):
     sv=ProjectCard.objects.filter(creator=find)
     all_data=ProfileVisitor.objects.filter(profile_owver=find).order_by('-profile_visitor_time')
     return render(request,'dashboard.html',{'user':user_obj,'project':sv,'all_viewrs':all_data})
+@login_required
 def logout(request):
     request.session.flush()
     return redirect('user_login')
@@ -265,7 +266,7 @@ def personal_update(request):
     }
     f=Personal_Form(instance=find,initial=old_data)
     return render(request,'personal_update.html',{'f':f})
-
+@login_required
 def change_password(request):
     user_id=request.session.get('id')
     find=User.objects.get(id=user_id)
@@ -283,7 +284,7 @@ def change_password(request):
             return render(request,'check_password.html',{'f':f})
     f=check_password_Form()
     return render(request,'check_password.html',{'f':f})
-
+@login_required
 def reset_password(request):
     user_id=request.session.get('id')
     find=User.objects.get(id=user_id)
@@ -303,7 +304,7 @@ def reset_password(request):
             return render(request,'reset_password.html',{'f':f})
     f=Forgetten_Password_Form()
     return render(request,'reset_password.html',{'f':f})
-
+@login_required
 def Profile_Visibility(request):
     user_id=request.session.get('id')
     find=User.objects.get(id=user_id)
@@ -318,7 +319,7 @@ def Profile_Visibility(request):
     old_visibility={'pvt_pbl':find.userprofile.public_profile}
     f=Public_Profile_Form(initial=old_visibility)
     return render(request,'Profile_Visibility.html',{'f':f})
-
+@login_required
 def search(request):
     if request.method=='POST':
         search=request.POST.get('search')
@@ -373,7 +374,7 @@ def check_security(request):
             return render(request,'check_security.html',{'user':user})
         if user_answer:
             db_answer=user.userprofile.security_answer
-            if user_answer.lower()==db_answer:
+            if user_answer.lower()==db_answer.lower():
                 return redirect('token')
             else:
                 messages.error(request,'Incorrect answer. Please try again')
