@@ -3,11 +3,11 @@
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
 ![Django](https://img.shields.io/badge/Django-6.0-green?logo=django)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue?logo=postgresql)
-![Deployment](https://img.shields.io/badge/Render-Live-black?logo=render)
+![Deployment](https://img.shields.io/badge/Deployment-Vercel-black?logo=vercel)
 
 ### Build. Showcase. Grow as a Developer.
 
-🌐 **Live Demo:** https://codedin.onrender.com/
+🌐 **Live Demo:** https://codein-omega.vercel.app/
 
 ---
 
