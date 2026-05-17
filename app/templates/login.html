@@ -163,7 +163,22 @@
                 margin-top: 40px;
             }
         }
-    </style>
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: ghumo 0.8s linear infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes ghumo {
+            to { transform: rotate(360deg); }
+        }
+
+</style>
 </head>
 <body>
     <div class="login-container">
@@ -179,7 +194,7 @@
                 </div>
                 {% endfor %}
             {% endif %}
-            <form action="" method="POST" novalidate>
+            <form action="" method="POST" novalidate id="formid">
                 {% csrf_token %} 
                 {% for field in f %}
                 <div class="form-group">
@@ -194,7 +209,7 @@
                 <div class="forgot-wrapper">
                     <a href="{% url 'forgetten_password' %}">Forgot password?</a>
                 </div>
-                <button type="submit" class="btn-login">Login</button>
+                <button type="submit" class="btn-login" id="loginid">Login</button>
             </form>
             <div class="login-footer">
                 New to CodeIn?<a href="{% url 'signup' %}">Create an account</a>
@@ -206,5 +221,19 @@
             </div>
         </div>
     </div>
+    <script>
+        const myform=document.getElementById('formid')
+        const mybutton=document.getElementById('loginid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Login';
+                mybutton.disabled=false;
+            }
+        });
+    </script>
 </body>
 </html>

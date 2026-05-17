@@ -510,3 +510,11 @@ def user_request(request):
             return render(request,'request_user.html',{'f':f})
     f=Request_User_Form(initial={'message':default})
     return render(request,'request_user.html',{'f':f})
+
+
+def error(request, exception):
+    return render(request, 'error.html', status=404)
+
+
+def error500(request):
+    return render(request, 'error500.html', status=500)

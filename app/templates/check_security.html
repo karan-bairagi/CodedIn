@@ -169,6 +169,20 @@
                 width: 100%;
             }
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: ghumo 0.8s linear infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes ghumo {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -178,7 +192,7 @@
             <div class="brand-line"></div>
         </div>
         <div class="page-title">Identity Verification</div>
-        <form action="" method="POST">
+        <form action="" method="POST" id="myform">
             {% csrf_token %}
             {% if user.userprofile.security_question %}
             <div class="question-box">
@@ -218,9 +232,23 @@
             {% endif %}
             <div class="controls-matrix">
                 <a href="{% url 'forgetten_password' %}" class="btn-exit">Exit</a>
-                <button type="submit" class="btn-verify">Verify Identity</button>
+                <button type="submit" class="btn-verify" id="myid">Verify Identity</button>
             </div>
         </form>
     </div>
+    <script>
+        const myform=document.getElementById('myform')
+        const mybutton=document.getElementById('myid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='Verify Identity...<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        })
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Verify Identity';
+                mybutton.disabled=false;
+            }
+        });
+    </script>
 </body>
 </html>

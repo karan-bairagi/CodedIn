@@ -200,6 +200,20 @@
                 color: #475569;
             }
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: ghumo 0.8s linear infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes ghumo {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -208,7 +222,7 @@
             <h1 class="panel-title">✏️ Edit Personal Details</h1>
             <p class="panel-subtitle">Update your credentials. Unique fields will be auto-verified.</p>
         </div>
-        <form action="" method="POST" novalidate>
+        <form action="" method="POST" novalidate id="myform">
             {% csrf_token %}
             <div class="form-group-wrapper">
                 {% for field in f %}
@@ -232,9 +246,23 @@
                 <button type="button" class="btn-cancel-fallback">
                     <a href="{% url 'personal' %}">Cancel</a>
                 </button>
-                <button type="submit" class="btn-control btn-submit-action">Save Changes</button>
+                <button type="submit" class="btn-control btn-submit-action" id="myid">Save Changes</button>
             </div>
         </form>
     </div>
+    <script>
+        const myform=document.getElementById('myform')
+        const mybutton=document.getElementById('myid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='Saving...<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Save Changes';
+                mybutton.disabled=false;
+            }
+        });
+    </script>
 </body>
 </html>

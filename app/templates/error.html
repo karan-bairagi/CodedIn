@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Page Not Found | 404</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+        body {
+            background-color: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: #ffffff;
+            padding: 30px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+            width: 100%;
+            max-width: 380px;
+        }
+        .illustration {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin-bottom: 20px;
+        }
+        .human {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 100px;
+        }
+        .head {
+            width: 24px;
+            height: 24px;
+            background: #0073b1;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .body-trunk {
+            width: 36px;
+            height: 50px;
+            background: #0073b1;
+            border-radius: 8px 8px 0 0;
+            margin: 4px auto 0 auto;
+            position: relative;
+        }
+        .telescope {
+            position: absolute;
+            top: 15px;
+            right: -35px;
+            width: 45px;
+            height: 8px;
+            background: #004b7c;
+            transform: rotate(-15deg);
+            border-radius: 0 4px 4px 0;
+            animation: searchLeftRight 3s ease-in-out infinite alternate;
+            transform-origin: left center;
+        }
+        .arm {
+            position: absolute;
+            top: 12px;
+            right: -10px;
+            width: 20px;
+            height: 8px;
+            background: #0073b1;
+            transform: rotate(-15deg);
+        }
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 150px;
+            height: 4px;
+            background: #b3b3b3;
+            border-radius: 2px;
+        }
+        @keyframes searchLeftRight {
+            0% { transform: rotate(-10deg); }
+            100% { transform: rotate(-30deg); }
+        }
+        .text-content {
+            width: 100%;
+        }
+        h1 {
+            font-size: 22px;
+            font-weight: 600;
+            color: #000000e6;
+            margin-bottom: 10px;
+        }
+        p {
+            font-size: 15px;
+            color: #00000099;
+            line-height: 1.4;
+            margin-bottom: 24px;
+        }
+        .btn-home {
+            display: inline-block;
+            background-color: transparent;
+            color: #0073b1;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 8px 24px;
+            text-decoration: none;
+            border: 1px solid #0073b1;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+        }
+        .btn-home:hover {
+            background-color: rgba(0, 115, 177, 0.04);
+            border-width: 2px;
+            padding: 7px 23px;
+        }
+        @media (min-width: 768px) {
+            .error-container {
+                flex-direction: row;
+                text-align: left;
+                align-items: center;
+                max-width: 750px;
+                padding: 50px 40px;
+                gap: 50px;
+            }
+            .illustration {
+                margin-bottom: 0;
+                flex-shrink: 0;
+            }
+            h1 {
+                font-size: 26px;
+            }
+            p {
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+   <div class="error-container">
+       <div class="illustration">
+           <div class="human">
+               <div class="head"></div>
+               <div class="body-trunk">
+                   <div class="arm"></div>
+                   <div class="telescope"></div>
+               </div>
+           </div>
+           <div class="ground"></div>
+       </div>
+       <div class="text-content">
+           <h1>This page doesn't exist</h1>
+           <p>Please check the URL or the project ID you entered. The project may have been deleted or moved permanently.</p>
+          <a href="{% url 'dashboard' %}" class="btn-home">Go to Home</a>
+       </div>
+   </div>
+</body>
+</html>

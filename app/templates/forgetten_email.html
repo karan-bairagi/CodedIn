@@ -169,6 +169,20 @@
                 margin-top: 40px;
             }
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: ghumo 0.8s linear infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes ghumo {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -192,7 +206,7 @@
                     {% endif %}
                 {% endfor %}
             {% endif %}
-            <form action="" method="POST" novalidate>
+            <form action="" method="POST" novalidate id="formid">
                 {% csrf_token %}    
                 {% for field in f %}
                 <div class="form-group">
@@ -204,12 +218,26 @@
                     {% endif %}
                 </div>
                 {% endfor %}
-                <button type="submit" class="btn-submit">Proceed to Verification</button>
+                <button type="submit" class="btn-submit" id="myid">Proceed to Verification</button>
                 <div class="btn-cancel">
                     <a href="{% url 'user_login' %}">Cancel</a>
                 </div>
             </form>
         </div>
     </div>
+    <script>
+        const mybutton=document.getElementById('myid')
+        const myform=document.getElementById('formid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Proceed to Verification';
+                mybutton.disabled=false;
+            }
+        });
+    </script>
 </body>
 </html>

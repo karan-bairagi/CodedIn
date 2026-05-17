@@ -128,14 +128,56 @@
         }
         .url-box { width: 100%; margin: 20px 0; background: #f8fafc; padding: 12px; border-radius: 12px; border: 1px solid var(--border); }
         .scroll-list { max-height: 200px; overflow-y: auto; scrollbar-width: thin; }
+        .app-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.5);
+            backdrop-filter: blur(5px);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        .instagram-spinner {
+            width: 36px;
+            height: 36px;
+            border: 3px solid #e2e8f0;
+            border-radius: 50%;
+            border-top-color: #f43f5e;
+            animation: smooth-spin 0.7s linear infinite;
+        }
+        .loader-text {
+            margin-top: 14px;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: #334155;
+            letter-spacing: 0.2px;
+        }
+        @keyframes smooth-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
+<div class="app-loader" style="display: none;">
+    <div class="instagram-spinner"></div>
+    <p class="loader-text">Logging you out securely...</p>
+</div>
+<div class="app-loader" style="display: none;" id="onlyspinner">
+    <div class="instagram-spinner"></div>
+</div>
     <nav class="nav-container">
         <a href="#" class="nav-logo">CodeIn</a>
         <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="{% url 'search' %}" style="text-decoration: none; color: var(--primary); font-weight: 600; font-size: 13px; padding: 8px 15px; border: 1.5px solid var(--border); border-radius: 20px; background: #f8fafc;">Search</a>
-            <a href="{% url 'logout' %}" style="text-decoration: none; color: #f43f5e; font-weight: 600; font-size: 13px;">Logout</a>
+            <a href="{% url 'search' %}" style="text-decoration: none; color: var(--primary); font-weight: 600; font-size: 13px; padding: 8px 15px; border: 1.5px solid var(--border); border-radius: 20px; background: #f8fafc;" class="dash-link">Search</a>
+            <a href="{% url 'logout' %}" style="text-decoration: none; color: #f43f5e; font-weight: 600; font-size: 13px;" id="logoutid">Logout</a>
         </div>
     </nav>
     <div class="main-container">
@@ -153,8 +195,8 @@
             <p style="margin: 5px 0 15px 0; color: #16a34a; font-size: 11px; font-weight: 700; background: #f0fdf4; padding: 4px 12px; border-radius: 100px; text-transform: uppercase;">● Developer</p>
             
             <div style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
-                <a href="{% url 'profile_view' %}" class="add-project-btn" style="text-align: center;">View Profile</a>
-                <a href="{% url 'account' %}" style="text-decoration: none; text-align: center; color: var(--text-light); border: 1px solid var(--border); padding: 10px; border-radius: 12px; font-size: 14px; font-weight: 600;">Account Settings</a>
+                <a href="{% url 'profile_view' %}" class="add-project-btn dash-link" style="text-align: center;">View Profile</a>
+                <a href="{% url 'account' %}" style="text-decoration: none; text-align: center; color: var(--text-light); border: 1px solid var(--border); padding: 10px; border-radius: 12px; font-size: 14px; font-weight: 600;" class="dash-link">Account Settings</a>
             </div>
             <div class="url-box">
                 <span style="font-size: 10px; font-weight: 700; color: var(--text-light); text-transform: uppercase; display: block; margin-bottom: 8px;">Portfolio Link</span>
@@ -197,7 +239,7 @@
                     <h3 style="margin: 0 0 5px 0; font-size: 20px; font-weight: 700;">Your Projects</h3>
                     <p style="margin: 0; font-size: 14px; color: var(--text-light);">Manage and showcase your best work.</p>
                 </div>
-                <a href="{% url 'projectcard' %}" class="add-project-btn">+ New Project</a>
+                <a href="{% url 'projectcard' %}" class="add-project-btn dash-link">+ New Project</a>
             </div>
             <div class="projects-grid">
                 {% for p in project %}
@@ -245,6 +287,28 @@
                 setTimeout(() => icon.innerText = '📋', 2000);
             });
         });
+        const mybutton=document.getElementById('logoutid')
+        const mystyle=document.querySelector('.app-loader')
+        mybutton.addEventListener('click',function(){
+            mystyle.style.display='flex';
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mystyle.style.display='none';
+            }
+        });
+        const myspinner=document.querySelectorAll('.dash-link')
+        const app_loader=document.getElementById('onlyspinner')
+        for(const spinner of myspinner){
+            spinner.addEventListener('click',function(){
+                app_loader.style.display='flex';
+            });
+        };
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                app_loader.style.display='none';
+            }
+        })
     </script>
 </body>
 </html>

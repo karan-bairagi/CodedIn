@@ -134,6 +134,20 @@
                 margin-top: 20px;
             }
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+        to { transform: rotate(360deg); }}
     </style>
 </head>
 <body>
@@ -143,7 +157,7 @@
                 <h1>CodeIn</h1>
                 <p>Join the community of elite developers</p>
             </div>
-            <form action="" method="POST" novalidate>
+            <form action="" method="POST" novalidate id="myform">
                 {% csrf_token %}
                 {% for field in f %}
                 <div class="form-group">
@@ -155,7 +169,7 @@
                     {% endif %}
                 </div>
                 {% endfor %}
-                <button type="submit" class="btn-submit">Create Account</button>
+                <button type="submit" class="btn-submit" id="myid">Create Account</button>
             </form>
             <div class="auth-footer">
                 Already have an account?<a href="{% url 'user_login' %}">Login</a>
@@ -167,5 +181,20 @@
             </div>
         </div>
     </div>
+    <script>
+        const myform=document.getElementById('myform')
+        const mybutton=document.getElementById('myid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.inert='Create Account';
+                mybutton.disabled=false;
+            }
+        });
+    </script>
+
 </body>
 </html>

@@ -51,3 +51,5 @@ urlpatterns = [
     path('token/',token_generate,name='token'),
     path('request/',user_request,name='request_user'),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
+handler404='app.views.error'
+handler500='app.views.error500'

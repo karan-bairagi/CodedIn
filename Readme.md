@@ -109,6 +109,48 @@ Rather than spending most of my time designing complex frontend layouts, I focus
 
 ---
 
+# 🎨 Advanced UX Interactivity & State Management
+
+To mirror production-grade user experience, CodeIn implements an optimized client-side state machine using native JavaScript to eliminate duplicate operations and manage slow network latency.
+
+### 🔷 Hybrid Loading Architecture
+- **Full-Screen App Loaders (`display: flex`)**: Triggered globally on core state transitions like secure account logouts or deep dashboard state changes to explicitly signal background processes to the user.
+- **Inline Component Spinners (`innerHTML`)**: Injected natively inside granular action components (e.g., Form Submissions, Password Reset requests) to keep interaction localized without breaking the UI flow.
+
+### 🔷 Double-Submission Prevention Strategy
+- Triggered immediately on form `'submit'` events.
+- Intercepts form nodes, injects an explicit CSS-animated `<span class="loading-spinner"></span>` wrapper, and sets `element.disabled = true`.
+- Freezes critical boundary interactions to protect the Django backend from duplicate database entries or overlapping atomic POST transactions.
+
+### 🔷 BFCache (Back-Forward Cache) Restoration Rule
+Multi-page applications natively suffer from the hardware BFCache freeze pattern where clicking the hardware back button (`<`) serves a stateful memory snapshot—leaving loaders permanently stuck or buttons frozen. CodeIn bypasses this via memory tracking:
+- Registers a global boundary listener on the **`pageshow`** event context.
+- Isolates browser state flags via **`event.persisted`** to check if the DOM tree was served out of memory cache.
+- Forrupted state trees are instantly unmounted, clearing inline loader markup, and reverting button interaction flags back to `disabled = false`.
+
+---
+
+
+# 🛡️ Global Exception & Routing Architecture (404 & 500)
+
+To handle edge cases where a user alters URLs manually (e.g., trying to access non-existent Project IDs) or when an atomic backend transaction crashes, CodeIn overrides Django's default server errors with responsive, custom-designed templates.
+
+### 🔷 Configure Handlers in Main `urls.py`
+Add these directives at the absolute bottom of your primary routing configuration:
+```python
+handler404 = 'app.views.error'
+handler500 = 'app.views.error500'
+```
+
+### 🔷 Production Fallback Verification
+Django renders custom error nodes exclusively under production constraints. Update your environment state inside `settings.py`:
+```python
+DEBUG = False
+ALLOWED_HOSTS = ['*']  # Permits local environment fallback testing
+```
+
+---
+
 # 🔐 Advanced Form Validation
 
 Custom validation systems built inside `forms.py` to protect database integrity and improve account security.

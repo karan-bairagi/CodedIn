@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Server Error | 500</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: -apple-system, system-ui, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+        }
+        body {
+            background-color: #f3f2ef;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+        .error-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            background: #ffffff;
+            padding: 40px 24px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
+            width: 100%;
+            max-width: 400px;
+        }
+        .illustration {
+            position: relative;
+            width: 160px;
+            height: 150px;
+            margin-bottom: 30px;
+        }
+        .server-box {
+            position: absolute;
+            bottom: 10px;
+            left: 10px;
+            width: 50px;
+            height: 80px;
+            background: #e0e0e0;
+            border: 3px solid #0073b1;
+            border-radius: 6px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-around;
+            padding: 8px;
+        }
+        .server-line {
+            width: 100%;
+            height: 6px;
+            background: #b3b3b3;
+            border-radius: 2px;
+        }
+        .error-light {
+            width: 8px;
+            height: 8px;
+            background: #ff4d4d;
+            border-radius: 50%;
+            position: absolute;
+            top: 12px;
+            right: 12px;
+            animation: blink 0.8s infinite alternate;
+        }
+        .human {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 50px;
+            height: 90px;
+        }
+        .head {
+            width: 22px;
+            height: 22px;
+            background: #0073b1;
+            border-radius: 50%;
+            margin: 0 auto;
+        }
+        .body-trunk {
+            width: 32px;
+            height: 45px;
+            background: #0073b1;
+            border-radius: 6px 6px 0 0;
+            margin: 4px auto 0 auto;
+            position: relative;
+        }
+        .arm-repair {
+            position: absolute;
+            top: 10px;
+            left: -12px;
+            width: 20px;
+            height: 8px;
+            background: #004b7c;
+            transform: rotate(30deg);
+            animation: repairAction 1s ease-in-out infinite alternate;
+            transform-origin: right center;
+            border-radius: 4px 0 0 4px;
+        }
+        .ground {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 160px;
+            height: 4px;
+            background: #b3b3b3;
+            border-radius: 2px;
+        }
+        @keyframes blink {
+            0% { opacity: 0.3; }
+            100% { opacity: 1; box-shadow: 0 0 8px #ff4d4d; }
+        }
+        @keyframes repairAction {
+            0% { transform: rotate(15deg); }
+            100% { transform: rotate(-25deg); }
+        }
+        .text-content {
+            width: 100%;
+        }
+        .error-code {
+            font-size: 14px;
+            font-weight: 700;
+            color: #ff4d4d;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+        h1 {
+            font-size: 24px;
+            font-weight: 600;
+            color: #000000e6;
+            margin-bottom: 12px;
+        }
+        p {
+            font-size: 15px;
+            color: #00000099;
+            line-height: 1.5;
+            margin-bottom: 30px;
+        }
+        .btn-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .btn {
+            display: inline-block;
+            font-weight: 600;
+            font-size: 15px;
+            padding: 10px 24px;
+            text-decoration: none;
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            text-align: center;
+        }
+        .btn-primary {
+            background-color: #0073b1;
+            color: #ffffff;
+            border: 1px solid #0073b1;
+        }
+        .btn-primary:hover {
+            background-color: #004b7c;
+            border-color: #004b7c;
+        }
+        .btn-secondary {
+            background-color: transparent;
+            color: #0073b1;
+            border: 1px solid #0073b1;
+        }
+        .btn-secondary:hover {
+            background-color: rgba(0, 115, 177, 0.04);
+        }
+        @media (min-width: 768px) {
+            .error-container {
+                flex-direction: row;
+                text-align: left;
+                max-width: 800px;
+                padding: 50px 45px;
+                gap: 60px;
+            }
+            .illustration {
+                margin-bottom: 0;
+                flex-shrink: 0;
+                transform: scale(1.1);
+            }
+            h1 {
+                font-size: 28px;
+            }
+            .btn-group {
+                flex-direction: row;
+            }
+        }
+    </style>
+</head>
+<body>
+   <div class="error-container">
+       <div class="illustration">
+           <div class="server-box">
+               <div class="error-light"></div>
+               <div class="server-line"></div>
+               <div class="server-line"></div>
+               <div class="server-line"></div>
+           </div>
+           <div class="human">
+               <div class="head"></div>
+               <div class="body-trunk">
+                   <div class="arm-repair"></div>
+               </div>
+           </div>
+           <div class="ground"></div>
+       </div>
+       <div class="text-content">
+           <div class="error-code">Error 500</div>
+           <h1>Something went wrong on our end</h1>
+           <p>An internal server error occurred. Our technical team has been notified and we are already working to fix the issue. Please try refreshing the page or try again later.</p>
+           <div class="btn-group">
+               <a href="" onclick="window.location.reload(); return false;" class="btn btn-primary">Reload Page</a>
+               <a href="{% url 'dashboard' %}" class="btn btn-secondary">Go to Home</a>
+           </div>
+       </div>
+   </div>
+</body>
+</html>

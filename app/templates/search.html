@@ -130,14 +130,28 @@
             color: #64748b;
             font-size: 14px;
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+        to { transform: rotate(360deg); }}
     </style>
 </head>
 <body>
     <div class="search-container">
-        <form action="" method="POST" class="search-box-form">
+        <form action="" method="POST" class="search-box-form" id="myform">
             {% csrf_token %}
             <input type="text" name="search" class="search-input" value="{{ search|default:'' }}" placeholder="Search username, tagline, name...">
-            <button type="submit" class="search-btn">Search</button>
+            <button type="submit" class="search-btn"id="myid">Search</button>
         </form>
         <div class="results-list">
             {% if data %}
@@ -170,5 +184,19 @@
             {% endif %}
         </div>
     </div>
+    <script>
+        const myform=document.getElementById('myform')
+        const mybutton=document.getElementById('myid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='Searching..';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Search'
+                mybutton.disabled=false;
+            }
+        });
+    </script>
 </body>
 </html>

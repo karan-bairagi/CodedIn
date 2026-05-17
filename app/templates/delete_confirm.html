@@ -150,9 +150,40 @@
                 order: 2;
             }
         }
+
+        #delete-loading-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background-color: rgba(20, 5, 5, 0.95);
+            z-index: 99999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            font-family: sans-serif;
+        }
+        .danger-spinner {
+            width: 55px;
+            height: 55px;
+            border: 5px solid rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            border-top-color: #dc3545;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
+    <div id="delete-loading-overlay" style="display: none;">
+    <div class="danger-spinner"></div>
+    <p style="font-weight: bold; margin-top: 10px;">Deleting your account permanently...</p>
+    <p style="font-size: 13px; color: #ffc107;">Please do not refresh or close this window.</p>
+</div>
     <div class="safety-card-shell">
         <div class="alert-badge-icon">⚠️</div>
         <h1 class="headline-title">Delete Your Account permanently?</h1>
@@ -164,7 +195,7 @@
                 <li>All screenshots, user profiles asset media database information</li>
             </ul>
         </div>
-        <form action="{% url 'delete_user' %}" method="POST">
+        <form action="{% url 'delete_user' %}" method="POST" id="myformdelete">
             {% csrf_token %}   
             <div class="action-controls-row">
                 <a href="{% url 'dashboard' %}" class="btn-base btn-cancel-keep">
@@ -176,5 +207,17 @@
             </div>
         </form>
     </div>
+    <script>
+        const myform=document.getElementById('myformdelete')
+        const mybutton=document.getElementById('delete-loading-overlay')
+        myform.addEventListener('submit',function(){
+            mybutton.style.display='flex';
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.style.display='none';
+            }
+        });
+    </script>
 </body>
 </html>

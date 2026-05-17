@@ -212,9 +212,47 @@
                 gap: 16px;
             }
         }
+        #app-loader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background-color: rgba(255, 255, 255, 0.4); 
+            backdrop-filter: blur(3px);
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            pointer-events: all;
+        }
+        .instagram-spinner {
+            width: 40px;
+            height: 40px;
+            border: 3px solid #e1e1e1;
+            border-radius: 50%;
+            border-top-color: #007bff;
+            animation: insta-spin 0.7s linear infinite;
+        }
+        @media (max-width: 768px) {
+            .instagram-spinner {
+                width: 32px;
+                height: 32px;
+                border-width: 2.5px;
+            }
+        }
+        @keyframes insta-spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
     </style>
 </head>
 <body>
+<div id="app-loader" style="display: none;">
+    <div class="instagram-spinner"></div>
+</div>
+
     <nav class="settings-navbar">
         <a href="{% url 'dashboard' %}" class="brand-logo">CodeIn</a>
     </nav>
@@ -273,5 +311,19 @@
             </a>
         </div>
     </div>
+    <script>
+        const myform=document.querySelectorAll('.settings-menu-node')
+        const mystyle=document.getElementById('app-loader')
+        for(const card of myform){
+            card.addEventListener('click',function(){
+                mystyle.style.display='flex';
+            });
+        };
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mystyle.style.display='none';
+            }
+        });
+    </script>
 </body>
 </html>

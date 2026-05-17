@@ -159,6 +159,20 @@
                 width: 100%;
             }
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 16px;
+            height: 16px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+
+        @keyframes spin {
+        to { transform: rotate(360deg); }}
     </style>
 </head>
 <body>
@@ -174,7 +188,7 @@
             </div>
         </div>
         <div class="form-title">Setup Security Recovery</div>
-        <form action="" method="POST" novalidate>
+        <form action="" method="POST" novalidate id="myform">
             {% csrf_token %}  
             {% for field in f %}
             <div class="form-group">
@@ -191,9 +205,23 @@
             {% endfor %}
             <div class="actions-group">
                 <a href="{% url 'delete_user' %}" class="btn-cancel">Cancel</a>
-                <button type="submit" class="btn-next">Next</button>
+                <button type="submit" class="btn-next" id="myid">Next</button>
             </div>
         </form>
     </div>
+    <script>
+        const mybutton=document.getElementById('myid')
+        const myform=document.getElementById('myform')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Next';
+                mybutton.disabled=false;
+            }
+        });
+    </script>
 </body>
 </html>

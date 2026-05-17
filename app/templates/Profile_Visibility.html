@@ -142,6 +142,20 @@
                 width: 100%;
             }
         }
+        .loading-spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #ffffff;
+            border-radius: 50%;
+            border-top-color: transparent;
+            animation: ghumo 0.8s linear infinite;
+            margin-left: 5px;
+            vertical-align: middle;
+        }
+        @keyframes ghumo {
+            to { transform: rotate(360deg); }
+        }
     </style>
 </head>
 <body>
@@ -150,7 +164,7 @@
             <h2>Account Privacy</h2>
             <p>Control who can view your public profile and projects.</p>
         </div>
-        <form action="" method="POST">
+        <form action="" method="POST" id="myform">
             {% csrf_token %}
             <div class="form-group">
                 {% for field in f %}
@@ -162,12 +176,26 @@
                 </div>
             </div>
             <div class="btn-group">
-                <button type="submit" class="btn-save">Save Changes</button>
+                <button type="submit" class="btn-save" id="myid">Save Changes</button>
                 <button type="button" class="btn-cancel">
                     <a href="{% url 'account' %}">Cancel</a>
                 </button>
             </div>
         </form>
     </div>
+    <script>
+        const myform=document.getElementById('myform')
+        const mybutton=document.getElementById('myid')
+        myform.addEventListener('submit',function(){
+            mybutton.innerHTML='Saving..<span class="loading-spinner"></span>';
+            mybutton.disabled=true;
+        });
+        window.addEventListener('pageshow',function(e){
+            if(e.persisted){
+                mybutton.innerHTML='Save Changes';
+                mybutton.disabled=false;
+            }
+        })
+    </script>
 </body>
 </html>
