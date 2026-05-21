@@ -237,7 +237,7 @@ Handles:
 ## 1️⃣ Clone Repository
 
 ```bash
-git clone https://github.com/karanbairagivaidik57-web/CodedIn.git
+git clone https://github.com/karan-bairagi/CodedIn
 cd CodedIn
 ```
 
