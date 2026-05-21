@@ -319,7 +319,7 @@ CodeIn uses environment variables to securely separate sensitive credentials fro
 
 # 📜 Connect With Me
 
-- GitHub: https://github.com/karanbairagivaidik57-web
+- GitHub: https://github.com/karan-bairagi
 - LinkedIn: https://www.linkedin.com/in/karan-bairagi/
 
 ---
