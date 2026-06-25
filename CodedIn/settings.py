@@ -121,34 +121,16 @@ STORAGES = {
     },
 }
 import os
-import urllib.parse
 
-# 1. रेलवे से पूरा URL स्ट्रिंग उठाओ
+# रेलवे से मिलने वाला डायरेक्ट Redis URL
 REDIS_URL = os.environ.get("REDIS_URL")
 
-if REDIS_URL:
-    # 2. अगर URL मिला (यानी रेलवे पर हो), तो उसे होस्ट, पोर्ट और पासवर्ड में तोड़ो
-    url = urllib.parse.urlparse(REDIS_URL)
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [{
-                    "host": url.hostname,
-                    "port": url.port or 6379,
-                    "password": url.password,
-                    "username": url.username if url.password else None,
-                }],
-            },
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            # अगर रेलवे पर है तो सीधा पूरा URL पास करो, लोकल पर हो तो डिफ़ॉल्ट लोकलहोस्ट एड्रेस
+            "hosts": [REDIS_URL] if REDIS_URL else ["redis://127.0.0.1:6379"],
         },
-    }
-else:
-    # 3. अगर URL नहीं मिला (यानी लोकल विंडोज पर Memurai चला रहे हो), तो यह चलेगा
-    CHANNEL_LAYERS = {
-        "default": {
-            "BACKEND": "channels_redis.core.RedisChannelLayer",
-            "CONFIG": {
-                "hosts": [("127.0.0.1", 6379)],
-            },
-        },
-    }
+    },
+}
