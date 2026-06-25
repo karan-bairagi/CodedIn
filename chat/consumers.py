@@ -98,7 +98,7 @@ class OnlineGlobal(AsyncConsumer):
     async def websocket_connect(self,event):        
         self.user=self.scope['user']
         await self.channel_layer.group_add('global_online_users',self.channel_name)
-        already_online_users=cache.get('online_users_list',[])
+        already_online_users=await cache.aget('online_users_list',[])
         await self.send({
             'type':'websocket.accept',
         })
@@ -111,7 +111,7 @@ class OnlineGlobal(AsyncConsumer):
         })
         if self.user.username not in already_online_users:
             already_online_users.append(self.user.username)
-            cache.set('online_users_list',already_online_users,timeout=None)
+            await cache.aset('online_users_list',already_online_users,timeout=None)
 
         await self.channel_layer.group_send('global_online_users',{
             'type':'online.user',
@@ -130,10 +130,10 @@ class OnlineGlobal(AsyncConsumer):
 
     async def websocket_disconnect(self,event):
         await self.channel_layer.group_discard('global_online_users',self.channel_name)
-        current_online_list=cache.get('online_users_list',[])
+        current_online_list=await cache.aget('online_users_list',[])
         if self.user.username in current_online_list:
             current_online_list.remove(self.user.username)
-            cache.set('online_users_list',current_online_list,timeout=None)
+            await cache.aset('online_users_list',current_online_list,timeout=None)
 
         await self.channel_layer.group_send('global_online_users',{
             'type':'offline.user',
