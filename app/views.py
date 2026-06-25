@@ -4,6 +4,8 @@ from django.contrib.auth.models import User
 from app.models import UserProfile,ProjectCard
 from django.db.models import Q
 import string
+from chat.models import Message
+from django.contrib.auth import login
 from django.http import HttpResponse
 from django.utils.crypto import get_random_string
 from django.utils import timezone 
@@ -60,6 +62,7 @@ def user_login(request):
                 sv=User.objects.get(username=username)
                 if check_password(pwd,sv.password):
                     request.session['id']=sv.id
+                    login(request,sv)
                     return redirect('dashboard')
                 else:
                     messages.error(request, "Invalid username or password. Please try again.")
@@ -76,7 +79,11 @@ def Dashboard(request):
     user_obj=User.objects.get(id=find)
     sv=ProjectCard.objects.filter(creator=find)
     all_data=ProfileVisitor.objects.filter(profile_owver=find).order_by('-profile_visitor_time')
-    return render(request,'dashboard.html',{'user':user_obj,'project':sv,'all_viewrs':all_data})
+    total_unread = Message.objects.filter(
+        Q(room__user1=user_obj) | Q(room__user2=user_obj),
+        is_read=False
+    ).exclude(sender=user_obj).values('room').distinct().count()
+    return render(request,'dashboard.html',{'user':user_obj,'project':sv,'all_viewrs':all_data,'total_count': total_unread})
 @login_required
 def logout(request):
     request.session.flush()

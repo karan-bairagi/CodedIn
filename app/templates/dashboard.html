@@ -166,6 +166,7 @@
     </style>
 </head>
 <body>
+    
 <div class="app-loader" style="display: none;">
     <div class="instagram-spinner"></div>
     <p class="loader-text">Logging you out securely...</p>
@@ -175,10 +176,19 @@
 </div>
     <nav class="nav-container">
         <a href="#" class="nav-logo">CodeIn</a>
-        <div style="display: flex; gap: 10px; align-items: center;">
-            <a href="{% url 'search' %}" style="text-decoration: none; color: var(--primary); font-weight: 600; font-size: 13px; padding: 8px 15px; border: 1.5px solid var(--border); border-radius: 20px; background: #f8fafc;" class="dash-link">Search</a>
-            <a href="{% url 'logout' %}" style="text-decoration: none; color: #f43f5e; font-weight: 600; font-size: 13px;" id="logoutid">Logout</a>
-        </div>
+        <div style="display: flex; gap: 12px; align-items: center; font-family: sans-serif;">
+        <a href="{% url 'search' %}" style="text-decoration: none; color: var(--primary); font-weight: 600; font-size: 13px; padding: 8px 16px; border: 1.5px solid var(--border); border-radius: 20px; background: #f8fafc; transition: all 0.2s;" class="dash-link">Search</a>
+        <a href="{% url 'index' %}" style="text-decoration: none; color: white; font-weight: 600; font-size: 13px; background-color: #3182ce; padding: 8px 16px; border-radius: 20px; display: inline-flex; align-items: center; gap: 6px; box-shadow: 0 2px 8px rgba(49, 130, 206, 0.2); position: relative; overflow: visible;" id="chatlinkid" class="dash-link">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor"><path d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z"/></svg>
+        <span>Chat</span>
+            {% if total_count > 0 %}
+                <span class="chat-unread-badge" style="position: absolute; top: -8px; right: -8px; background-color: #ef4444; color: white; font-size: 10px; font-weight: 800; padding: 2px 6px; border-radius: 20px; min-width: 12px; height: 16px; display: flex; align-items: center; justify-content: center; border: 2px solid #ffffff; box-shadow: 0 2px 5px rgba(0,0,0,0.2); z-index: 10;">
+                    {{ total_count }}
+                </span>
+            {% endif %}
+        </a>
+        <a href="{% url 'logout' %}" style="text-decoration: none; color: #f43f5e; font-weight: 600; font-size: 13px; margin-left: 4px;" id="logoutid" class="dash-link">Logout</a>
+    </div>
     </nav>
     <div class="main-container">
         <aside class="sidebar">
@@ -309,6 +319,87 @@
                 app_loader.style.display='none';
             }
         })
+
+const login_username = "{{ request.user.username }}"
+current_online_users = null;
+let offlineTimers = {}; 
+global_socket = new WebSocket('ws://' + window.location.host + '/Global_Online/');
+global_socket.onopen = function() {
+    console.log('Global Websocket Connected Successfully');
+};
+global_socket.onmessage = function(event) {
+    global_data = JSON.parse(event.data);
+    console.log(global_data);
+    action = global_data['action'];
+    online_username = global_data['username'];
+    global_online_users = global_data['already_online_users'];
+    
+    if (global_online_users) {
+        current_online_users = global_online_users;
+    }
+
+    let statusBox = document.getElementById('user-status');
+    if (action === 'user_online' && online_username != login_username) {
+        if (offlineTimers[online_username]) {
+            clearTimeout(offlineTimers[online_username]);
+            delete offlineTimers[online_username];
+        }
+        if (current_online_users && !current_online_users.includes(online_username)) {
+            current_online_users.push(online_username);
+        }
+        let userCard = document.getElementById(`user-${online_username}`);
+        if (userCard) {
+            let subtext = userCard.querySelector('.user-subtext');
+            if (subtext) {
+                subtext.innerHTML = `<span style="color: #22c55e; font-weight: 600;">🟢 Active</span>`;
+            }
+        }
+        if (statusBox && online_username === current_opened_chat_user) {
+            statusBox.innerHTML = '🟢 Active Now';
+        }
+    }
+    if (action === 'user_offline') {
+        if (offlineTimers[online_username]) {
+            clearTimeout(offlineTimers[online_username]);
+        }
+        offlineTimers[online_username] = setTimeout(function() {
+            
+            if (current_online_users) {
+                current_online_users = current_online_users.filter(u => u !== online_username);
+            }
+            let userCard = document.getElementById(`user-${online_username}`);
+            if (userCard) {
+                let subtext = userCard.querySelector('.user-subtext');
+                if (subtext) {
+                    subtext.innerHTML = `<span style="color: #64748b;">⚫ Offline</span>`;
+                }
+            }
+            if (statusBox && online_username === current_opened_chat_user) {
+                statusBox.innerHTML = '⚫ Offline';
+            }
+            delete offlineTimers[online_username];
+
+        }, 5000);
+    }
+
+    if (current_online_users && Array.isArray(current_online_users)) {
+        current_online_users.forEach(username => {
+            if (!offlineTimers[username]) {
+                let userCard = document.getElementById(`user-${username}`);
+                if (userCard) {
+                    let subtext = userCard.querySelector('.user-subtext');
+                    if (subtext) {
+                        subtext.innerHTML = `<span style="color: #22c55e; font-weight: 600;">🟢 Active</span>`;
+                    }
+                }
+            }
+        });
+    }
+};
+
+global_socket.onclose = function(event) {
+     console.log('Global Websocket disconnect Successfully');
+};
     </script>
 </body>
 </html>

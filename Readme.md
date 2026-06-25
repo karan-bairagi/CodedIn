@@ -1,26 +1,37 @@
-# 🚀 CodeIn — Developer Portfolio & Project Showcase Platform
+# 🚀 CodeIn — Developer Portfolio & Real-Time Developer Networking Platform
 
 ![Python](https://img.shields.io/badge/Python-3.13-blue?logo=python)
 ![Django](https://img.shields.io/badge/Django-6.0-green?logo=django)
 ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-Supabase-blue?logo=postgresql)
-![Deployment](https://img.shields.io/badge/Deployment-Vercel-black?logo=vercel)
+![WebSockets](https://img.shields.io/badge/WebSockets-Real--Time-orange)
+![Deployment](https://img.shields.io/badge/Deployment-Railway-purple?logo=railway)
 
-### Build. Showcase. Grow as a Developer.
+### Build. Showcase. Connect. Grow as a Developer.
 
 🌐 **Live Demo:** https://codein-omega.vercel.app/
 
 ---
 
-## 📌 About CodeIn
+# 📌 About CodeIn
 
-CodeIn is a production-grade developer portfolio platform built with Django and cloud-hosted PostgreSQL. It enables developers to create public portfolios, manage projects, track profile analytics, and securely manage account identity inside one integrated platform.
+CodeIn is a developer ecosystem built with Django that allows developers to create professional portfolios, showcase projects, track profile analytics, and communicate through a real-time messaging system.
 
-The project focuses heavily on:
-- Backend architecture
-- Secure authentication systems
-- Database integrity
+The platform combines:
+
+- Secure authentication workflows
+- Cloud PostgreSQL database architecture
+- Developer profile management
+- Project showcase system
+- Real-time WebSocket communication
+- Analytics tracking
+
+The project focuses on:
+
+- Backend engineering
+- Database architecture
+- Real-time distributed systems
+- Security implementation
 - Production deployment workflows
-- User account recovery systems
 
 ---
 
@@ -31,299 +42,903 @@ Hi, I'm **Karan Bairagi**, a 17-year-old backend-focused developer from India.
 In March 2025, after completing my 10th-grade exams, I moved to Hyderabad and joined Naresh i Technologies to focus completely on software development and Python Full Stack engineering.
 
 CodeIn was built as a backend engineering challenge where I focused on:
-- Authentication systems
-- Database architecture
+
+- Authentication architecture
+- Database design
 - ORM optimization
 - Security validation
-- Production deployment
+- Real-time communication systems
+- Cloud deployment workflows
 
-💡 **Engineering Philosophy:**  
-Rather than spending most of my time designing complex frontend layouts, I focused heavily on backend logic, relational database structure, authentication workflows, and production-level security operations. The complete backend system for CodeIn was engineered within 1 week as a practical challenge.
+💡 **Engineering Philosophy**
+
+Instead of only focusing on UI development, I concentrated on backend logic, relational database structures, authentication flows, security systems, and scalable application architecture.
 
 ---
 
-# 🛠️ The Tech Stack
+# 🚀 Project Evolution
+
+## CodeIn v1.0 → CodeIn v2.0
+
+
+CodeIn started as a developer portfolio and project showcase platform.
+
+With version 2.0, the platform evolved into a real-time developer networking system by introducing asynchronous communication architecture.
+
+| Version | Focus |
+|---|---|
+| v1.0 | Profiles, Projects, Authentication, Analytics |
+| v2.0 | WebSockets, Chat Engine, Presence Tracking, Real-Time Events |
+
+
+The v2.0 upgrade explores modern application concepts:
+
+- Persistent WebSocket connections
+- Event-driven communication
+- Real-time state synchronization
+- Distributed messaging architecture
+
+---
+
+# 🛠️ Technical Stack
 
 | Technology Area | Stack Used |
 |---|---|
 | Backend Framework | Django 6.0 (Python 3.13) |
-| Database Engine | Supabase (Cloud PostgreSQL) |
+| Async Communication | Django Channels |
+| Application Server | ASGI + Daphne |
+| Message Broker | Redis Channel Layer |
+| Database | Supabase PostgreSQL |
+| API Layer | Django REST Framework |
 | Media Storage | Cloudinary |
-| Deployment Platform | Render |
-| Authentication | Django Auth System |
-| Security | PBKDF2 Password Hashing + Secure Tokens |
+| Authentication | Django Authentication System |
 | ORM | Django ORM |
-| File Handling | Django Media & Cloudinary |
+| Deployment | Railway |
 
 ---
 
-# ✨ Core Features
+# ⚡ CodeIn v2.0 — Real-Time Architecture
 
-## 👤 Authentication & Security System
 
-- Multi-step authentication and registration workflow
+## 💬 Real-Time Messaging Engine
+
+
+CodeIn uses WebSocket-based communication instead of traditional request-response messaging.
+
+
+Traditional Django:
+
+```
+Client
+
+↓
+
+HTTP Request
+
+↓
+
+Server Response
+```
+
+
+Real-Time Architecture:
+
+```
+Client
+
+↓
+
+WebSocket Connection
+
+↓
+
+Django Channels Consumer
+
+↓
+
+Redis Channel Layer
+
+↓
+
+Connected Users
+```
+
+
+Features:
+
+- Instant message delivery
+- Room-based conversations
+- No page refresh communication
+- Multi-user synchronization
+
+
+---
+
+# 🟢 Online / Offline Presence System
+
+
+Implemented real-time user activity tracking using WebSocket connections.
+
+
+Flow:
+
+```
+User Opens Dashboard
+
+↓
+
+WebSocket Connection
+
+↓
+
+Presence State Update
+
+↓
+
+Redis Broadcast
+
+↓
+
+Connected Users Receive Status
+```
+
+
+Features:
+
+- Live online status
+- Offline detection
+- Sidebar synchronization
+- Chat header updates
+
+
+---
+
+# 🛡️ Anti-Flapping Presence System
+
+
+Browser refreshes can create false disconnect events.
+
+
+Problem:
+
+```
+Disconnect
+
+↓
+
+Offline Status
+
+↓
+
+Reconnect
+
+↓
+
+Online Status
+```
+
+
+Solution:
+
+Implemented debounce-based connection handling.
+
+
+Logic:
+
+```
+Disconnect Event
+
+↓
+
+Cooldown Period
+
+↓
+
+Check Reconnection
+
+↓
+
+Cancel Offline State
+
+OR
+
+Update Offline Status
+```
+
+
+Benefits:
+
+- Prevents status blinking
+- Improves presence accuracy
+- Handles browser refresh smoothly
+
+
+---
+
+# 🔔 Smart Notification System
+
+
+Implemented conversation-based unread message tracking.
+
+
+Instead of:
+
+```
+5 Messages = 5 Notifications
+```
+
+
+CodeIn tracks:
+
+```
+5 Messages = 1 Unread Conversation
+```
+
+
+Features:
+
+- Distinct unread conversation counting
+- Read state management
+- Dynamic notification badges
+- Optimized database queries
+
+
+---
+
+# 🗑️ Real-Time Message Synchronization
+
+
+Implemented WebSocket-based message actions.
+
+
+Features:
+
+- Real-time delete events
+- Client synchronization
+- Message state consistency
+
+
+Flow:
+
+```
+User Action
+
+↓
+
+WebSocket Event
+
+↓
+
+Django Consumer
+
+↓
+
+Broadcast Event
+
+↓
+
+Connected Clients Update
+```
+
+
+---
+
+# ✍️ Live Typing Indicator
+
+
+Implemented real-time typing events:
+
+
+```
+typing_start
+
+typing_stop
+```
+
+
+Features:
+
+- Live typing feedback
+- Animated indicators
+- Improved chat experience
+
+
+---
+
+# ✨ Platform Features
+
+
+# 👤 Authentication & Security System
+
+CodeIn implements a secure authentication workflow focused on protecting user identity and account data.
+
+
+Features:
+
+- Multi-step registration workflow
 - Secure password hashing using Django PBKDF2 hashers
-- Protected account routes using `@login_required`
-- Secure password recovery system
-- Security question-based identity verification
-- 12-character secure recovery token generation using Python `secrets`
-- Automatic 10-minute token expiration handling
-- Manual account recovery support system through Support Tickets
+- Protected routes using Django authentication middleware
+- Password recovery workflow
+- Security question-based verification
+- Secure recovery token generation using Python `secrets`
+- Token expiration handling
+- Support ticket based manual recovery system
+
 
 ---
 
-## 🧑‍💻 Developer Profile Ecosystem
+# 🧑‍💻 Developer Profile Ecosystem
+
+
+Developers can create and manage their professional identity.
+
+
+Features:
 
 - Dynamic developer profile pages
-- Profile image uploads
-- Taglines and markdown-style bios
-- GitHub and LinkedIn profile integration
-- Public / Private profile visibility toggle
-- Instagram-style private profile lock interface
+- Profile image management
+- Developer taglines
+- Markdown-style bios
+- GitHub and LinkedIn integration
+- Public/private profile visibility
+- Private profile lock interface
+
 
 ---
 
-## 📦 Project Showcase System
+# 📦 Project Showcase System
 
-- Add and manage project repositories
-- Tech stack tagging system
-- Live project and source code links
-- Secure image uploads using `accept="image/*"`
-- Full CRUD operations restricted to account owners
+
+A complete project management system for developers.
+
+
+Features:
+
+- Create and manage projects
+- Technology stack tagging
+- Repository links
+- Live demo links
+- Secure image uploads
+- Owner-based CRUD permissions
+
 
 ---
 
-## 🔍 Smart Search Architecture
+# 🔍 Smart Search Architecture
 
-- Real-time developer profile search
-- Username, name, and tagline matching
-- Implemented using advanced Django ORM `Q` expressions
+
+Implemented developer discovery using optimized Django ORM queries.
+
+
+Features:
+
+- Username search
+- Name search
+- Tagline search
+- Dynamic developer discovery
+- Django `Q` expression based filtering
+
 
 ---
 
-## 👀 Visitor Analytics System
+# 👀 Visitor Analytics System
+
+
+Tracks profile engagement and user activity.
+
+
+Features:
 
 - Unique profile visitor tracking
 - Repository view monitoring
 - Timestamp-based analytics storage
+- User relationship tracking
+
 
 ---
 
 # 🎨 Advanced UX Interactivity & State Management
 
-To mirror production-grade user experience, CodeIn implements an optimized client-side state machine using native JavaScript to eliminate duplicate operations and manage slow network latency.
 
-### 🔷 Hybrid Loading Architecture
-- **Full-Screen App Loaders (`display: flex`)**: Triggered globally on core state transitions like secure account logouts or deep dashboard state changes to explicitly signal background processes to the user.
-- **Inline Component Spinners (`innerHTML`)**: Injected natively inside granular action components (e.g., Form Submissions, Password Reset requests) to keep interaction localized without breaking the UI flow.
+CodeIn implements optimized frontend interaction handling using Vanilla JavaScript.
 
-### 🔷 Double-Submission Prevention Strategy
-- Triggered immediately on form `'submit'` events.
-- Intercepts form nodes, injects an explicit CSS-animated `<span class="loading-spinner"></span>` wrapper, and sets `element.disabled = true`.
-- Freezes critical boundary interactions to protect the Django backend from duplicate database entries or overlapping atomic POST transactions.
 
-### 🔷 BFCache (Back-Forward Cache) Restoration Rule
-Multi-page applications natively suffer from the hardware BFCache freeze pattern where clicking the hardware back button (`<`) serves a stateful memory snapshot—leaving loaders permanently stuck or buttons frozen. CodeIn bypasses this via memory tracking:
-- Registers a global boundary listener on the **`pageshow`** event context.
-- Isolates browser state flags via **`event.persisted`** to check if the DOM tree was served out of memory cache.
-- Forrupted state trees are instantly unmounted, clearing inline loader markup, and reverting button interaction flags back to `disabled = false`.
+## 🔷 Hybrid Loading Architecture
+
+
+Two-level loading system:
+
+
+### Full Screen Loaders
+
+Used during:
+
+- Authentication state changes
+- Dashboard transitions
+- Secure logout operations
+
+
+### Component Level Spinners
+
+Used during:
+
+- Form submissions
+- Password recovery requests
+- Small async operations
+
+
+Benefits:
+
+- Better user feedback
+- Prevents duplicate actions
+- Smooth application experience
+
 
 ---
 
+# 🔷 Double Submission Prevention
 
-# 🛡️ Global Exception & Routing Architecture (404 & 500)
 
-To handle edge cases where a user alters URLs manually (e.g., trying to access non-existent Project IDs) or when an atomic backend transaction crashes, CodeIn overrides Django's default server errors with responsive, custom-designed templates.
+Implemented form protection against duplicate requests.
 
-### 🔷 Configure Handlers in Main `urls.py`
-Add these directives at the absolute bottom of your primary routing configuration:
+
+Working:
+
+```
+User Clicks Submit
+
+↓
+
+Disable Button
+
+↓
+
+Show Loading State
+
+↓
+
+Process Request
+
+↓
+
+Restore State
+```
+
+
+Benefits:
+
+- Prevents duplicate database entries
+- Protects backend transactions
+- Improves reliability
+
+
+---
+
+# 🔷 BFCache Restoration Handling
+
+
+Handled browser Back-Forward Cache issues in multi-page applications.
+
+
+Implementation:
+
+- Uses browser `pageshow` event
+- Detects cached pages using `event.persisted`
+- Restores button states
+- Clears stuck loading indicators
+
+
+---
+
+# 🛡️ Global Exception & Routing Architecture
+
+
+CodeIn provides custom error handling for unexpected application states.
+
+
+Implemented:
+
+- Custom 404 page
+- Custom 500 page
+- Invalid URL handling
+- Safe error rendering
+
+
+Django configuration:
+
+
 ```python
 handler404 = 'app.views.error'
 handler500 = 'app.views.error500'
 ```
 
-### 🔷 Production Fallback Verification
-Django renders custom error nodes exclusively under production constraints. Update your environment state inside `settings.py`:
+
+Production configuration:
+
+
 ```python
 DEBUG = False
-ALLOWED_HOSTS = ['*']  # Permits local environment fallback testing
+ALLOWED_HOSTS = ['*']
 ```
+
 
 ---
 
 # 🔐 Advanced Form Validation
 
-Custom validation systems built inside `forms.py` to protect database integrity and improve account security.
+
+Custom validation systems protect database integrity and improve security.
+
 
 ---
 
-## 🔹 Username Validation
+## Username Validation
 
-- Restricts whitespace and invalid special characters
-- Prevents repeated periods
-- Username length boundary validation
-- Duplicate account prevention
+Implemented:
 
----
+- Invalid character prevention
+- Whitespace restriction
+- Duplicate username prevention
+- Length validation
 
-## 🔹 Password Validation
-
-- Requires:
-  - Uppercase letters
-  - Lowercase letters
-  - Numbers
-  - Special characters
-- Blocks common weak passwords
 
 ---
 
-## 🔹 Email & Mobile Validation
+## Password Validation
 
-- Indian mobile number regex validation
-- Invalid pattern suppression
-- Duplicate sequence prevention
-- Trusted email provider validation
+
+Password rules:
+
+- Uppercase characters
+- Lowercase characters
+- Numbers
+- Special characters
+- Weak password prevention
+
+
+---
+
+## Email & Mobile Validation
+
+
+Implemented:
+
+- Email format validation
+- Indian mobile number validation
+- Duplicate data prevention
+- Invalid pattern blocking
+
 
 ---
 
 # 📂 Database Schema Design
 
+
 ## 🔷 UserProfile
 
+
 Stores:
-- Full name
+
+- User information
 - Profile image
-- Tagline
 - Bio
+- Tagline
 - Social links
-- Public/private visibility
-- Profile analytics
-- Security questions & answers
+- Visibility settings
+- Security information
+
 
 ---
 
 ## 🔷 ProjectCard
 
+
 Stores:
+
 - Project title
-- Tech stack tags
-- Repository links
-- Live URLs
-- User relation via ForeignKey
+- Technology stack
+- Repository URL
+- Live URL
+- User relationship using ForeignKey
+
 
 ---
 
 ## 🔷 ProfileVisitor
 
+
 Tracks:
+
 - Profile visits
-- Viewer relationships
-- Automatic timestamps using `auto_now_add`
+- Viewer relationship
+- Visit timestamps
+
 
 ---
 
 ## 🔷 SupportTicket
 
+
 Handles:
-- Manual account recovery requests
+
+- Account recovery requests
 - User verification workflow
-- Admin-side validation notes
+- Admin notes
 - Ticket status tracking
+
+
+---
+
+# 🏗️ System Architecture
+
+
+```
+                 User Browser
+
+                      |
+
+                      |
+
+              WebSocket Connection
+
+                      |
+
+                      |
+
+            Django Channels Layer
+
+                      |
+
+                      |
+
+             Redis Channel Layer
+
+                      |
+
+                      |
+
+              Django Application
+
+                      |
+
+                      |
+
+              PostgreSQL Database
+```
+
 
 ---
 
 # ⚙️ Local Installation
 
+
 ## 1️⃣ Clone Repository
+
 
 ```bash
 git clone https://github.com/karan-bairagi/CodedIn
+
 cd CodedIn
 ```
 
+
+---
+
 ## 2️⃣ Create Virtual Environment
+
 
 ```bash
 python -m venv env
 ```
 
-### Windows
+
+Activate:
+
+
+Windows:
+
 ```bash
 env\Scripts\activate
 ```
 
-### Linux / Mac
+
+Linux/Mac:
+
 ```bash
 source env/bin/activate
 ```
+
 
 ---
 
 ## 3️⃣ Install Dependencies
 
+
 ```bash
 pip install -r requirements.txt
 ```
 
+
 ---
 
-## 4️⃣ Run Database Migrations
+## 4️⃣ Database Migration
+
 
 ```bash
 python manage.py makemigrations
+
 python manage.py migrate
 ```
 
+
 ---
 
-## 5️⃣ Start Development Server
+## 5️⃣ Run Server
+
 
 ```bash
 python manage.py runserver
 ```
 
+
 ---
 
-# 🚀 Production Deployment
+# 🚂 Production Deployment — Railway
 
-CodeIn uses environment variables to securely separate sensitive credentials from source code.
 
-### Required Environment Variables
+CodeIn is deployed using Railway with cloud-based services.
 
-| Variable | Value |
-|---|---|
-| DJANGO_SECRET_KEY | Your production secret key |
-| DEBUG | False |
-| DB_NAME | Supabase database name |
-| DB_USER | Supabase postgres user |
-| DB_PASSWORD | Database password |
-| DB_HOST | Supabase host |
-| DB_PORT | 5432 |
-| CLOUD_NAME | Your Cloudinary cloud name |
-| CLOUD_API_KEY | Your Cloudinary API key |
-| CLOUD_API_SECRET | Your Cloudinary API secret |
+
+Deployment Architecture:
+
+
+```
+Railway
+
+ |
+
+ |
+
+Django + Daphne Server
+
+ |
+
+ |
+
+Redis Service
+
+ |
+
+ |
+
+Supabase PostgreSQL
+
+ |
+
+ |
+
+Cloudinary Storage
+```
+
+
+---
+
+# 🔧 Required Environment Variables
+
+
+| Variable | Description |
+|-|-|
+| SECRET_KEY | Django secret key |
+| DEBUG | Production debug status |
+| DATABASE_URL | PostgreSQL connection URL |
+| REDIS_URL | Redis connection URL |
+| CLOUDINARY_CLOUD_NAME | Cloudinary cloud name |
+| CLOUDINARY_API_KEY | Cloudinary API key |
+| CLOUDINARY_API_SECRET | Cloudinary API secret |
+
+
+---
+
+# 🚀 Railway Deployment Steps
+
+
+## 1. Connect Repository
+
+Connect GitHub repository with Railway.
+
+
+## 2. Add Environment Variables
+
+Configure production secrets inside Railway dashboard.
+
+
+## 3. Add PostgreSQL
+
+
+Attach PostgreSQL service or connect Supabase PostgreSQL.
+
+
+## 4. Add Redis
+
+
+Configure Redis service for Django Channels.
+
+
+## 5. Configure Start Command
+
+
+Example:
+
+
+```bash
+daphne CodeIn.asgi:application -b 0.0.0.0 -p $PORT
+```
+
+
+## 6. Run Migration
+
+
+```bash
+python manage.py migrate
+```
+
 
 ---
 
 # 📸 Project Preview
 
-### 🖥️ Developer Dashboard
+
+## 🖥️ Developer Dashboard
+
 ![Dashboard](CodedIn/images/dashboard.png)
 
-### 🧑‍💻 User Profile View
+
+## 🧑‍💻 User Profile
+
 ![Profile](CodedIn/images/profile.png)
 
+
+## 💬 Real-Time Chat
+
+![Chat](CodedIn/images/chat.png)
+
+
+---
+
+# 📈 Future Improvements
+
+
+Planned upgrades:
+
+
+- Message encryption
+- File sharing
+- Voice messages
+- Video calling
+- Push notifications
+- Docker containerization
+- Advanced monitoring
+- Horizontal scaling
 
 
 ---
 
 # 📜 Connect With Me
 
-- GitHub: https://github.com/karan-bairagi
-- LinkedIn: https://www.linkedin.com/in/karan-bairagi/
+
+GitHub:
+
+https://github.com/karan-bairagi
+
+
+LinkedIn:
+
+https://www.linkedin.com/in/karan-bairagi/
+
 
 ---
 
 # ⭐ Support
 
-If this project inspired your backend development journey, feel free to leave a ⭐ on the repository.
+
+If this project helped you understand backend engineering and real-time systems, consider giving the repository a ⭐.

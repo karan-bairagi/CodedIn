@@ -1,25 +1,10 @@
-"""
-URL configuration for CodedIn project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/6.0/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
 from django.urls import path
 from app.views import personal_profile,personal_update,Profile_Visibility,search,forgetten_reset_password,about_developer,add_security
 from django.conf.urls.static import static
 from app.views import public_profile,delete_user,delete_user_confirm,account_settings,change_password,check_security,token_generate,user_request
 from django.conf import settings
+from chat.views import ChatSearch,index_view,Inbox,RoomGeneration,Message_Read
 from app.views import Dashboard,signup,logout,user_login,user_profile,profile_remove,profile_view,forgettern_password,reset_password,projectcard,project_view,project_delete
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -50,6 +35,11 @@ urlpatterns = [
     path('checking/',check_security,name='check'),
     path('token/',token_generate,name='token'),
     path('request/',user_request,name='request_user'),
+    path('chat_user_search/',ChatSearch.as_view()),
+    path('index/',index_view,name='index'),
+    path('inbox/',Inbox.as_view()),
+    path('chatting/',RoomGeneration.as_view()),
+    path('message_read/<str:room_id>/',Message_Read.as_view()),
 ]+static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 handler404='app.views.error'
 handler500='app.views.error500'
