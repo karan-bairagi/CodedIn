@@ -121,13 +121,30 @@ STORAGES = {
     },
 }
 import os
-REDIS_URL = os.environ.get("REDIS_URL", "redis://127.0.0.1:6379")
+import urllib.parse
+REDIS_URL = os.environ.get("REDIS_URL")
 
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [REDIS_URL], 
+if REDIS_URL:
+    url = urllib.parse.urlparse(REDIS_URL)
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [{
+                    "host": url.hostname,
+                    "port": url.port or 6379,
+                    "password": url.password,
+                    "username": url.username if url.password else None,
+                }],
+            },
         },
-    },
-}
+    }
+else:
+    CHANNEL_LAYERS = {
+        "default": {
+            "BACKEND": "channels_redis.core.RedisChannelLayer",
+            "CONFIG": {
+                "hosts": [("127.0.0.1", 6379)],
+            },
+        },
+    }
