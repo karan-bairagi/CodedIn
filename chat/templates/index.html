@@ -455,6 +455,50 @@ body{
     word-break:break-word;
     box-shadow:0 2px 8px rgba(0,0,0,.08);
 }
+.loader-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(255, 255, 255, 0.8); 
+    backdrop-filter: blur(4px); 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    z-index: 9999; 
+}
+.spinner {
+    width: 50px;
+    height: 50px;
+    border: 5px solid #e2e8f0;
+    border-top: 5px solid #2563eb; 
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+.loader-text {
+    margin-top: 15px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1e293b;
+    font-family: sans-serif;
+}
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+@media (max-width: 768px) {
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border-width: 4px;
+    }
+    .loader-text {
+        font-size: 14px;
+    }
+}
+
 .other-message{
     width:100%;
     display:flex;
@@ -519,6 +563,10 @@ body{
 }
 </style>
 <body>
+<div id="global-loader" class="loader-overlay" style="display: none;">
+    <div class="spinner"></div>
+    <p class="loader-text">Loading...</p>
+</div>
 <div class="app-container">
     <aside class="sidebar" id="sidebar">
         <div class="brand">
@@ -763,6 +811,9 @@ function Search(){
     },500);
 }
 async function Inbox(){
+    document.querySelector('.loader-text').innerText = "Fetching your inbox...";
+    document.getElementById('global-loader').style.display = 'flex';
+
     let inbox_users = document.getElementById('inbox-users');
     inbox_users.innerHTML = '';
     let response = await fetch('/inbox/',{
@@ -825,8 +876,9 @@ async function Inbox(){
         }
         inbox_users.innerHTML = html;
     }else{
-
     }
+    document.getElementById('global-loader').style.display = 'none';
+    document.querySelector('.loader-text').innerText = "";
 }
 let socket = null;
 let current_opened_chat_user = null; 
@@ -837,6 +889,9 @@ async function open_chat(
     profile,
     clickedCard = null
 ){
+    document.querySelector('.loader-text').innerText = "Opening secure chat...";
+    document.getElementById('global-loader').style.display = 'flex';
+
     let respe=await fetch(`/message_read/${room_id}/`,{
         'method':'POST',
         'headers':{
@@ -1005,6 +1060,8 @@ async function open_chat(
             `;
         }
     });
+    document.getElementById('global-loader').style.display = 'none';
+     document.querySelector('.loader-text').innerText = "";
     chat_box.scrollTop =
     chat_box.scrollHeight;
     connectsocket(data.room);
