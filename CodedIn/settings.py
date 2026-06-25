@@ -120,26 +120,17 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-# यह कोड आपकी .env फ़ाइल या Railway डैशबोर्ड से REDIS_URL उठाएगा
-REDIS_URL = os.environ.get("REDIS_URL")
-
+# 🟢 टेस्टिंग के लिए बिना Redis वाला बैकएंड (In-Memory)
 CHANNEL_LAYERS = {
     "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            # अगर रेलवे पर URL मिल गया तो उसे लेगा, नहीं तो लोकल कंप्यूटर के लिए डिफ़ॉल्ट पर चलेगा
-            "hosts": [REDIS_URL] if REDIS_URL else ["redis://127.0.0.1:6379"],
-        },
+        "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
 
-# आपके consumers.py के cache.aget() को काम करने के लिए यह सेट करना ज़रूरी है
+# 🟢 कैश को भी लोकल मेमोरी पर डाल दो ताकि cache.aget() न क्रैश हो
 CACHES = {
     "default": {
-        "BACKEND": "django_redis.cache.RedisCache",
-        "LOCATION": REDIS_URL if REDIS_URL else "redis://127.0.0.1:6379",
-        "OPTIONS": {
-            "CLIENT_CLASS": "django_redis.client.DefaultClient",
-        }
+        "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
+        "LOCATION": "unique-snowflake",
     }
 }
