@@ -120,17 +120,26 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-import os
-
-# रेलवे से मिलने वाला डायरेक्ट Redis URL
+# यह कोड आपकी .env फ़ाइल या Railway डैशबोर्ड से REDIS_URL उठाएगा
 REDIS_URL = os.environ.get("REDIS_URL")
 
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            # अगर रेलवे पर है तो सीधा पूरा URL पास करो, लोकल पर हो तो डिफ़ॉल्ट लोकलहोस्ट एड्रेस
+            # अगर रेलवे पर URL मिल गया तो उसे लेगा, नहीं तो लोकल कंप्यूटर के लिए डिफ़ॉल्ट पर चलेगा
             "hosts": [REDIS_URL] if REDIS_URL else ["redis://127.0.0.1:6379"],
         },
     },
+}
+
+# आपके consumers.py के cache.aget() को काम करने के लिए यह सेट करना ज़रूरी है
+CACHES = {
+    "default": {
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": REDIS_URL if REDIS_URL else "redis://127.0.0.1:6379",
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
 }
