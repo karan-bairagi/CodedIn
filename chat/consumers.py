@@ -93,26 +93,22 @@ class MyChatConsumer(AsyncConsumer):
         room_id=ChatRoom.objects.get(room_id=room_id)
         return Message.objects.get(id=msg_id).delete()
     
-from django.core.cache import cache
+online_users=set()
 class OnlineGlobal(AsyncConsumer):
     async def websocket_connect(self,event):        
         self.user=self.scope['user']
         await self.channel_layer.group_add('global_online_users',self.channel_name)
-        already_online_users=await cache.aget('online_users_list',[])
+        online_users.add(self.user.username)
         await self.send({
             'type':'websocket.accept',
         })
         response={
-            'already_online_users':already_online_users
+            'already_online_users':list(online_users)
         }
         await self.send({
             'type':'websocket.send',
             'text':json.dumps(response)
         })
-        if self.user.username not in already_online_users:
-            already_online_users.append(self.user.username)
-            await cache.aset('online_users_list',already_online_users,timeout=None)
-
         await self.channel_layer.group_send('global_online_users',{
             'type':'online.user',
             'action':'user_online',
@@ -130,11 +126,7 @@ class OnlineGlobal(AsyncConsumer):
 
     async def websocket_disconnect(self,event):
         await self.channel_layer.group_discard('global_online_users',self.channel_name)
-        current_online_list=await cache.aget('online_users_list',[])
-        if self.user.username in current_online_list:
-            current_online_list.remove(self.user.username)
-            await cache.aset('online_users_list',current_online_list,timeout=None)
-
+        online_users.remove(self.user.username)
         await self.channel_layer.group_send('global_online_users',{
             'type':'offline.user',
             'action':'user_offline',

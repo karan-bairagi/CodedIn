@@ -80,6 +80,6 @@ class Message_Read(APIView):
         user=request.user
         check=Message.objects.filter(room_id=room_id,is_read=False).exclude(sender=user).update(is_read=True)
         return Response({
-            'detail':'Ho gya Kam',
+            'detail':'Successfully',
             'read':check
         },status=status.HTTP_200_OK)

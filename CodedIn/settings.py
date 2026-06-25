@@ -120,14 +120,11 @@ STORAGES = {
         "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
     },
 }
-# 🟢 टेस्टिंग के लिए बिना Redis वाला बैकएंड (In-Memory)
 CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels.layers.InMemoryChannelLayer",
     },
 }
-
-# 🟢 कैश को भी लोकल मेमोरी पर डाल दो ताकि cache.aget() न क्रैश हो
 CACHES = {
     "default": {
         "BACKEND": "django.core.cache.backends.locmem.LocMemCache",
