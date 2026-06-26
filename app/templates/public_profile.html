@@ -261,43 +261,64 @@
         }
     </style>
 </head>
-{%if user.userprofile and user.userprofile.public_profile == True%}
+{% if target_user_id.userprofile and target_user_id.userprofile.public_profile == True %}
 <body>
     <div class="dashboard-shell">  
+        <!-- 🎯 साइडबार पैनल (Sidebar Panel) -->
         <aside class="sidebar-panel">
             <div class="avatar-frame">
-                {% if user.userprofile.profile %}
-                    <img src="{{ user.userprofile.profile.url }}" class="avatar-img" alt="Profile Picture">
+                {% if target_user_id.userprofile.profile %}
+                    <img src="{{ target_user_id.userprofile.profile.url }}" class="avatar-img" alt="Profile Picture">
                 {% else %}
-                    <div class="avatar-emoji">{{user.username|make_list|first|upper}}</div>
+                    <div class="avatar-emoji">{{target_user_id.username|make_list|first|upper}}</div>
                 {% endif %}
             </div>
-            <h1 class="user-headline">{{ user.userprofile.full_name }}</h1>
+            <h1 class="user-headline">{{ target_user_id.userprofile.full_name }}</h1>
             <p class="user-sidebar-tagline" style="font-size: 14px; color: var(--text-muted); margin: 0 0 24px 0; line-height: 1.5; font-weight: 500;">
-                {{ user.userprofile.tagline }}
+                {{ target_user_id.userprofile.tagline }}
             </p>
-            {% if user.userprofile.linkedin_link or user.userprofile.github_link %}
+
+            <!-- 🟢 यहाँ सबसे बेस्ट जगह है: सोशल लिंक्स से ठीक पहले मैसेज का बटन -->
+            <div class="message-action-wrapper" style="margin-bottom: 20px; width: 100%;">
+                {% if request.user.is_authenticated %}
+                    <a href="{% url 'index' %}?open_id={{ target_user_id.id }}&open_name={{ target_user_id.username }}&open_img={{ target_user_id.userprofile.profile.url }}" 
+                       class="btn-message" 
+                       style="background-color: #2563eb; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: block; text-align: center; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); transition: all 0.2s ease;">
+                       💬 Send Message
+                    </a>
+                {% else %}
+                    <a href="{% url 'user_login' %}?next={{ request.path }}" 
+                       class="btn-message" 
+                       style="background-color: #64748b; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: block; text-align: center; font-size: 14px; transition: all 0.2s ease;">
+                       💬 Message (Login to Chat)
+                    </a>
+                {% endif %}
+            </div>
+
+            {% if target_user_id.userprofile.linkedin_link or target_user_id.userprofile.github_link %}
                 <hr class="panel-divider">
                 <div class="social-links-stack">
-                    {% if user.userprofile.linkdin_link %}
-                    <a href="{{ user.userprofile.linkdin_link }}" target="_blank" class="network-row-btn">
+                    {% if target_user_id.userprofile.linkdin_link %}
+                    <a href="{{ target_user_id.userprofile.linkdin_link }}" target="_blank" class="network-row-btn">
                         <span>🔗</span> LinkedIn Profile
                     </a>
                     {% endif %}
-                    {% if user.userprofile.github_link %}
-                    <a href="{{ user.userprofile.github_link }}" target="_blank" class="network-row-btn">
+                    {% if target_user_id.userprofile.github_link %}
+                    <a href="{{ target_user_id.userprofile.github_link }}" target="_blank" class="network-row-btn">
                         <span>💻</span> GitHub Repository
                     </a>
                     {% endif %}
                 </div>
             {% endif %}
         </aside>
+
+        <!-- 📁 मुख्य वर्कस्पेस (Main Workspace) -->
         <main class="main-workspace">
             <div class="workspace-card-block">
                 <h2 class="block-header-title"><span>👤</span> About Me</h2>
                 <p class="block-body-para">
-                    {% if user.userprofile.about_me %}
-                        {{ user.userprofile.about_me }}
+                    {% if target_user_id.userprofile.about_me %}
+                        {{ target_user_id.userprofile.about_me }}
                     {% else %}
                         Welcome to my portfolio workspace! Explore my engineering tracks and deployments down below.
                     {% endif %}

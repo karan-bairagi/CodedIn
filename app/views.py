@@ -216,7 +216,7 @@ def public_profile(request,username):
         else:
             visitor_name='Guest User'
         visitor(request,user_obj,visitor_name)
-        return render(request,'public_profile.html',{'user':user_obj,'profile':projects})
+        return render(request,'public_profile.html',{'target_user_id':user_obj,'profile':projects})
 @login_required
 def delete_user(request):
     user_id=request.session.get('id')

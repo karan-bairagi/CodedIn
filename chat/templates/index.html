@@ -880,6 +880,18 @@ async function Inbox(){
     document.getElementById('global-loader').style.display = 'none';
     document.querySelector('.loader-text').innerText = "";
 }
+window.addEventListener('DOMContentLoaded', (event) => {
+    const urlParams = new URLSearchParams(window.location.search);
+    
+    const targetId = urlParams.get('open_id');
+    const targetName = urlParams.get('open_name');
+    const targetImg = urlParams.get('open_img');
+    if (targetId && targetName && targetImg) {
+        console.log("Automatically opening chat for:", targetName);
+        open_chat(null,targetId, targetName, targetImg); 
+    }
+});
+
 let socket = null;
 let current_opened_chat_user = null; 
 async function open_chat(

@@ -8,7 +8,7 @@
 
 ### Build. Showcase. Connect. Grow as a Developer.
 
-🌐 **Live Demo:** https://codein-omega.vercel.app/
+🌐 **Live Demo:** https://codedin-production.up.railway.app/
 
 ---
 
@@ -29,7 +29,7 @@ The project focuses on:
 
 - Backend engineering
 - Database architecture
-- Real-time distributed systems
+- Real-time asynchronous systems
 - Security implementation
 - Production deployment workflows
 
@@ -76,7 +76,8 @@ The v2.0 upgrade explores modern application concepts:
 - Persistent WebSocket connections
 - Event-driven communication
 - Real-time state synchronization
-- Distributed messaging architecture
+- Monolithic In-Memory Architecture (Optimized for 10-15 active users)
+
 
 ---
 
@@ -87,7 +88,7 @@ The v2.0 upgrade explores modern application concepts:
 | Backend Framework | Django 6.0 (Python 3.13) |
 | Async Communication | Django Channels |
 | Application Server | ASGI + Daphne |
-| Message Broker | Redis Channel Layer |
+| Message Broker | In-Memory RAM Architecture (Zero-Dependency) |
 | Database | Supabase PostgreSQL |
 | API Layer | Django REST Framework |
 | Media Storage | Cloudinary |
@@ -136,7 +137,7 @@ Django Channels Consumer
 
 ↓
 
-Redis Channel Layer
+In-Memory RAM Layer (Fast Pipeline)
 
 ↓
 
@@ -175,7 +176,7 @@ Presence State Update
 
 ↓
 
-Redis Broadcast
+Python Global set() Synchronization
 
 ↓
 
@@ -344,7 +345,6 @@ Features:
 
 
 ---
-
 # ✨ Platform Features
 
 
@@ -459,12 +459,11 @@ Used during:
 
 
 ### Component Level Spinners
-
 Used during:
-
 - Form submissions
 - Password recovery requests
-- Small async operations
+- Real-time Inbox fetching & Private Chat opening
+- **Feature:** Implements an animated CSS-pulsing loader text ("Connecting your chats...") to seamlessly mask production database latency.
 
 
 Benefits:
@@ -666,6 +665,21 @@ Handles:
 - Admin notes
 - Ticket status tracking
 
+## 🔷 ChatRoom
+Stores unique private conversation spaces between exactly two developers.
+- `room_id`: Primary Key
+- `user1`: ForeignKey to UserProfile (Initiator)
+- `user2`: ForeignKey to UserProfile (Receiver)
+- **Architecture Note:** Handled via custom backend verification logic to prevent duplicate rooms between the same two users.
+
+## 🔷 Message
+Stores individual messages tied to a specific ChatRoom.
+- `room`: ForeignKey to ChatRoom (Cascade on delete)
+- `sender`: ForeignKey to UserProfile
+- `text`: TextField containing message content
+- `timestamp`: DateTimeField auto-populated on creation
+- `is_read`: BooleanField tracking notification state
+
 
 ---
 
@@ -691,7 +705,7 @@ Handles:
 
                       |
 
-             Redis Channel Layer
+             In-Memory RAM Architecture
 
                       |
 
@@ -754,9 +768,8 @@ source env/bin/activate
 ## 3️⃣ Install Dependencies
 
 
-```bash
-pip install -r requirements.txt
-```
+> 💡 **Zero-Dependency Note:** No need to setup or install Memurai/Redis on your local machine! The local setup runs completely out-of-the-box using Django's clean In-Memory architecture.
+
 
 
 ---
@@ -805,12 +818,6 @@ Django + Daphne Server
 
  |
 
-Redis Service
-
- |
-
- |
-
 Supabase PostgreSQL
 
  |
@@ -827,14 +834,16 @@ Cloudinary Storage
 
 
 | Variable | Description |
-|-|-|
+|---|---|
 | SECRET_KEY | Django secret key |
-| DEBUG | Production debug status |
-| DATABASE_URL | PostgreSQL connection URL |
-| REDIS_URL | Redis connection URL |
-| CLOUDINARY_CLOUD_NAME | Cloudinary cloud name |
-| CLOUDINARY_API_KEY | Cloudinary API key |
-| CLOUDINARY_API_SECRET | Cloudinary API secret |
+| DB_NAME | Supabase Database Name |
+| DB_USER | Supabase Database User |
+| DB_PASSWORD | Supabase Database Password |
+| DB_HOST | Supabase Database Host |
+| DB_PORT | Supabase Database Port (6543) |
+| CLOUD_NAME | Cloudinary cloud name |
+| CLOUD_API_KEY | Cloudinary API key |
+| CLOUD_API_SECRET | Cloudinary API secret |
 
 
 ---
@@ -858,13 +867,7 @@ Configure production secrets inside Railway dashboard.
 Attach PostgreSQL service or connect Supabase PostgreSQL.
 
 
-## 4. Add Redis
-
-
-Configure Redis service for Django Channels.
-
-
-## 5. Configure Start Command
+## 4. Configure Start Command
 
 
 Example:
