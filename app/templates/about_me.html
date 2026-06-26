@@ -13,7 +13,6 @@
             --border-color: #e2e8f0;
             --primary: #6366f1;
         }
-
         body {
             margin: 0;
             padding: 40px 20px;
@@ -24,7 +23,6 @@
             align-items: center;
             min-height: 100vh;
         }
-
         .dev-page-card {
             background: #ffffff;
             width: 100%;
@@ -34,12 +32,10 @@
             border: 1px solid var(--border-color);
             overflow: hidden;
         }
-
         .dev-header {
             padding: 40px 40px 20px 40px;
             border-bottom: 1px solid #f1f5f9;
         }
-
         .dev-badge {
             display: inline-block;
             background: #e0e7ff;
@@ -51,7 +47,6 @@
             margin-bottom: 12px;
             letter-spacing: 0.5px;
         }
-
         .dev-header h1 {
             font-size: 26px;
             color: var(--text-main);
@@ -59,26 +54,21 @@
             margin: 0 0 8px 0;
             letter-spacing: -0.5px;
         }
-
         .dev-header p {
             font-size: 15px;
             color: var(--text-muted);
             margin: 0;
             line-height: 1.5;
         }
-
         .dev-body {
             padding: 40px;
         }
-
         .dev-section {
             margin-bottom: 30px;
         }
-
         .dev-section:last-child {
             margin-bottom: 0;
         }
-
         .dev-section h3 {
             font-size: 16px;
             color: var(--text-main);
@@ -87,33 +77,28 @@
             text-transform: uppercase;
             letter-spacing: 0.3px;
         }
-
         .dev-section p {
             font-size: 15px;
             color: #334155;
             line-height: 1.7;
             margin: 0;
         }
-
         .dev-tech-list {
             padding-left: 20px;
             margin-top: 10px;
         }
-
         .dev-tech-list li {
             font-size: 14.5px;
             color: #334155;
             margin-bottom: 8px;
             line-height: 1.6;
         }
-
         .dev-stack-tags {
             display: flex;
             flex-wrap: wrap;
             gap: 8px;
             margin-top: 12px;
         }
-
         .dev-stack-tags span {
             background: #f1f5f9;
             color: #334155;
@@ -123,7 +108,29 @@
             border-radius: 8px;
             border: 1px solid #e2e8f0;
         }
-
+        /* 🟢 v1.0 vs v2.0 कंपैरिजन के लिए नया साफ़-सुथरा स्टाइल */
+        .version-box {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+        .version-card {
+            flex: 1;
+            padding: 15px;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+        }
+        .version-card h4 {
+            margin: 0 0 6px 0;
+            font-size: 14px;
+            color: #1e1b4b;
+        }
+        .version-card p {
+            font-size: 13px !important;
+            color: #475569;
+            line-height: 1.5;
+        }
         .dev-footer {
             padding: 24px 40px;
             background: #f8fafc;
@@ -131,7 +138,6 @@
             display: flex;
             gap: 16px;
         }
-
         .dev-btn {
             flex: 1;
             text-align: center;
@@ -142,89 +148,88 @@
             font-weight: 600;
             transition: all 0.2s;
         }
-
         .dev-btn-linkedin { background: #0077b5; color: #ffffff; }
         .dev-btn-linkedin:hover { background: #005987; }
         .dev-btn-github { background: #24292e; color: #ffffff; }
         .dev-btn-github:hover { background: #171a1d; }
-
         @media (max-width: 480px) {
             body { padding: 0; background-color: #ffffff; }
             .dev-page-card { border-radius: 0; border: none; box-shadow: none; }
             .dev-header { padding: 30px 20px 15px 20px; }
             .dev-body { padding: 25px 20px; }
+            .version-box { flex-direction: column; gap: 10px; }
             .dev-footer { flex-direction: column; padding: 20px; }
         }
     </style>
 </head>
 <body>
-
     <div class="dev-page-card">
-        
         <div class="dev-header">
-            <div class="dev-badge">PROJECT ARCHITECTURE</div>
+            <div class="dev-badge">PROJECT ARCHITECTURE v2.0</div>
             <h1>Behind CodeIn: The Engineering Story</h1>
-            <p>Built by a 17-year-old Backend Engineer driven by logic, databases, and server-side architecture.</p>
+            <p>Built by a 17-year-old Backend Engineer driven by asynchronous logic, databases, and server-side state synchronization.</p>
         </div>
-
-        <div class="dev-body">
-            
+        <div class="dev-body"> 
             <div class="dev-section">
                 <h3>👤 Meet Karan Bairagi</h3>
                 <p>
-                    In March 2025, right after passing 10th grade, I decided to take an unconventional path. Moving from my hometown to Hyderabad in July 2025, I joined <strong>Naresh i Technologies</strong> to master software engineering. Skipping traditional 11th-grade schooling to dedicate 100% of my time to code, I mastered C language and immediately moved into Python Full Stack Development. Currently preparing for my 12th private boards, I spend my days building core backend engines.
+                    In March 2025, right after my 10th-grade exams, I took an unconventional turn. Moving from my hometown to Hyderabad in July 2025, I joined <strong>Naresh i Technologies</strong> to fully commit to software development. Skipping traditional 11th grade, I dedicated 100% of my time to mastering C language and Python Full Stack engineering. Currently preparing for my 12th private boards, I spend my days building core backend logic.
                 </p>
             </div>
-
             <div class="dev-section">
-                <h3>💻 Pure Backend Focus</h3>
+                <h3>💻 Frontend vs Backend Reality</h3>
                 <p>
-                    I don't specialize in UI design or complex CSS/JS layouts—the user interface of this project was generated with AI tools because my true passion lies deep within <strong>Backend Logic, Database Relational Integrity, and Server-Side Security</strong>. I built the entire backend of CodeIn in just <strong>1 week</strong> as a rigorous practical exercise alongside my ongoing Django courses to test real-world systems.
+                    I am a pure backend-focused developer. The HTML and core JavaScript logic of CodeIn were written entirely by me, but the visual CSS layout was generated using AI tools, as my true passion lies within relational database design and performance tuning. 
                 </p>
             </div>
 
+            <!-- 🟢 नया जोड़े गया v1.0 बनाम v2.0 इवोल्यूशन ब्लॉक -->
             <div class="dev-section">
-                <h3>🛠️ What I Built Under the Hood</h3>
+                <h3>🚀 Project Evolution: v1.0 &rarr; v2.0</h3>
                 <p>
-                    This project isn't just basic CRUD. Since advanced workflows aren't typically covered in basic coaching timelines, I researched and engineered these production-grade features independently:
+                    CodeIn evolved from a static profile platform into a real-time developer network by upgrading its entire core communication architecture:
                 </p>
-                <ul class="dev-tech-list">
-                    <li><strong>Dynamic Model Relations:</strong> Connected complex model structures to isolate public repositories vs private profiles.</li>
-                    <li><strong>Secure Reset Tokens:</strong> Integrated Django's cryptographic signature backend to prevent link manipulation.</li>
-                    <li><strong>SMTP Mail Integration:</strong> Configured automated security notifications and welcome triggers via live mail servers.</li>
-                    <li><strong>Deployment Pipelines:</strong> Mastered production staging to ensure instant deployment with seamless environment configuration.</li>
-                </ul>
-            </div>
-
-            <div class="dev-section">
-                <h3>⚙️ Current & Evolving Stack</h3>
-                <div class="dev-stack-tags">
-                    <span>Python</span>
-                    <span>Django</span>
-                    <span>MySQL</span>
-                    <span>MongoDB</span>
-                    <span>Flask</span>
-                    <span>REST APIs</span>
-                    <span>FastAPI</span>
-                    <span>C Language</span>
+                <div class="version-box">
+                    <div class="version-card">
+                        <h4>📦 Version 1.0 (The Foundation)</h4>
+                        <p>Focused on core Django HTTP request-response patterns, user analytics, profiles, and relational PostgreSQL/Supabase database tables.</p>
+                    </div>
+                    <div class="version-card">
+                        <h4>⚡ Version 2.0 (The Real-Time Jump)</h4>
+                        <p>Introduced persistent WebSockets via Django Channels. Replaced database polling with an ultra-fast, zero-dependency <strong>In-Memory RAM Layer</strong> and global Python sets for presence synchronization.</p>
+                    </div>
                 </div>
             </div>
 
             <div class="dev-section">
-                <h3>🚀 The Next Milestone</h3>
+                <h3>🛠️ Advanced Infrastructure Features</h3>
                 <p>
-                    My backend journey is just beginning. After conquering Advanced REST APIs and FastAPI protocols, my next milestone is to dive deep into <strong>Generative AI integration and Agentic AI Architecture</strong> to build smart, self-sustaining software systems.
+                    To ensure absolute stability for beta users over long distances, I independently engineered several system-level mechanics:
                 </p>
+                <ul class="dev-tech-list">
+                    <li><strong>In-Memory Channel Layer:</strong> Routes WebSocket actions instantly without external message broker overhead.</li>
+                    <li><strong>Anti-Flapping Debouncer:</strong> Prevents network blinking and status flickering during browser page refreshes.</li>
+                    <li><strong>Hybrid Loading System:</strong> Features a pulsing frontend overlay ("Connecting your chats...") to visually absorb cloud database round-trip latencies.</li>
+                    <li><strong>Private Routing Validation:</strong> Backend logic to prevent duplicate ChatRooms or identity spoofing between active peers.</li>
+                </ul>
             </div>
-
+            <div class="dev-section">
+                <h3>⚙️ Current Tech Stack</h3>
+                <div class="dev-stack-tags">
+                    <span>Python 3.13</span>
+                    <span>Django 6.0</span>
+                    <span>Django Channels</span>
+                    <span>ASGI + Daphne</span>
+                    <span>Supabase PostgreSQL</span>
+                    <span>Cloudinary</span>
+                    <span>Vanilla JS</span>
+                </div>
+            </div>
         </div>
-
         <div class="dev-footer">
             <a href="https://www.linkedin.com/in/karan-bairagi/" target="_blank" class="dev-btn dev-btn-linkedin">Connect on LinkedIn</a>
-            <a href="https://github.com/karanbairagivaidik57-web" target="_blank" class="dev-btn dev-btn-github">View GitHub Codebase</a>
+            <a href="https://github.com/karan-bairagi" target="_blank" class="dev-btn dev-btn-github">GitHub Profile</a>
         </div>
-
     </div>
-
 </body>
 </html>

@@ -44,6 +44,7 @@ def signup(request):
             user_id=sv.id
             request.session['id']=user_id
             UserProfile.objects.create(user=sv,full_name=full_name,Mobile=mobile)
+            login(request,sv)
             return redirect('security')
         else:
             return render(request,'signup.html',{'f':f})
