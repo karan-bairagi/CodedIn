@@ -1305,7 +1305,7 @@ async function SpeakFunction(){
    recognition.lang='hi-IN';
    recognition.start();
    recognition.onresult=function(event){
-    const speechtext=event[0][0].transcript;
+    const speechtext = event.results[0][0].transcript;
     console.log(speechtext)
     document.getElementById('input-box').value=speechtext
    }
