@@ -87,6 +87,7 @@ The v2.0 upgrade explores modern application concepts:
 |---|---|
 | Backend Framework | Django 6.0 (Python 3.13) |
 | Async Communication | Django Channels |
+| Front-end Core APIs | Web Speech API (Native Speech-to-Text) |
 | Application Server | ASGI + Daphne |
 | Message Broker | In-Memory RAM Architecture (Zero-Dependency) |
 | Database | Supabase PostgreSQL |
@@ -342,6 +343,21 @@ Features:
 - Live typing feedback
 - Animated indicators
 - Improved chat experience
+
+---
+
+# 🎙️ Intelligent Voice Typing System (Speech-to-Text)
+
+CodeIn features an accessible, zero-dependency real-time voice typing system that allows developers to dictate messages instead of typing manually.
+
+### How it Works under the Hood:
+- **Client-Side Processing:** Built using the native browser `Web Speech API` (`window.SpeechRecognition` and `webkitSpeechRecognition`) without adding heavy third-party JavaScript libraries or paid APIs.
+- **Bilingual Optimization:** Configured with localized Indian English routing (`en-IN`) which seamlessly captures and converts spoken Hinglish/English phrases directly into text formats.
+- **Auto-Stop Detection:** Utilizes hardware event listeners (`onresult` & `onend`) to automatically detect conversational silence and release microphone hardware resources gracefully.
+
+### Key Benefits:
+- **Zero Server Overhead:** Processes entirely within the user's browser, meaning 0% extra load on our Daphne server or Django backend process.
+- **Enhanced UX:** Drastically reduces text friction for instant cross-user asynchronous communication.
 
 
 ---
@@ -910,19 +926,31 @@ python manage.py migrate
 
 # 📈 Future Improvements
 
+# 🚀 The Next Frontier: CodeIn — Supernova Edition (v3.0 Roadmap)
 
-Planned upgrades:
+Planned for architecture and development over the next 30-45 days, Version 3.0 will transition CodeIn from a messaging platform into a fully interactive, highly secure, and collaborative **Developer Social Ecosystem**.
 
+### 🌟 Core Milestones of v3.0:
 
-- Message encryption
-- File sharing
-- Voice messages
-- Video calling
-- Push notifications
-- Docker containerization
-- Advanced monitoring
-- Horizontal scaling
+#### 1. 🖼️ Multi-Media & Voice Messaging Pipelines
+- Upgrading traditional text pipelines to support full binary media sharing (PDFs, Source Code files, Images) and **Real-Time Voice Notes (Audio Messages)**.
+- **Implementation:** Leveraging the browser's native `MediaRecorder API` for audio capture and routing binary assets asynchronously via Cloudinary storage brokers.
 
+#### 2. 🌐 Global Engineering Dashboard (Feed, Likes & Comments)
+- Transitioning the private user dashboard into a global developer feed showcasing featured deployments and repositories uploaded across the network.
+- **Features:** Real-time multi-threaded comment sections and instant like counters using optimized Django ORM `prefetch_related` lookup pipelines to avoid N+1 database bottlenecks.
+
+#### 3. 🔐 OAuth 2.0 Social Authentication
+- Removing onboarding friction for global open-source contributors by deploying secure enterprise social login gateways.
+- **Features:** Clean implementation of "Login with GitHub" and "Login with Google" via the `django-allauth` ecosystem, automatically mapping profiles on successful redirect states.
+
+#### 4. 🔒 Client-Side Message Encryption & Privacy
+- Securing peer-to-peer conversations from database-level leaks by implementing local cryptographic protection before payloads enter the network transit.
+- **Implementation:** Utilizing lightweight client-side cryptography (AES-256 via CryptoJS) to seal message payloads, coupled with a self-referential relational database table for **User Blocking / Peer Isolation**.
+
+#### 5. 🔔 Real-Time Dashboard Notification Badges & Theme Engine
+- Implementing an instant, in-app notification tracker that flashes a dynamic red counter/badge on the main dashboard header the exact millisecond an unread message arrives.
+- **Implementation:** Broadcasted via our current `InMemoryChannelLayer` WebSocket consumers directly to global state triggers, paired with a native LocalStorage-persisted **Dark Mode** toggle engine.
 
 ---
 

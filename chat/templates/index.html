@@ -561,15 +561,10 @@ body{
     object-fit:cover;
     object-position:center top;
 }
-
-
-/* 🟢 इनपुट रैपर को रिलेटिव करना ज़रूरी है */
 .search-wrapper {
     position: relative;
     width: 100%;
 }
-
-/* 🟢 इनपुट बॉक्स के अंदर दाहिनी तरफ स्पिनर को सेट करने का स्टाइल */
 .search-spinner {
     position: absolute;
     right: 15px;
@@ -578,7 +573,7 @@ body{
     width: 18px;
     height: 18px;
     border: 2px solid #cbd5e1;
-    border-top: 2px solid #2563eb; /* तुम्हारा थीम ब्लू कलर */
+    border-top: 2px solid #2563eb;
     border-radius: 50%;
     animation: spin 0.8s linear infinite;
 }
@@ -587,10 +582,15 @@ body{
     0% { transform: translateY(-50%) rotate(0deg); }
     100% { transform: translateY(-50%) rotate(360deg); }
 }
+.mic-active {
+    color: #ef4444 !important; 
+    animation: pulse-mic 1s infinite alternate;
+}
 
-
-
-
+@keyframes pulse-mic {
+    0% { transform: scale(1); opacity: 0.6; }
+    100% { transform: scale(1.2); opacity: 1; }
+}
 </style>
 <body>
 <div id="global-loader" class="loader-overlay" style="display: none;">
@@ -662,14 +662,8 @@ body{
                 placeholder="Type a message..."
                 oninput="Typing_Start()"
             >
-            <button class="send-btn" onclick="SpeakFunction()">mic
-            </button>
-            <button
-                class="send-btn"
-                onclick="SendMessage()"
-            >
-                ➤
-            </button>
+            <button id="mic-btn" class="send-btn" onclick="SpeakFunction()">🎙️</button>
+            <button class="send-btn" onclick="SendMessage()">➤</button>
         </div>
     </section>
 </div>
@@ -1221,6 +1215,9 @@ async function connectsocket(room_id){
 function SendMessage(){
     let input_box=document.getElementById('input-box')
     let msg=input_box.value.trim()
+    if(msg===''){
+        return;
+    }
     socket.send(JSON.stringify({
         'message':msg,
     }))
@@ -1299,16 +1296,27 @@ function triggerDeleteProcess(msgId) {
         }));
     }
 }
-async function SpeakFunction(){
+async function SpeakFunction() {
    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-   let recognition=new SpeechRecognition();
-   recognition.lang='hi-IN';
+   let recognition = new SpeechRecognition();
+   
+   recognition.lang = 'en-IN';
+   const inputField = document.getElementById('input-box');
+   const micBtn = document.getElementById('mic-btn');
+   micBtn.style.color = "red";
+   inputField.placeholder = "🎙️ Listening... Speak now"; 
+   inputField.value = "";
    recognition.start();
-   recognition.onresult=function(event){
-    const speechtext = event.results[0][0].transcript;
-    console.log(speechtext)
-    document.getElementById('input-box').value=speechtext
+   recognition.onresult = function(event) {
+       const speechtext = event.results[0][0].transcript;
+       inputField.value = speechtext;
+   }
+   recognition.onend = function() {
+       micBtn.style.color = "";
+       inputField.placeholder = "Type a message...";
+       console.log("माइक अपने आप बंद हो गया भाई!");
    }
 }
+
 </script>
 </html>

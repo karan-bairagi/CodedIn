@@ -81,7 +81,7 @@ class RoomGeneration(APIView):
                     user2=User.objects.get(id=target_user_id)
                     add=ChatRoom.objects.create(room_id=generate_room_id,user1=user,user2=user2)
                     active_room=add.room_id
-            all_chat_msg=Message.objects.filter(room=active_room)
+            all_chat_msg=Message.objects.filter(room=active_room).order_by('timestamp')
             serilizer=MessageSerilizer(all_chat_msg,many=True)
             return Response({
                 'detail':serilizer.data,
