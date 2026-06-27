@@ -573,7 +573,7 @@ Production configuration:
 
 ```python
 DEBUG = False
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'codedin-production.up.railway.app', '.railway.app']
 ```
 
 
@@ -786,6 +786,7 @@ source env/bin/activate
 
 > 💡 **Zero-Dependency Note:** No need to setup or install Memurai/Redis on your local machine! The local setup runs completely out-of-the-box using Django's clean In-Memory architecture.
 
+pip install -r requirements.txt
 
 
 ---
