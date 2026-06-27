@@ -264,7 +264,6 @@
 {% if target_user_id.userprofile and target_user_id.userprofile.public_profile == True %}
 <body>
     <div class="dashboard-shell">  
-        <!-- 🎯 साइडबार पैनल (Sidebar Panel) -->
         <aside class="sidebar-panel">
             <div class="avatar-frame">
                 {% if target_user_id.userprofile.profile %}
@@ -277,11 +276,9 @@
             <p class="user-sidebar-tagline" style="font-size: 14px; color: var(--text-muted); margin: 0 0 24px 0; line-height: 1.5; font-weight: 500;">
                 {{ target_user_id.userprofile.tagline }}
             </p>
-
-            <!-- 🟢 यहाँ सबसे बेस्ट जगह है: सोशल लिंक्स से ठीक पहले मैसेज का बटन -->
             <div class="message-action-wrapper" style="margin-bottom: 20px; width: 100%;">
                 {% if request.user.is_authenticated %}
-                    <a href="{% url 'index' %}?open_id={{ target_user_id.id }}&open_name={{ target_user_id.username }}&open_img={{ target_user_id.userprofile.profile.url }}" 
+                    <a href="{% url 'index' %}?open_id={{ target_user_id.id }}&open_name={{ target_user_id.username }}&open_img={% if target_user_id.userprofile and target_user_id.userprofile.profile %}{{ target_user_id.userprofile.profile.url }}{% else %}null{% endif %}" 
                        class="btn-message" 
                        style="background-color: #2563eb; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: block; text-align: center; font-size: 15px; box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.2); transition: all 0.2s ease;">
                        💬 Send Message
@@ -292,9 +289,8 @@
                        style="background-color: #64748b; color: white; padding: 12px 20px; border-radius: 8px; text-decoration: none; font-weight: 600; display: block; text-align: center; font-size: 14px; transition: all 0.2s ease;">
                        💬 Message (Login to Chat)
                     </a>
-                {% endif %}
+                {%endif%}
             </div>
-
             {% if target_user_id.userprofile.linkedin_link or target_user_id.userprofile.github_link %}
                 <hr class="panel-divider">
                 <div class="social-links-stack">
@@ -311,8 +307,6 @@
                 </div>
             {% endif %}
         </aside>
-
-        <!-- 📁 मुख्य वर्कस्पेस (Main Workspace) -->
         <main class="main-workspace">
             <div class="workspace-card-block">
                 <h2 class="block-header-title"><span>👤</span> About Me</h2>
