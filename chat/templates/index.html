@@ -677,7 +677,7 @@ front_user_profile = null;
 global_socket = null;
 current_online_users = null;
 let offlineTimers = {}; 
-global_socket = new WebSocket('wss://' + window.location.host + '/Global_Online/');
+global_socket = new WebSocket('ws://' + window.location.host + '/Global_Online/');
 global_socket.onopen = function() {
 };
 global_socket.onmessage = function(event) {
