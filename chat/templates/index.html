@@ -1204,9 +1204,18 @@ async function connectsocket(room_id){
             new_chats.scrollTop = new_chats.scrollHeight;
         }
         }
-    socket.onclose=function(evenet){
-        console.log('Websocket Disconnect Successfully')
-    }
+    socket.onclose = function(event) {
+        if (event.code === 1000) {
+            console.log('Websocket Closed Normally by User. No reconnection needed.');
+            return;
+        }
+        console.log('Private Chat Websocket disconnected unexpectedly! Reconnecting in 3 seconds...');
+        setTimeout(function() {
+            connectsocket(room_id);
+        }, 3000);
+    };
+
+
 }
 function SendMessage(){
     let input_box=document.getElementById('input-box')

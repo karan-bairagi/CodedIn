@@ -254,6 +254,12 @@ Benefits:
 - Improves presence accuracy
 - Handles browser refresh smoothly
 
+## 🔄 Fault-Tolerant Auto-Reconnect Pipeline
+Implemented client-side resilience logic for network dropouts.
+
+* **Problem**: Unstable internet or server recycles abruptly terminate the real-time tunnel.
+* **Solution**: Integrated an intelligent `onclose` handler utilizing a conditional gate (`event.code === 1000`).
+* **Benefit**: If connection terminates abnormally (network drop), it schedules an automated non-blocking retry loop every 3 seconds without freezing the DOM or requiring manual browser refreshes. Clean disconnections bypass this loop completely.
 
 ---
 
@@ -925,33 +931,11 @@ python manage.py migrate
 
 ---
 
-# 📈 Future Improvements
 
-# 🚀 The Next Frontier: CodeIn — Supernova Edition (v3.0 Roadmap)
 
-Planned for architecture and development over the next 30-45 days, Version 3.0 will transition CodeIn from a messaging platform into a fully interactive, highly secure, and collaborative **Developer Social Ecosystem**.
+## 📈 Project Status & Next Steps
 
-### 🌟 Core Milestones of v3.0:
-
-#### 1. 🖼️ Multi-Media & Voice Messaging Pipelines
-- Upgrading traditional text pipelines to support full binary media sharing (PDFs, Source Code files, Images) and **Real-Time Voice Notes (Audio Messages)**.
-- **Implementation:** Leveraging the browser's native `MediaRecorder API` for audio capture and routing binary assets asynchronously via Cloudinary storage brokers.
-
-#### 2. 🌐 Global Engineering Dashboard (Feed, Likes & Comments)
-- Transitioning the private user dashboard into a global developer feed showcasing featured deployments and repositories uploaded across the network.
-- **Features:** Real-time multi-threaded comment sections and instant like counters using optimized Django ORM `prefetch_related` lookup pipelines to avoid N+1 database bottlenecks.
-
-#### 3. 🔐 OAuth 2.0 Social Authentication
-- Removing onboarding friction for global open-source contributors by deploying secure enterprise social login gateways.
-- **Features:** Clean implementation of "Login with GitHub" and "Login with Google" via the `django-allauth` ecosystem, automatically mapping profiles on successful redirect states.
-
-#### 4. 🔒 Client-Side Message Encryption & Privacy
-- Securing peer-to-peer conversations from database-level leaks by implementing local cryptographic protection before payloads enter the network transit.
-- **Implementation:** Utilizing lightweight client-side cryptography (AES-256 via CryptoJS) to seal message payloads, coupled with a self-referential relational database table for **User Blocking / Peer Isolation**.
-
-#### 5. 🔔 Real-Time Dashboard Notification Badges & Theme Engine
-- Implementing an instant, in-app notification tracker that flashes a dynamic red counter/badge on the main dashboard header the exact millisecond an unread message arrives.
-- **Implementation:** Broadcasted via our current `InMemoryChannelLayer` WebSocket consumers directly to global state triggers, paired with a native LocalStorage-persisted **Dark Mode** toggle engine.
+CodeIn v2.0 is now a completed and stable prototype. I am officially moving my backend engineering focus to my next live project: **DevLink** (A LinkedIn Clone for Developers). All core learnings of real-time communication and database scaling from CodeIn will be used to build this next production platform from scratch.
 
 ---
 
