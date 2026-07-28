@@ -320,10 +320,11 @@
             }
         })
 
-const login_username = "{{ request.user.username }}"
+let login_username = "{{ request.user.username }}"
 let current_online_users = null;
 let offlineTimers = {}; 
-let global_socket = new WebSocket('ws://' + window.location.host + '/Global_Online/');
+let ws_protocol = window.location.protocol === 'https:' ? 'wss://' : 'ws://';
+let global_socket = new WebSocket(ws_protocol + window.location.host + '/Global_Online/');
 global_socket.onopen = function() {
     console.log('Global Websocket Connected Successfully');
 };
