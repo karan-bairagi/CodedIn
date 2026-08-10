@@ -1,6 +1,312 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+       <script>
+(function () {
+    function startDarkMode() {
+        if (document.documentElement.dataset.codeinDark) {
+            return;
+        }
+        document.documentElement.dataset.codeinDark = "true";
+        const COLORS = {
+            page: "#0b0f19",
+            surface: "#151b2b",
+            surface2: "#111827",
+            border: "#293449",
+            text: "#f8fafc",
+            secondary: "#cbd5e1",
+            muted: "#94a3b8",
+            input: "#101827"
+        };
+        function ignore(element) {
+            const tag = element.tagName.toLowerCase();
+            return [
+                "img",
+                "video",
+                "canvas",
+                "iframe",
+                "svg",
+                "path",
+                "picture",
+                "source"
+            ].includes(tag);
+        }
+        function rgb(color) {
+            if (!color) return null;
+            const match = color.match(
+                /rgba?\(\s*(\d+)[,\s]+(\d+)[,\s]+(\d+)/
+            );
+            if (!match) return null;
+            return {
+                r: Number(match[1]),
+                g: Number(match[2]),
+                b: Number(match[3])
+            };
+        }
+        function brightness(color) {
+            const value = rgb(color);
+            if (!value) return null;
+            return (
+                value.r * 299 +
+                value.g * 587 +
+                value.b * 114
+            ) / 1000;
+        }
+        function isLightBackground(color) {
+            const value = brightness(color);
+            if (value === null) {
+                return false;
+            }
+            return value >= 220;
+
+        }
+        function isDarkText(color) {
+            const value = brightness(color);
+            if (value === null) {
+                return false;
+            }
+            return value <= 70;
+        }
+        function isColored(color) {
+            const value = rgb(color);
+            if (!value) return false;
+            const max = Math.max(
+                value.r,
+                value.g,
+                value.b
+            );
+            const min = Math.min(
+                value.r,
+                value.g,
+                value.b
+            );
+            return (max - min) > 35;
+        }
+        document.documentElement.style.setProperty(
+            "background-color",
+            COLORS.page,
+            "important"
+        );
+        document.body.style.setProperty(
+            "background-color",
+            COLORS.page,
+            "important"
+        );
+        document.body.style.setProperty(
+            "color",
+            COLORS.text,
+            "important"
+        );
+        const elements =
+            document.body.querySelectorAll("*");
+        elements.forEach(function (element) {
+            if (ignore(element)) {
+                return;
+            }
+            const style =
+                window.getComputedStyle(element);
+            const background =
+                style.backgroundColor;
+            if (isLightBackground(background)) {
+                if (!isColored(background)) {
+
+                    element.style.setProperty(
+                        "background-color",
+                        COLORS.surface,
+                        "important"
+                    );
+                }
+            }
+            const textColor =
+                style.color;
+            if (
+                isDarkText(textColor) &&
+                !isColored(textColor)
+            ) {
+                element.style.setProperty(
+                    "color",
+                    COLORS.text,
+                    "important"
+                );
+            }
+            const borderColor =
+                style.borderColor;
+            if (isLightBackground(borderColor)) {
+                element.style.setProperty(
+                    "border-color",
+                    COLORS.border,
+                    "important"
+                );
+            }
+            const tag =
+                element.tagName.toLowerCase();
+            if (
+                tag === "input" ||
+                tag === "textarea" ||
+                tag === "select"
+            ) {
+                element.style.setProperty(
+                    "background-color",
+                    COLORS.input,
+                    "important"
+                );
+                element.style.setProperty(
+                    "color",
+                    COLORS.text,
+                    "important"
+                );
+                element.style.setProperty(
+                    "border-color",
+                    COLORS.border,
+                    "important"
+                );
+            }
+        });
+        document.querySelectorAll(
+            "h1,h2,h3,h4,h5,h6"
+        ).forEach(function (element) {
+            if (ignore(element)) return;
+            const color =
+                window.getComputedStyle(element).color;
+            if (isDarkText(color)) {
+
+                element.style.setProperty(
+                    "color",
+                    COLORS.text,
+                    "important"
+                );
+            }
+        });
+        document.querySelectorAll(
+            "p,label,li,strong,b"
+        ).forEach(function (element) {
+            if (ignore(element)) return;
+            const color =
+                window.getComputedStyle(element).color;
+            if (isDarkText(color)) {
+                element.style.setProperty(
+                    "color",
+                    COLORS.secondary,
+                    "important"
+                );
+            }
+        });
+        const placeholderStyle =
+            document.createElement("style");
+        placeholderStyle.id =
+            "codein-smart-dark-placeholder";
+        placeholderStyle.innerHTML = `
+            input::placeholder,
+            textarea::placeholder {
+                color: #64748b !important;
+                opacity: 1 !important;
+            }
+        `;
+        document.head.appendChild(
+            placeholderStyle
+        );
+        const scrollbarStyle =
+            document.createElement("style");
+        scrollbarStyle.id =
+            "codein-smart-dark-scrollbar";
+        scrollbarStyle.innerHTML = `
+            html::-webkit-scrollbar,
+            body::-webkit-scrollbar {
+                width: 8px;
+                height: 8px;
+            }
+
+            html::-webkit-scrollbar-track,
+            body::-webkit-scrollbar-track {
+                background: #0b0f19;
+            }
+
+            html::-webkit-scrollbar-thumb,
+            body::-webkit-scrollbar-thumb {
+                background: #334155;
+                border-radius: 10px;
+            }
+        `;
+        document.head.appendChild(
+            scrollbarStyle
+        );
+        const observer =
+            new MutationObserver(function (mutations) {
+
+                let newContent = false;
+                mutations.forEach(function (mutation) {
+                    if (
+                        mutation.addedNodes &&
+                        mutation.addedNodes.length > 0
+                    ) {
+                        newContent = true;
+                    }
+                });
+                if (newContent) {
+
+                    setTimeout(
+                        startDynamicScan,
+                        50
+                    );
+
+                }
+            });
+        observer.observe(
+            document.body,
+            {
+                childList: true,
+                subtree: true
+            }
+        );
+        function startDynamicScan() {
+            document.body
+                .querySelectorAll("*")
+                .forEach(function (element) {
+                    if (ignore(element)) {
+                        return;
+                    }
+                    const style =
+                        window.getComputedStyle(element);
+                    const background =
+                        style.backgroundColor;
+                    if (
+                        isLightBackground(background) &&
+                        !isColored(background)
+                    ) {
+                        element.style.setProperty(
+                            "background-color",
+                            COLORS.surface,
+                            "important"
+                        );
+                    }
+                    const color =
+                        style.color;
+                    if (
+                        isDarkText(color) &&
+                        !isColored(color)
+                    ) {
+
+                        element.style.setProperty(
+                            "color",
+                            COLORS.text,
+                            "important"
+                        );
+                    }
+                });
+        }
+    }
+    if (
+        document.readyState === "loading"
+    ) {
+        document.addEventListener(
+            "DOMContentLoaded",
+            startDarkMode
+        );
+    } else {
+        startDarkMode();
+    }
+})();
+</script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Account Rescue Panel | CodeIn</title>
