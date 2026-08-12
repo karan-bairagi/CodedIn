@@ -1407,6 +1407,10 @@ async function open_chat(
     chat_box.scrollHeight;
     connectsocket(data.room);
 }
+if (typeof reconnectAttempts === 'undefined') {
+    var reconnectAttempts = 0;
+    var maxAttempts = 5; 
+}
 async function connectsocket(room_id){
     const ws_scheme = window.location.protocol === "https:" ? "wss://" : "ws://";
     socket = new WebSocket(ws_scheme + window.location.host + `/ws/ac/${room_id}/`);
@@ -1512,17 +1516,29 @@ async function connectsocket(room_id){
         }
     socket.onclose = function(event) {
         if (event.code === 1000) {
-            console.log('Websocket Closed Normally by User. No reconnection needed.');
+            console.log('Websocket Closed Normally by User.');
+            reconnectAttempts = 0;
             return;
         }
-        console.log('Private Chat Websocket disconnected unexpectedly! Reconnecting in 3 seconds...');
-        setTimeout(function() {
-            connectsocket(room_id);
-        }, 3000);
+
+        if (reconnectAttempts < maxAttempts) {
+            reconnectAttempts++;
+            let delay = 3000 * reconnectAttempts;
+            console.log(`Websocket disconnected! Reconnecting in ${delay/1000} seconds... (Attempt ${reconnectAttempts}/${maxAttempts})`);
+            
+            setTimeout(function() {
+                connectsocket(room_id);
+            }, delay);
+        } else {
+            console.log("Max reconnect attempts reached. Stopping to save database connections.");
+        }
     };
-
-
 }
+window.addEventListener('beforeunload', function () {
+    if (typeof socket !== 'undefined' && socket && socket.readyState === WebSocket.OPEN) {
+        socket.close(1000); 
+    }
+});
 function SendMessage(){
     let input_box=document.getElementById('input-box')
     let msg=input_box.value.trim()
