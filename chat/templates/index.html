@@ -1545,10 +1545,15 @@ function SendMessage(){
     if(msg===''){
         return;
     }
-    socket.send(JSON.stringify({
-        'message':msg,
-    }))
-    input_box.value=''
+    if(navigator.onLine){
+        socket.send(JSON.stringify({
+            'message':msg,
+        }))
+        input_box.value=''
+    }
+    else{
+        alert('Check Your Internet Connection')
+    }
 }
 let typetimer=null;
 function Typing_Start(){
