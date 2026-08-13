@@ -8,7 +8,7 @@
 
 ### Build. Showcase. Connect. Grow as a Developer.
 
-🌐 **Live Demo:** [codedin-1d2u.onrender.com](https://onrender.com)
+🌐 **Live Demo:** [codedin-1d2u.onrender.com](https://codedin-1d2u.onrender.com)
 
 ---
 
