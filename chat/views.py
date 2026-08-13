@@ -6,7 +6,7 @@ from django.contrib.auth.models import User
 from chat.models import Message,ChatRoom
 from rest_framework.authentication import BaseAuthentication
 from chat.serializers import SerachSerilizer,InboxSerializer,MessageSerilizer
-from django.db.models import Q
+from django.db.models import Q,Max
 from app.views import login_required
 from django.utils.decorators import method_decorator
 from rest_framework.permissions import IsAuthenticated
@@ -43,20 +43,24 @@ class ChatSearch(APIView):
 class Inbox(APIView):
     authentication_classes = [SessionAuthentication]
     permission_classes = [IsAuthenticated]
-    def get(self,request):
+    def get(self, request):
         try:
-            user=request.user
-            print(user)
-            find=ChatRoom.objects.filter(Q(user1=user)|Q(user2=user)).filter(message__isnull=False).distinct()
-            serilizer=InboxSerializer(find,many=True,context={'request':request})
+            user = request.user
+            find = ChatRoom.objects.filter(
+                Q(user1=user) | Q(user2=user)
+            ).filter(message__isnull=False)
+            find = find.annotate(last_msg_time=Max('message__timestamp'))
+            find = find.order_by('-last_msg_time').distinct()
+            serializer = InboxSerializer(find, many=True, context={'request': request})
             return Response({
-                'detail':serilizer.data,
-                'login_username':user.username,
-            },status=status.HTTP_200_OK)
+                'detail': serializer.data,
+                'login_username': user.username,
+            }, status=status.HTTP_200_OK)   
         except Exception as e:
+            print(f"Error occurred: {e}")
             return Response({
-                'detail':'Internal Server error'
-            },status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+                'detail': 'Internal Server error'
+            }, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 class RoomGeneration(APIView):
     authentication_classes = [CsrfExemptSessionAuthentication]
     permission_classes = [IsAuthenticated]
