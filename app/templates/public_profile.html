@@ -599,14 +599,14 @@
             </div>
             {% if target_user_id.userprofile.linkedin_link or target_user_id.userprofile.github_link %}
                 <hr class="panel-divider">
-                <div class="social-links-stack">
+                <div class="social-links-stack" style="display: flex; flex-direction: column; gap: 10px; width: 100%;">
                     {% if target_user_id.userprofile.linkdin_link %}
-                    <a href="{{ target_user_id.userprofile.linkdin_link }}" target="_blank" class="network-row-btn">
+                    <a href="{{ target_user_id.userprofile.linkdin_link }}" target="_blank" class="network-row-btn" style="background: rgba(255,255,255,0.05); color: #ffffff; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.1);">
                         <span>🔗</span> LinkedIn Profile
                     </a>
                     {% endif %}
                     {% if target_user_id.userprofile.github_link %}
-                    <a href="{{ target_user_id.userprofile.github_link }}" target="_blank" class="network-row-btn">
+                    <a href="{{ target_user_id.userprofile.github_link }}" target="_blank" class="network-row-btn" style="background: rgba(255,255,255,0.05); color: #ffffff; padding: 10px 15px; border-radius: 8px; text-decoration: none; font-size: 14px; display: flex; align-items: center; gap: 8px; border: 1px solid rgba(255,255,255,0.1);">
                         <span>💻</span> GitHub Repository
                     </a>
                     {% endif %}
@@ -626,33 +626,46 @@
             </div>
             <div class="workspace-card-block" style="background: transparent; border: none; padding: 0; box-shadow: none;">
                 <h2 class="block-header-title" style="margin-bottom: 24px;"><span>📁</span> Featured Engineering Projects</h2>
-                <div class="showcase-grid-root">
+                <div class="showcase-grid-root" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px;">
                     {% for p in profile %}
-                    <div class="portfolio-project-node">
-                        <div class="media-frame-box">
+                    <div class="portfolio-project-node" style="display: flex; flex-direction: column; background: #141b2d; border: 1px solid rgba(255,255,255,0.08); border-radius: 16px; overflow: hidden; height: 420px; box-shadow: 0 4px 15px rgba(0,0,0,0.2);">
+                        <div class="media-frame-box" style="height: 180px; min-height: 180px; background: #0f0f1a; display: flex; align-items: center; justify-content: center; border-bottom: 1px solid rgba(255,255,255,0.08); padding: 12px; box-sizing: border-box;">
                             {% if p.thumbnail %}
-                                <img src="{{p.thumbnail.url}}" class="media-image-asset" alt="Project Thumbnail">
+                                <img src="{{p.thumbnail.url}}" style="width: 100%; height: 100%; object-fit: contain !important; border-radius: 6px;" alt="Project Thumbnail">
                             {% else %}
                                 <div style="color: #94a3b8; font-size: 13px; font-weight: 600; text-align: center;">
                                     <span style="font-size: 24px; display: block; margin-bottom: 4px;">📦</span> No Screenshot
                                 </div>
                             {% endif %}
                         </div>
-                        <div class="node-details-area">
-                            <h4 class="node-heading-title">{{ p.title }}</h4>
-                            <span class="tech-pill-badge">{{ p.tech_stack }}</span>
+                        <div class="node-details-area" style="padding: 15px; display: flex; flex-direction: column; gap: 8px; flex-grow: 1; overflow: hidden;">
+                            <h4 class="node-heading-title" style="margin: 0; font-size: 16px; font-weight: 600; color: #ffffff; white-space: nowrap; overflow: hidden; text-overflow: ellipsis;">{{ p.title }}</h4>
+                            
+                            {% if p.tech_stack %}
+                                <div style="display: flex; flex-wrap: wrap; gap: 6px; margin-top: 4px; overflow-y: auto; max-height: 110px; padding-right: 2px;">
+                                    {% for tag in p.tech_stack.split %}
+                                        <span style="background: rgba(139, 92, 246, 0.15); color: #c084fc; font-size: 11px; font-weight: 600; padding: 4px 10px; border-radius: 6px; border: 1px solid rgba(139, 92, 246, 0.25); white-space: nowrap;">
+                                            {{ tag|cut:"," }}
+                                        </span>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
                         </div>
-                        <div class="node-action-bar">
-                            <a href="{{ p.project_link }}" target="_blank" class="action-anchor-link anchor-code">
+                        <div class="node-action-bar" style="margin-top: auto; height: 50px; min-height: 50px; border-top: 1px dashed rgba(255,255,255,0.08); display: grid; grid-template-columns: repeat(2, 1fr); align-items: center; justify-items: center; background: rgba(0,0,0,0.15); box-sizing: border-box;">
+                            <a href="{{ p.project_link }}" target="_blank" class="action-anchor-link anchor-code" style="text-decoration: none; color: #a78bfa; font-size: 13px; font-weight: 600; width: 100%; display: block; text-align: center;">
                                 <span>💻</span> Source Code
                             </a>
-                            <a href="{{ p.live_link }}" target="_blank" class="action-anchor-link anchor-live">
-                                <span>🚀</span> Live Link &rarr;
+                            {% if p.live_link %}
+                            <a href="{{ p.live_link }}" target="_blank" class="action-anchor-link anchor-live" style="text-decoration: none; color: #a78bfa; font-size: 13px; font-weight: 600; width: 100%; display: block; text-align: center;">
+                                <span>🚀</span> Live View
                             </a>
+                            {% else %}
+                            <span style="color: #64748b; font-size: 12px;">Local App</span>
+                            {% endif %}
                         </div>
                     </div>
                     {% empty %}
-                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 40px; background: white; border-radius: var(--radius-large); border: 2px dashed #cbd5e1; color: var(--text-muted); font-weight: 500; width: 100%; box-sizing: border-box;">
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 50px 40px; background: #141b2d; border-radius: 16px; border: 2px dashed rgba(255,255,255,0.1); color: var(--text-muted); font-weight: 500; width: 100%; box-sizing: border-box;">
                         <span style="font-size: 32px; display: block; margin-bottom: 12px;">📁</span> No projects showcased yet.
                     </div>
                     {% endfor %}
